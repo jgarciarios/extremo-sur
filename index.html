@@ -4,6 +4,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Extremo Sur BJJ 2026</title>
+
+<!-- SEO -->
+<meta name="description" content="Extremo Sur BJJ — Circuito 2026 de Brazilian Jiu Jitsu en Maldonado, Uruguay. Tres fechas: 30 de Mayo, 23 de Agosto y 31 de Octubre. Inscribite ahora.">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph -->
+<meta property="og:type"        content="website">
+<meta property="og:title"       content="Extremo Sur BJJ 2026">
+<meta property="og:description" content="Circuito 2026 de Brazilian Jiu Jitsu en Maldonado, Uruguay. Tres fechas, una comunidad. Inscribite ahora.">
+<meta property="og:image"       content="assets/img/foto1.jpeg">
+<meta property="og:url"         content="https://TU-URL-FINAL-ACÁ">
+<meta property="og:locale"      content="es_UY">
+
+<!-- Twitter Card -->
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:title"       content="Extremo Sur BJJ 2026">
+<meta name="twitter:description" content="Circuito 2026 de Brazilian Jiu Jitsu en Maldonado, Uruguay. Tres fechas, una comunidad. Inscribite ahora.">
+<meta name="twitter:image"       content="assets/img/foto1.jpeg">
+
+<!-- Favicon -->
+<link rel="icon" type="image/jpeg" href="assets/img/logo.jpeg">
+
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -37,6 +59,28 @@
   .nav-links a:hover { color: var(--gold); }
   .nav-cta { background: var(--gold) !important; color: var(--black) !important; padding: 8px 20px; border-radius: 2px; font-weight: 900 !important; }
   .nav-cta:hover { background: var(--gold-light) !important; }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--gold);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform-origin: center;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
   .hero {
     min-height: 100vh; display: flex; align-items: center; justify-content: center;
@@ -72,8 +116,22 @@
   .hero-title.blue { color: var(--steel-blue); margin-bottom: 16px; }
   .hero-subtitle { font-family: var(--font-display); font-size: clamp(1.2rem, 3vw, 2.2rem); letter-spacing: 10px; color: var(--gold); margin-bottom: 40px; }
   .hero-divider { width: 80px; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin: 0 auto 36px; }
-  .hero-badges { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 48px; }
-  .badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(201,162,39,0.1); border: 1px solid rgba(201,162,39,0.35); padding: 10px 20px; border-radius: 2px; font-family: var(--font-heading); font-weight: 700; font-size: 0.9rem; letter-spacing: 2px; color: var(--gold); }
+  .hero-badges { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 40px; }
+
+  .countdown { display: flex; justify-content: center; gap: 24px; margin-bottom: 48px; }
+  .cd-block { display: flex; flex-direction: column; align-items: center; min-width: 72px; }
+  .cd-num { font-family: var(--font-display); font-size: 3.5rem; line-height: 1; color: var(--white); letter-spacing: 2px; }
+  .cd-sep { font-family: var(--font-display); font-size: 3rem; line-height: 1; color: rgba(201,162,39,0.4); align-self: flex-start; padding-top: 4px; }
+  .cd-label { font-family: var(--font-heading); font-size: 0.65rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--gray); margin-top: 6px; }
+  .cd-done { font-family: var(--font-display); font-size: 2rem; letter-spacing: 4px; color: var(--gold); text-align: center; margin-bottom: 48px; display: none; }
+  @media (max-width: 768px) {
+    .countdown { gap: 12px; }
+    .cd-num { font-size: 2.6rem; }
+    .cd-sep { font-size: 2.2rem; }
+    .cd-block { min-width: 56px; }
+  }
+  .badge { display: inline-flex; align-items: center; gap: 10px; background: rgba(201,162,39,0.1); border: 1px solid rgba(201,162,39,0.35); padding: 10px 20px; border-radius: 2px; font-family: var(--font-heading); font-weight: 700; font-size: 0.9rem; letter-spacing: 2px; color: var(--gold); }
+  .badge::before { content: ''; display: inline-block; width: 5px; height: 5px; background: var(--gold); border-radius: 50%; flex-shrink: 0; }
   .btn-primary { display: inline-block; background: var(--gold); color: var(--black); font-family: var(--font-heading); font-size: 1rem; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; text-decoration: none; padding: 18px 52px; border-radius: 2px; transition: all 0.2s; box-shadow: 0 0 40px rgba(201,162,39,0.3); margin: 0 8px 12px; }
   .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 40px rgba(201,162,39,0.5); }
   .btn-secondary { display: inline-block; border: 1px solid rgba(201,162,39,0.5); color: var(--gold); font-family: var(--font-heading); font-size: 0.9rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; padding: 16px 36px; border-radius: 2px; transition: all 0.2s; margin: 0 8px 12px; }
@@ -112,7 +170,7 @@
   .categorias-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2px; max-width: 1100px; margin: 0 auto 48px; }
   .cat-card { background: rgba(5,8,16,0.8); padding: 32px 24px; border: 1px solid rgba(42,107,194,0.1); transition: all 0.3s; text-align: center; }
   .cat-card:hover { border-color: rgba(201,162,39,0.3); background: rgba(13,33,68,0.9); }
-  .cat-icon { font-size: 2rem; margin-bottom: 16px; display: block; }
+  .cat-icon { font-family: var(--font-display); font-size: 1.6rem; letter-spacing: 3px; color: var(--steel-blue); margin-bottom: 16px; display: block; }
   .cat-name { font-family: var(--font-heading); font-size: 1.1rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
   .cat-desc { font-size: 0.8rem; color: var(--gray); line-height: 1.5; }
 
@@ -123,7 +181,23 @@
   .galeria-item:hover { border-color: rgba(201,162,39,0.4); }
   .galeria-item:hover .g-overlay { opacity: 1; }
   .galeria-placeholder { font-family: var(--font-heading); font-size: 0.7rem; letter-spacing: 3px; color: rgba(138,154,181,0.35); text-transform: uppercase; }
-  .g-overlay { position: absolute; inset: 0; background: rgba(201,162,39,0.12); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; font-size: 1.5rem; }
+  .g-overlay { position: absolute; inset: 0; background: rgba(201,162,39,0.12); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; }
+
+  /* LIGHTBOX */
+  .lightbox { position: fixed; inset: 0; z-index: 500; background: rgba(5,8,16,0.95); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  .lightbox.open { opacity: 1; pointer-events: all; }
+  .lb-img { max-width: 90vw; max-height: 85vh; object-fit: contain; display: block; user-select: none; }
+  .lb-btn { position: absolute; background: none; border: 1px solid rgba(201,162,39,0.4); color: var(--gold); font-family: var(--font-display); font-size: 1.4rem; width: 48px; height: 48px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s, border-color 0.2s; }
+  .lb-btn:hover { background: rgba(201,162,39,0.12); border-color: var(--gold); }
+  .lb-close { top: 20px; right: 24px; font-size: 1.6rem; }
+  .lb-prev { left: 24px; }
+  .lb-next { right: 24px; }
+  .lb-counter { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); font-family: var(--font-heading); font-size: 0.75rem; letter-spacing: 3px; color: var(--gray); }
+  @media (max-width: 768px) {
+    .lb-prev { left: 8px; }
+    .lb-next { right: 8px; }
+    .lb-img { max-width: 96vw; max-height: 80vh; }
+  }
   .galeria-item.large { grid-column: span 2; grid-row: span 2; }
 
   /* INSCRIPCION */
@@ -138,6 +212,18 @@
   .inscripcion p { font-size: 1rem; color: var(--gray); line-height: 1.7; margin-bottom: 40px; }
   .precio-badge { display: inline-block; background: rgba(201,162,39,0.1); border: 1px solid rgba(201,162,39,0.4); padding: 8px 24px; border-radius: 2px; font-family: var(--font-heading); font-size: 0.85rem; font-weight: 700; letter-spacing: 2px; color: var(--gold); margin-bottom: 40px; }
 
+  /* SPONSORS */
+  .sponsors { background: var(--black); border-top: 1px solid rgba(42,107,194,0.1); }
+  .sponsors-grid { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 24px; max-width: 1000px; margin: 0 auto; }
+  .sponsor-item { width: 160px; height: 80px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(42,107,194,0.15); transition: border-color 0.3s; }
+  .sponsor-item:hover { border-color: rgba(201,162,39,0.3); }
+  .sponsor-item img { max-width: 100%; max-height: 100%; object-fit: contain; filter: grayscale(1) opacity(0.5); transition: filter 0.3s; }
+  .sponsor-item:hover img { filter: grayscale(0) opacity(1); }
+  .sponsor-placeholder { font-family: var(--font-heading); font-size: 0.75rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); text-align: center; padding: 12px; }
+  @media (max-width: 768px) {
+    .sponsor-item { width: 130px; height: 64px; }
+  }
+
   footer { background: var(--black); border-top: 1px solid rgba(201,162,39,0.15); padding: 48px; text-align: center; }
   .footer-logo { font-family: var(--font-display); font-size: 1.8rem; letter-spacing: 6px; color: var(--gold); margin-bottom: 6px; }
   .footer-sub { font-family: var(--font-heading); font-size: 0.75rem; letter-spacing: 4px; color: var(--gray); text-transform: uppercase; margin-bottom: 28px; }
@@ -150,8 +236,21 @@
   .center { text-align: center; }
 
   @media (max-width: 768px) {
-    nav { padding: 14px 20px; }
-    .nav-links { display: none; }
+    nav { padding: 14px 20px; flex-wrap: wrap; }
+    .hamburger { display: flex; }
+    .nav-links {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      gap: 0;
+      order: 3;
+    }
+    .nav-links.open { max-height: 320px; }
+    .nav-links li { border-top: 1px solid rgba(201,162,39,0.15); }
+    .nav-links a { display: block; padding: 14px 4px; font-size: 1rem; letter-spacing: 2px; }
     section { padding: 70px 20px; }
     .historia-inner { grid-template-columns: 1fr; gap: 48px; }
     .galeria-grid { grid-template-columns: 1fr 1fr; }
@@ -163,8 +262,15 @@
 <body>
 
 <nav>
-  <div class="nav-logo">EXTREMO SUR</div>
-  <ul class="nav-links">
+  <div class="nav-logo" aria-label="Extremo Sur BJJ">
+    <img src="assets/img/logo.jpeg" alt="Extremo Sur BJJ" style="height:48px;width:auto;object-fit:contain;">
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  <ul class="nav-links" id="nav-links">
     <li><a href="#fechas">Fechas</a></li>
     <li><a href="#historia">Historia</a></li>
     <li><a href="#categorias">Categorías</a></li>
@@ -183,10 +289,20 @@
     <div class="hero-subtitle a3">CIRCUITO 2026</div>
     <div class="hero-divider a3"></div>
     <div class="hero-badges a4">
-      <span class="badge">📅 30 MAYO — 1° ETAPA</span>
-      <span class="badge">🏆 23 AGO — AJP URUGUAY</span>
-      <span class="badge">🥋 31 OCT — 2° ETAPA</span>
+      <span class="badge">30 MAYO — 1° ETAPA</span>
+      <span class="badge">23 AGO — AJP URUGUAY</span>
+      <span class="badge">31 OCT — 2° ETAPA</span>
     </div>
+    <div class="countdown a5" id="countdown">
+      <div class="cd-block"><span class="cd-num" id="cd-days">00</span><span class="cd-label">Días</span></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-block"><span class="cd-num" id="cd-hours">00</span><span class="cd-label">Horas</span></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-block"><span class="cd-num" id="cd-mins">00</span><span class="cd-label">Minutos</span></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-block"><span class="cd-num" id="cd-secs">00</span><span class="cd-label">Segundos</span></div>
+    </div>
+    <div class="cd-done a5" id="cd-done">¡HOY ES EL DÍA!</div>
     <div class="a5">
       <a href="#inscripcion" class="btn-primary">INSCRIBITE AHORA</a>
       <a href="#historia" class="btn-secondary">Conocé el torneo</a>
@@ -251,11 +367,11 @@
   <div class="section-label">Competencia</div>
   <div class="section-title">CATEGORÍAS</div>
   <div class="categorias-grid">
-    <div class="cat-card"><span class="cat-icon">👶</span><div class="cat-name">Kids</div><div class="cat-desc">Categorías infantiles por edad y peso</div></div>
-    <div class="cat-card"><span class="cat-icon">🧑</span><div class="cat-name">Juvenil</div><div class="cat-desc">División para competidores jóvenes</div></div>
-    <div class="cat-card"><span class="cat-icon">💪</span><div class="cat-name">Adulto</div><div class="cat-desc">Gi y No-Gi · Todas las fajas</div></div>
-    <div class="cat-card"><span class="cat-icon">🎖️</span><div class="cat-name">Master</div><div class="cat-desc">Competidores +30 años</div></div>
-    <div class="cat-card"><span class="cat-icon">⚡</span><div class="cat-name">Absoluto</div><div class="cat-desc">Sin límite de peso</div></div>
+    <div class="cat-card"><span class="cat-icon">I</span><div class="cat-name">Kids</div><div class="cat-desc">Categorías infantiles por edad y peso</div></div>
+    <div class="cat-card"><span class="cat-icon">II</span><div class="cat-name">Juvenil</div><div class="cat-desc">División para competidores jóvenes</div></div>
+    <div class="cat-card"><span class="cat-icon">III</span><div class="cat-name">Adulto</div><div class="cat-desc">Gi y No-Gi · Todas las fajas</div></div>
+    <div class="cat-card"><span class="cat-icon">IV</span><div class="cat-name">Master</div><div class="cat-desc">Competidores +30 años</div></div>
+    <div class="cat-card"><span class="cat-icon">V</span><div class="cat-name">Absoluto</div><div class="cat-desc">Sin límite de peso</div></div>
   </div>
   <div class="center">
     <a href="https://drive.google.com/file/d/1Dar7N5pRzIpuMYfRL1xHp_8uHe794LUJ/view" target="_blank" class="btn-secondary">VER LISTA COMPLETA DE CATEGORÍAS</a>
@@ -266,23 +382,29 @@
   <div class="section-label">Momentos</div>
   <div class="section-title">GALERÍA</div>
   <div class="galeria-grid">
-    <div class="galeria-item large" style="background-image: url('assets/img/foto1.jpeg'); background-size: cover; background-position: center;">
-      <div class="g-overlay">🔍</div>
+    <div class="galeria-item large" data-src="assets/img/foto1.jpeg" style="background-image: url('assets/img/foto1.jpeg'); background-size: cover; background-position: center;">
+      <div class="g-overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div>
     </div>
-    <div class="galeria-item" style="background-image: url('assets/img/foto2.jpeg'); background-size: cover; background-position: center;">
-      <div class="g-overlay">🔍</div>
+    <div class="galeria-item" data-src="assets/img/foto2.jpeg" style="background-image: url('assets/img/foto2.jpeg'); background-size: cover; background-position: center;">
+      <div class="g-overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div>
     </div>
-    <div class="galeria-item" style="background-image: url('assets/img/foto3.jpeg'); background-size: cover; background-position: center;">
-      <div class="g-overlay">🔍</div>
+    <div class="galeria-item" data-src="assets/img/foto3.jpeg" style="background-image: url('assets/img/foto3.jpeg'); background-size: cover; background-position: center;">
+      <div class="g-overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div>
     </div>
-    <div class="galeria-item" style="background-image: url('assets/img/foto4.jpeg'); background-size: cover; background-position: center;">
-      <div class="g-overlay">🔍</div>
+    <div class="galeria-item" data-src="assets/img/foto4.jpeg" style="background-image: url('assets/img/foto4.jpeg'); background-size: cover; background-position: center;">
+      <div class="g-overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div>
     </div>
-    <div class="galeria-item" style="background-image: url('assets/img/foto5.jpeg'); background-size: cover; background-position: center;">
-      <div class="g-overlay">🔍</div>
+    <div class="galeria-item" data-src="assets/img/foto5.jpeg" style="background-image: url('assets/img/foto5.jpeg'); background-size: cover; background-position: center;">
+      <div class="g-overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div>
     </div>
-    <div class="galeria-item" style="background-image: url('assets/img/foto6.jpeg'); background-size: cover; background-position: center;">
-      <div class="g-overlay">🔍</div>
+    <div class="galeria-item" data-src="assets/img/foto6.jpeg" style="background-image: url('assets/img/foto6.jpeg'); background-size: cover; background-position: center;">
+      <div class="g-overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div>
+    </div>
+    <div class="galeria-item" data-src="assets/img/foto7.jpeg" style="background-image: url('assets/img/foto7.jpeg'); background-size: cover; background-position: center;">
+      <div class="g-overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div>
+    </div>
+    <div class="galeria-item" data-src="assets/img/foto8.jpeg" style="background-image: url('assets/img/foto8.jpeg'); background-size: cover; background-position: center;">
+      <div class="g-overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div>
     </div>
   </div>
   <div class="center">
@@ -294,9 +416,40 @@
   <div class="inscripcion-content">
     <div class="section-label">Unite al circuito</div>
     <h2>INSCRIBITE<span>AHORA</span></h2>
-    <div class="precio-badge">📅 PRÓXIMA FECHA: 30 DE MAYO 2026</div>
+    <div class="precio-badge">PRÓXIMA FECHA: 30 DE MAYO 2026</div>
     <p>Completá el formulario con tus datos, categoría y academia. Los cupos son limitados — no te quedés afuera.</p>
     <a href="https://forms.gle/24XEP3X4EsKp1ftR7" target="_blank" class="btn-primary">COMPLETAR INSCRIPCIÓN</a>
+  </div>
+</section>
+
+<section class="sponsors" id="sponsors" style="display:none;">
+  <div class="section-label">Apoyan el circuito</div>
+  <div class="section-title">NOS ACOMPAÑAN</div>
+  <div class="sponsors-grid">
+    <div class="sponsor-item">
+      <img src="assets/sponsors/sponsor1.png" alt="Sponsor 1" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <span class="sponsor-placeholder" style="display:none;">Sponsor 1</span>
+    </div>
+    <div class="sponsor-item">
+      <img src="assets/sponsors/sponsor2.png" alt="Sponsor 2" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <span class="sponsor-placeholder" style="display:none;">Sponsor 2</span>
+    </div>
+    <div class="sponsor-item">
+      <img src="assets/sponsors/sponsor3.png" alt="Sponsor 3" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <span class="sponsor-placeholder" style="display:none;">Sponsor 3</span>
+    </div>
+    <div class="sponsor-item">
+      <img src="assets/sponsors/sponsor4.png" alt="Sponsor 4" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <span class="sponsor-placeholder" style="display:none;">Sponsor 4</span>
+    </div>
+    <div class="sponsor-item">
+      <img src="assets/sponsors/sponsor5.png" alt="Sponsor 5" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <span class="sponsor-placeholder" style="display:none;">Sponsor 5</span>
+    </div>
+    <div class="sponsor-item">
+      <img src="assets/sponsors/sponsor6.png" alt="Sponsor 6" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <span class="sponsor-placeholder" style="display:none;">Sponsor 6</span>
+    </div>
   </div>
 </section>
 
@@ -308,12 +461,110 @@
     <li><a href="#historia">Historia</a></li>
     <li><a href="#categorias">Categorías</a></li>
     <li><a href="#galeria">Galería</a></li>
-    <li><a href="https://www.instagram.com/extremosurbjj/" target="_blank">📸 Instagram</a></li>
+<li><a href="https://www.instagram.com/extremosurbjj/" target="_blank">Instagram</a></li>
   </ul>
   <div class="footer-copy">
     © 2026 Extremo Sur BJJ · Desarrollado por <a href="#">Juan Ignacio García Ríos</a>
   </div>
 </footer>
 
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Galería de fotos">
+  <button class="lb-btn lb-close" id="lb-close" aria-label="Cerrar">&#x2715;</button>
+  <button class="lb-btn lb-prev"  id="lb-prev"  aria-label="Anterior">&#x2190;</button>
+  <img class="lb-img" id="lb-img" src="" alt="Foto del torneo">
+  <button class="lb-btn lb-next"  id="lb-next"  aria-label="Siguiente">&#x2192;</button>
+  <div class="lb-counter" id="lb-counter"></div>
+</div>
+
+<script>
+  (function () {
+    // 30 mayo 2026 00:00:00 UTC-3 → UTC+0 = 03:00:00
+    const TARGET = new Date('2026-05-30T03:00:00Z').getTime();
+
+    const elDays  = document.getElementById('cd-days');
+    const elHours = document.getElementById('cd-hours');
+    const elMins  = document.getElementById('cd-mins');
+    const elSecs  = document.getElementById('cd-secs');
+    const elCount = document.getElementById('countdown');
+    const elDone  = document.getElementById('cd-done');
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    function tick() {
+      const diff = TARGET - Date.now();
+      if (diff <= 0) {
+        elCount.style.display = 'none';
+        elDone.style.display  = 'block';
+        return;
+      }
+      const days  = Math.floor(diff / 86400000);
+      const hours = Math.floor((diff % 86400000) / 3600000);
+      const mins  = Math.floor((diff % 3600000)  / 60000);
+      const secs  = Math.floor((diff % 60000)    / 1000);
+      elDays.textContent  = pad(days);
+      elHours.textContent = pad(hours);
+      elMins.textContent  = pad(mins);
+      elSecs.textContent  = pad(secs);
+    }
+
+    tick();
+    setInterval(tick, 1000);
+  })();
+
+  // LIGHTBOX
+  (function () {
+    const lightbox  = document.getElementById('lightbox');
+    const lbImg     = document.getElementById('lb-img');
+    const lbCounter = document.getElementById('lb-counter');
+    const items     = Array.from(document.querySelectorAll('.galeria-item[data-src]'));
+    const srcs      = items.map(el => el.dataset.src);
+    let current     = 0;
+
+    function open(index) {
+      current = (index + srcs.length) % srcs.length;
+      lbImg.src = srcs[current];
+      lbCounter.textContent = (current + 1) + ' / ' + srcs.length;
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function close() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    items.forEach((el, i) => el.addEventListener('click', () => open(i)));
+
+    document.getElementById('lb-prev').addEventListener('click',  (e) => { e.stopPropagation(); open(current - 1); });
+    document.getElementById('lb-next').addEventListener('click',  (e) => { e.stopPropagation(); open(current + 1); });
+    document.getElementById('lb-close').addEventListener('click', (e) => { e.stopPropagation(); close(); });
+
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) close(); });
+
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape')     close();
+      if (e.key === 'ArrowLeft')  open(current - 1);
+      if (e.key === 'ArrowRight') open(current + 1);
+    });
+  })();
+
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('nav-links');
+
+  hamburger.addEventListener('click', () => {
+    const isOpen = hamburger.classList.toggle('open');
+    navLinks.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', isOpen);
+  });
+
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      navLinks.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>
 </body>
 </html>
