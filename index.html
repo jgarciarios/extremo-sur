@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Extremo Sur BJJ 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --black: #050810;
+    --deep-blue: #071428;
+    --mid-blue: #0d2144;
+    --accent-blue: #1a4a8a;
+    --steel-blue: #2a6bc2;
+    --gold: #c9a227;
+    --gold-light: #e8c14a;
+    --white: #f0f4ff;
+    --gray: #8a9ab5;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-heading: 'Barlow Condensed', sans-serif;
+    --font-body: 'Barlow', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--white); font-family: var(--font-body); overflow-x: hidden; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 48px;
+    background: rgba(5,8,16,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,162,39,0.2);
+  }
+  .nav-logo { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: 3px; color: var(--gold); }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { font-family: var(--font-heading); font-weight: 600; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta { background: var(--gold) !important; color: var(--black) !important; padding: 8px 20px; border-radius: 2px; font-weight: 900 !important; }
+  .nav-cta:hover { background: var(--gold-light) !important; }
+
+  .hero {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    background: linear-gradient(160deg, #050810 0%, #071428 40%, #0a1e3d 70%, #050810 100%);
+  }
+  .hero-bg-pattern {
+    position: absolute; inset: 0;
+    background-image:
+      repeating-linear-gradient(45deg, rgba(42,107,194,0.03) 0px, rgba(42,107,194,0.03) 1px, transparent 1px, transparent 60px),
+      repeating-linear-gradient(-45deg, rgba(42,107,194,0.03) 0px, rgba(42,107,194,0.03) 1px, transparent 1px, transparent 60px);
+  }
+  .hero-glow {
+    position: absolute; width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(26,74,138,0.3) 0%, transparent 70%);
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    animation: pulse 4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+  }
+  .hero-content { position: relative; z-index: 2; text-align: center; padding: 120px 24px 80px; max-width: 900px; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  .a1 { opacity: 0; animation: fadeUp 0.8s ease forwards 0.2s; }
+  .a2 { opacity: 0; animation: fadeUp 0.8s ease forwards 0.4s; }
+  .a3 { opacity: 0; animation: fadeUp 0.8s ease forwards 0.6s; }
+  .a4 { opacity: 0; animation: fadeUp 0.8s ease forwards 0.8s; }
+  .a5 { opacity: 0; animation: fadeUp 0.8s ease forwards 1.0s; }
+
+  .hero-eyebrow { font-family: var(--font-heading); font-size: 0.8rem; font-weight: 700; letter-spacing: 6px; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; }
+  .hero-title { font-family: var(--font-display); font-size: clamp(5rem, 15vw, 10rem); line-height: 0.85; letter-spacing: 4px; color: var(--white); }
+  .hero-title.blue { color: var(--steel-blue); margin-bottom: 16px; }
+  .hero-subtitle { font-family: var(--font-display); font-size: clamp(1.2rem, 3vw, 2.2rem); letter-spacing: 10px; color: var(--gold); margin-bottom: 40px; }
+  .hero-divider { width: 80px; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin: 0 auto 36px; }
+  .hero-badges { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 48px; }
+  .badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(201,162,39,0.1); border: 1px solid rgba(201,162,39,0.35); padding: 10px 20px; border-radius: 2px; font-family: var(--font-heading); font-weight: 700; font-size: 0.9rem; letter-spacing: 2px; color: var(--gold); }
+  .btn-primary { display: inline-block; background: var(--gold); color: var(--black); font-family: var(--font-heading); font-size: 1rem; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; text-decoration: none; padding: 18px 52px; border-radius: 2px; transition: all 0.2s; box-shadow: 0 0 40px rgba(201,162,39,0.3); margin: 0 8px 12px; }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 40px rgba(201,162,39,0.5); }
+  .btn-secondary { display: inline-block; border: 1px solid rgba(201,162,39,0.5); color: var(--gold); font-family: var(--font-heading); font-size: 0.9rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; padding: 16px 36px; border-radius: 2px; transition: all 0.2s; margin: 0 8px 12px; }
+  .btn-secondary:hover { background: rgba(201,162,39,0.1); }
+
+  section { padding: 100px 48px; position: relative; }
+  .section-label { font-family: var(--font-heading); font-size: 0.75rem; font-weight: 700; letter-spacing: 6px; text-transform: uppercase; color: var(--gold); text-align: center; margin-bottom: 12px; }
+  .section-title { font-family: var(--font-display); font-size: clamp(2.5rem, 6vw, 5rem); text-align: center; letter-spacing: 4px; margin-bottom: 64px; color: var(--white); }
+  .line-accent::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+
+  /* FECHAS */
+  .fechas { background: var(--deep-blue); }
+  .fechas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2px; max-width: 1100px; margin: 0 auto; }
+  .fecha-card { background: rgba(13,33,68,0.8); padding: 48px 40px; border: 1px solid rgba(42,107,194,0.15); transition: all 0.3s; }
+  .fecha-card:hover { background: rgba(13,33,68,1); border-color: rgba(201,162,39,0.3); transform: translateY(-4px); }
+  .fecha-card.gold { border-color: rgba(201,162,39,0.4); background: rgba(201,162,39,0.05); position: relative; }
+  .ajp-tag { position: absolute; top: 16px; right: 16px; background: var(--gold); color: var(--black); font-family: var(--font-heading); font-size: 0.65rem; font-weight: 900; letter-spacing: 2px; padding: 4px 10px; }
+  .fecha-num { font-family: var(--font-display); font-size: 5rem; line-height: 1; color: var(--steel-blue); }
+  .fecha-card.gold .fecha-num { color: var(--gold); }
+  .fecha-mes { font-family: var(--font-heading); font-size: 1.4rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 8px; }
+  .fecha-etapa { font-size: 0.85rem; color: var(--gray); letter-spacing: 1px; }
+
+  /* HISTORIA */
+  .historia { background: var(--black); }
+  .historia-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .historia-text h2 { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4.5rem); letter-spacing: 4px; line-height: 1; margin-bottom: 24px; }
+  .historia-text h2 em { color: var(--gold); font-style: normal; display: block; }
+  .historia-text p { font-size: 1rem; line-height: 1.8; color: var(--gray); margin-bottom: 16px; }
+  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .stat-box { background: var(--deep-blue); padding: 32px 28px; border: 1px solid rgba(42,107,194,0.15); }
+  .stat-number { font-family: var(--font-display); font-size: 3rem; color: var(--gold); line-height: 1; margin-bottom: 4px; }
+  .stat-label { font-family: var(--font-heading); font-size: 0.78rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); }
+
+  /* CATEGORIAS */
+  .categorias { background: var(--deep-blue); }
+  .categorias-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2px; max-width: 1100px; margin: 0 auto 48px; }
+  .cat-card { background: rgba(5,8,16,0.8); padding: 32px 24px; border: 1px solid rgba(42,107,194,0.1); transition: all 0.3s; text-align: center; }
+  .cat-card:hover { border-color: rgba(201,162,39,0.3); background: rgba(13,33,68,0.9); }
+  .cat-icon { font-size: 2rem; margin-bottom: 16px; display: block; }
+  .cat-name { font-family: var(--font-heading); font-size: 1.1rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+  .cat-desc { font-size: 0.8rem; color: var(--gray); line-height: 1.5; }
+
+  /* GALERIA */
+  .galeria { background: var(--black); }
+  .galeria-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; max-width: 1100px; margin: 0 auto 48px; }
+  .galeria-item { aspect-ratio: 4/3; background: var(--mid-blue); position: relative; overflow: hidden; border: 1px solid rgba(42,107,194,0.1); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; }
+  .galeria-item:hover { border-color: rgba(201,162,39,0.4); }
+  .galeria-item:hover .g-overlay { opacity: 1; }
+  .galeria-placeholder { font-family: var(--font-heading); font-size: 0.7rem; letter-spacing: 3px; color: rgba(138,154,181,0.35); text-transform: uppercase; }
+  .g-overlay { position: absolute; inset: 0; background: rgba(201,162,39,0.12); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; font-size: 1.5rem; }
+  .galeria-item.large { grid-column: span 2; grid-row: span 2; }
+
+  /* INSCRIPCION */
+  .inscripcion {
+    background: linear-gradient(135deg, var(--deep-blue) 0%, var(--mid-blue) 50%, var(--deep-blue) 100%);
+    text-align: center;
+  }
+  .inscripcion::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 20% 50%, rgba(201,162,39,0.07) 0%, transparent 50%), radial-gradient(circle at 80% 50%, rgba(42,107,194,0.12) 0%, transparent 50%); }
+  .inscripcion-content { position: relative; z-index: 2; max-width: 700px; margin: 0 auto; }
+  .inscripcion h2 { font-family: var(--font-display); font-size: clamp(3rem, 8vw, 7rem); letter-spacing: 6px; line-height: 0.9; margin-bottom: 24px; }
+  .inscripcion h2 span { color: var(--gold); display: block; }
+  .inscripcion p { font-size: 1rem; color: var(--gray); line-height: 1.7; margin-bottom: 40px; }
+  .precio-badge { display: inline-block; background: rgba(201,162,39,0.1); border: 1px solid rgba(201,162,39,0.4); padding: 8px 24px; border-radius: 2px; font-family: var(--font-heading); font-size: 0.85rem; font-weight: 700; letter-spacing: 2px; color: var(--gold); margin-bottom: 40px; }
+
+  footer { background: var(--black); border-top: 1px solid rgba(201,162,39,0.15); padding: 48px; text-align: center; }
+  .footer-logo { font-family: var(--font-display); font-size: 1.8rem; letter-spacing: 6px; color: var(--gold); margin-bottom: 6px; }
+  .footer-sub { font-family: var(--font-heading); font-size: 0.75rem; letter-spacing: 4px; color: var(--gray); text-transform: uppercase; margin-bottom: 28px; }
+  .footer-links { display: flex; justify-content: center; gap: 28px; margin-bottom: 28px; list-style: none; flex-wrap: wrap; }
+  .footer-links a { font-family: var(--font-heading); font-size: 0.8rem; letter-spacing: 2px; color: var(--gray); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-copy { font-size: 0.75rem; color: rgba(138,154,181,0.4); letter-spacing: 1px; }
+  .footer-copy a { color: var(--gold); text-decoration: none; }
+
+  .center { text-align: center; }
+
+  @media (max-width: 768px) {
+    nav { padding: 14px 20px; }
+    .nav-links { display: none; }
+    section { padding: 70px 20px; }
+    .historia-inner { grid-template-columns: 1fr; gap: 48px; }
+    .galeria-grid { grid-template-columns: 1fr 1fr; }
+    .galeria-item.large { grid-column: span 1; grid-row: span 1; }
+    footer { padding: 40px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">EXTREMO SUR</div>
+  <ul class="nav-links">
+    <li><a href="#fechas">Fechas</a></li>
+    <li><a href="#historia">Historia</a></li>
+    <li><a href="#categorias">Categorías</a></li>
+    <li><a href="#galeria">Galería</a></li>
+    <li><a href="#inscripcion" class="nav-cta">Inscribite</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="inicio">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow a1">Brazilian Jiu Jitsu · Maldonado, Uruguay</div>
+    <div class="hero-title a2">EXTREMO</div>
+    <div class="hero-title blue a2">SUR</div>
+    <div class="hero-subtitle a3">CIRCUITO 2026</div>
+    <div class="hero-divider a3"></div>
+    <div class="hero-badges a4">
+      <span class="badge">📅 30 MAYO — 1° ETAPA</span>
+      <span class="badge">🏆 23 AGO — AJP URUGUAY</span>
+      <span class="badge">🥋 31 OCT — 2° ETAPA</span>
+    </div>
+    <div class="a5">
+      <a href="#inscripcion" class="btn-primary">INSCRIBITE AHORA</a>
+      <a href="#historia" class="btn-secondary">Conocé el torneo</a>
+    </div>
+  </div>
+</section>
+
+<section class="fechas line-accent" id="fechas">
+  <div class="section-label">Calendario Oficial</div>
+  <div class="section-title">FECHAS 2026</div>
+  <div class="fechas-grid">
+    <div class="fecha-card">
+      <div class="fecha-num">30</div>
+      <div class="fecha-mes">Mayo</div>
+      <div class="fecha-etapa">1° Etapa · Circuito Extremo Sur</div>
+    </div>
+    <div class="fecha-card gold">
+      <div class="ajp-tag">AJP URUGUAY</div>
+      <div class="fecha-num">23</div>
+      <div class="fecha-mes">Agosto</div>
+      <div class="fecha-etapa">Evento Internacional Especial</div>
+    </div>
+    <div class="fecha-card">
+      <div class="fecha-num">31</div>
+      <div class="fecha-mes">Octubre</div>
+      <div class="fecha-etapa">2° Etapa · Circuito Extremo Sur</div>
+    </div>
+  </div>
+</section>
+
+<section class="historia" id="historia">
+  <div class="historia-inner">
+    <div class="historia-text">
+      <div class="section-label">Nuestra historia</div>
+      <h2>AÑOS DE <em>COMPETENCIA REAL</em></h2>
+      <p>Extremo Sur BJJ nació en Maldonado con una visión clara: llevar la competencia de Brazilian Jiu Jitsu al más alto nivel en el sur del continente.</p>
+      <p>Año tras año, el torneo crece en participantes, academias y nivel técnico, consolidándose como uno de los eventos de referencia en la región.</p>
+      <p>En 2026, el circuito incluye por primera vez una fecha oficial del AJP Uruguay, marcando un hito histórico para el BJJ regional.</p>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-number">+5</div>
+        <div class="stat-label">Años de historia</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">3</div>
+        <div class="stat-label">Fechas en 2026</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">AJP</div>
+        <div class="stat-label">Fecha oficial Uruguay</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">🇺🇾</div>
+        <div class="stat-label">Maldonado · Uruguay</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="categorias line-accent" id="categorias">
+  <div class="section-label">Competencia</div>
+  <div class="section-title">CATEGORÍAS</div>
+  <div class="categorias-grid">
+    <div class="cat-card"><span class="cat-icon">👶</span><div class="cat-name">Kids</div><div class="cat-desc">Categorías infantiles por edad y peso</div></div>
+    <div class="cat-card"><span class="cat-icon">🧑</span><div class="cat-name">Juvenil</div><div class="cat-desc">División para competidores jóvenes</div></div>
+    <div class="cat-card"><span class="cat-icon">💪</span><div class="cat-name">Adulto</div><div class="cat-desc">Gi y No-Gi · Todas las fajas</div></div>
+    <div class="cat-card"><span class="cat-icon">🎖️</span><div class="cat-name">Master</div><div class="cat-desc">Competidores +30 años</div></div>
+    <div class="cat-card"><span class="cat-icon">⚡</span><div class="cat-name">Absoluto</div><div class="cat-desc">Sin límite de peso</div></div>
+  </div>
+  <div class="center">
+    <a href="https://drive.google.com/file/d/1Dar7N5pRzIpuMYfRL1xHp_8uHe794LUJ/view" target="_blank" class="btn-secondary">VER LISTA COMPLETA DE CATEGORÍAS</a>
+  </div>
+</section>
+
+<section class="galeria" id="galeria">
+  <div class="section-label">Momentos</div>
+  <div class="section-title">GALERÍA</div>
+  <div class="galeria-grid">
+    <div class="galeria-item large"><span class="galeria-placeholder">Foto principal</span><div class="g-overlay">🔍</div></div>
+    <div class="galeria-item"><span class="galeria-placeholder">Foto 2</span><div class="g-overlay">🔍</div></div>
+    <div class="galeria-item"><span class="galeria-placeholder">Foto 3</span><div class="g-overlay">🔍</div></div>
+    <div class="galeria-item"><span class="galeria-placeholder">Foto 4</span><div class="g-overlay">🔍</div></div>
+    <div class="galeria-item"><span class="galeria-placeholder">Foto 5</span><div class="g-overlay">🔍</div></div>
+    <div class="galeria-item"><span class="galeria-placeholder">Foto 6</span><div class="g-overlay">🔍</div></div>
+  </div>
+  <div class="center">
+    <a href="https://drive.google.com/drive/folders/1SVU5gwh9YCKDxCRFIjWpEMGCojTQmDhF" target="_blank" class="btn-secondary">VER TODAS LAS FOTOS</a>
+  </div>
+</section>
+
+<section class="inscripcion line-accent" id="inscripcion">
+  <div class="inscripcion-content">
+    <div class="section-label">Unite al circuito</div>
+    <h2>INSCRIBITE<span>AHORA</span></h2>
+    <div class="precio-badge">📅 PRÓXIMA FECHA: 30 DE MAYO 2026</div>
+    <p>Completá el formulario con tus datos, categoría y academia. Los cupos son limitados — no te quedés afuera.</p>
+    <a href="https://forms.gle/24XEP3X4EsKp1ftR7" target="_blank" class="btn-primary">COMPLETAR INSCRIPCIÓN</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">EXTREMO SUR</div>
+  <div class="footer-sub">Brazilian Jiu Jitsu · Maldonado, Uruguay</div>
+  <ul class="footer-links">
+    <li><a href="#fechas">Fechas</a></li>
+    <li><a href="#historia">Historia</a></li>
+    <li><a href="#categorias">Categorías</a></li>
+    <li><a href="#galeria">Galería</a></li>
+    <li><a href="https://www.instagram.com/extremosurbjj/" target="_blank">📸 Instagram</a></li>
+  </ul>
+  <div class="footer-copy">
+    © 2026 Extremo Sur BJJ · Desarrollado por <a href="#">Juan Ignacio García Ríos</a>
+  </div>
+</footer>
+
+</body>
+</html>
