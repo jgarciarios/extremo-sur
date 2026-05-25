@@ -1,0 +1,1 @@
+Hacé git add de todos los archivos modificados, luego commit con el mensaje "$ARGUMENTS" (si $ARGUMENTS está vacío, usá "update" como mensaje), luego push a origin main. Al terminar, mostrá la URL del site: https://jgarciarios.github.io/extremo-sur

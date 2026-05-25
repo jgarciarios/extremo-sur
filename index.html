@@ -14,7 +14,7 @@
 <meta property="og:title"       content="Extremo Sur BJJ 2026">
 <meta property="og:description" content="Circuito 2026 de Brazilian Jiu Jitsu en Maldonado, Uruguay. Tres fechas, una comunidad. Inscribite ahora.">
 <meta property="og:image"       content="assets/img/foto1.jpeg">
-<meta property="og:url"         content="https://TU-URL-FINAL-ACÁ">
+<meta property="og:url"         content="https://extremo-sur.netlify.app">
 <meta property="og:locale"      content="es_UY">
 
 <!-- Twitter Card -->
@@ -26,6 +26,7 @@
 <!-- Favicon -->
 <link rel="icon" type="image/jpeg" href="assets/img/logo.jpeg">
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -52,7 +53,9 @@
     padding: 16px 48px;
     background: rgba(5,8,16,0.92); backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(201,162,39,0.2);
+    transition: all 0.3s ease;
   }
+  nav.scrolled { padding: 10px 48px; border-bottom-color: rgba(201,162,39,0.4); }
   .nav-logo { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: 3px; color: var(--gold); }
   .nav-links { display: flex; gap: 32px; list-style: none; }
   .nav-links a { font-family: var(--font-heading); font-weight: 600; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); text-decoration: none; transition: color 0.2s; }
@@ -105,8 +108,9 @@
   }
   .hero-content { position: relative; z-index: 2; text-align: center; padding: 120px 24px 80px; max-width: 900px; }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes clipReveal { from { clip-path: inset(0 100% 0 0); opacity: 1; } to { clip-path: inset(0 0% 0 0); opacity: 1; } }
   .a1 { opacity: 0; animation: fadeUp 0.8s ease forwards 0.2s; }
-  .a2 { opacity: 0; animation: fadeUp 0.8s ease forwards 0.4s; }
+  .a2 { clip-path: inset(0 100% 0 0); animation: clipReveal 0.9s ease forwards 0.4s; }
   .a3 { opacity: 0; animation: fadeUp 0.8s ease forwards 0.6s; }
   .a4 { opacity: 0; animation: fadeUp 0.8s ease forwards 0.8s; }
   .a5 { opacity: 0; animation: fadeUp 0.8s ease forwards 1.0s; }
@@ -139,20 +143,28 @@
 
   section { padding: 100px 48px; position: relative; }
   .section-label { font-family: var(--font-heading); font-size: 0.75rem; font-weight: 700; letter-spacing: 6px; text-transform: uppercase; color: var(--gold); text-align: center; margin-bottom: 12px; }
-  .section-title { font-family: var(--font-display); font-size: clamp(2.5rem, 6vw, 5rem); text-align: center; letter-spacing: 4px; margin-bottom: 64px; color: var(--white); }
+  .section-title { font-family: var(--font-display); font-size: clamp(2.5rem, 6vw, 5rem); text-align: center; letter-spacing: 4px; margin-bottom: 64px; background: linear-gradient(135deg, #f0f4ff 0%, #8a9ab5 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
   .line-accent::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
 
   /* FECHAS */
   .fechas { background: var(--deep-blue); }
   .fechas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2px; max-width: 1100px; margin: 0 auto; }
   .fecha-card { background: rgba(13,33,68,0.8); padding: 48px 40px; border: 1px solid rgba(42,107,194,0.15); transition: all 0.3s; }
-  .fecha-card:hover { background: rgba(13,33,68,1); border-color: rgba(201,162,39,0.3); transform: translateY(-4px); }
+  .fecha-card:hover { background: rgba(13,33,68,1); border-color: rgba(201,162,39,0.3); transform: translateY(-4px); box-shadow: 0 0 30px rgba(201,162,39,0.12), 0 8px 32px rgba(0,0,0,0.4); }
   .fecha-card.gold { border-color: rgba(201,162,39,0.4); background: rgba(201,162,39,0.05); position: relative; }
   .ajp-tag { position: absolute; top: 16px; right: 16px; background: var(--gold); color: var(--black); font-family: var(--font-heading); font-size: 0.65rem; font-weight: 900; letter-spacing: 2px; padding: 4px 10px; }
   .fecha-num { font-family: var(--font-display); font-size: 5rem; line-height: 1; color: var(--steel-blue); }
   .fecha-card.gold .fecha-num { color: var(--gold); }
   .fecha-mes { font-family: var(--font-heading); font-size: 1.4rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 8px; }
   .fecha-etapa { font-size: 0.85rem; color: var(--gray); letter-spacing: 1px; }
+
+  /* VENUE */
+  .venue { background: var(--deep-blue); }
+  .venue-card { max-width: 480px; margin: 0 auto; background: rgba(13,33,68,0.8); border: 1px solid rgba(42,107,194,0.2); padding: 48px 40px; text-align: center; transition: all 0.3s; }
+  .venue-card:hover { border-color: rgba(201,162,39,0.35); background: rgba(13,33,68,1); }
+  .venue-pin { margin-bottom: 24px; }
+  .venue-name { font-family: var(--font-display); font-size: 2.2rem; letter-spacing: 3px; color: var(--white); margin-bottom: 8px; }
+  .venue-city { font-family: var(--font-heading); font-size: 0.85rem; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--gray); margin-bottom: 32px; }
 
   /* HISTORIA */
   .historia { background: var(--black); }
@@ -169,19 +181,23 @@
   .categorias { background: var(--deep-blue); }
   .categorias-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2px; max-width: 1100px; margin: 0 auto 48px; }
   .cat-card { background: rgba(5,8,16,0.8); padding: 32px 24px; border: 1px solid rgba(42,107,194,0.1); transition: all 0.3s; text-align: center; }
-  .cat-card:hover { border-color: rgba(201,162,39,0.3); background: rgba(13,33,68,0.9); }
+  .cat-card:hover { border-color: rgba(201,162,39,0.3); background: rgba(13,33,68,0.9); box-shadow: 0 0 30px rgba(201,162,39,0.12), 0 8px 32px rgba(0,0,0,0.4); }
   .cat-icon { font-family: var(--font-display); font-size: 1.6rem; letter-spacing: 3px; color: var(--steel-blue); margin-bottom: 16px; display: block; }
   .cat-name { font-family: var(--font-heading); font-size: 1.1rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
   .cat-desc { font-size: 0.8rem; color: var(--gray); line-height: 1.5; }
 
   /* GALERIA */
   .galeria { background: var(--black); }
-  .galeria-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; max-width: 1100px; margin: 0 auto 48px; }
-  .galeria-item { aspect-ratio: 4/3; background: var(--mid-blue); position: relative; overflow: hidden; border: 1px solid rgba(42,107,194,0.1); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; }
-  .galeria-item:hover { border-color: rgba(201,162,39,0.4); }
-  .galeria-item:hover .g-overlay { opacity: 1; }
-  .galeria-placeholder { font-family: var(--font-heading); font-size: 0.7rem; letter-spacing: 3px; color: rgba(138,154,181,0.35); text-transform: uppercase; }
+  .galeria-swiper { width: 100%; padding-bottom: 48px !important; }
+  .galeria-slide { aspect-ratio: 4/3; background-size: cover; background-position: center; background-color: var(--mid-blue); position: relative; overflow: hidden; cursor: pointer; }
+  .galeria-slide:hover .g-overlay { opacity: 1; }
   .g-overlay { position: absolute; inset: 0; background: rgba(201,162,39,0.12); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; }
+  .swiper-btn { position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; background: none; border: 1px solid rgba(201,162,39,0.4); color: var(--gold); font-family: var(--font-display); font-size: 1.4rem; width: 44px; height: 44px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s, border-color 0.2s; }
+  .swiper-btn:hover { background: rgba(201,162,39,0.12); border-color: var(--gold); }
+  .swiper-btn-prev { left: 12px; }
+  .swiper-btn-next { right: 12px; }
+  .galeria-swiper .swiper-pagination-bullet { background: var(--gray); opacity: 1; }
+  .galeria-swiper .swiper-pagination-bullet-active { background: var(--gold); }
 
   /* LIGHTBOX */
   .lightbox { position: fixed; inset: 0; z-index: 500; background: rgba(5,8,16,0.95); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
@@ -214,14 +230,19 @@
 
   /* SPONSORS */
   .sponsors { background: var(--black); border-top: 1px solid rgba(42,107,194,0.1); }
-  .sponsors-grid { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 24px; max-width: 1000px; margin: 0 auto; }
-  .sponsor-item { width: 160px; height: 80px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(42,107,194,0.15); transition: border-color 0.3s; }
-  .sponsor-item:hover { border-color: rgba(201,162,39,0.3); }
-  .sponsor-item img { max-width: 100%; max-height: 100%; object-fit: contain; filter: grayscale(1) opacity(0.5); transition: filter 0.3s; }
-  .sponsor-item:hover img { filter: grayscale(0) opacity(1); }
-  .sponsor-placeholder { font-family: var(--font-heading); font-size: 0.75rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); text-align: center; padding: 12px; }
+  .sponsors-featured { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; max-width: 860px; margin: 0 auto 2px; }
+  .sponsors-simple { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; max-width: 860px; margin: 0 auto; }
+  .sponsor-card-featured { background: rgba(13,33,68,0.6); border: 1px solid rgba(42,107,194,0.2); padding: 36px 32px; transition: all 0.3s; }
+  .sponsor-card-featured:hover { border-color: rgba(201,162,39,0.35); background: rgba(13,33,68,0.9); }
+  .sponsor-card-featured .sp-name { font-family: var(--font-display); font-size: 1.8rem; letter-spacing: 3px; color: var(--white); margin-bottom: 12px; }
+  .sponsor-card-featured .sp-desc { font-size: 0.85rem; color: var(--gray); line-height: 1.6; margin-bottom: 20px; }
+  .sponsor-badge { display: inline-block; background: rgba(201,162,39,0.1); border: 1px solid rgba(201,162,39,0.4); color: var(--gold); font-family: var(--font-heading); font-size: 0.65rem; font-weight: 700; letter-spacing: 2px; padding: 4px 12px; margin-bottom: 24px; }
+  .sponsor-card-simple { background: rgba(5,8,16,0.6); border: 1px solid rgba(42,107,194,0.15); padding: 28px 16px; text-align: center; transition: all 0.3s; }
+  .sponsor-card-simple:hover { border-color: rgba(201,162,39,0.3); background: rgba(13,33,68,0.6); }
+  .sponsor-card-simple .sp-name { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 2px; color: var(--gray); }
   @media (max-width: 768px) {
-    .sponsor-item { width: 130px; height: 64px; }
+    .sponsors-featured { grid-template-columns: 1fr; }
+    .sponsors-simple { grid-template-columns: 1fr 1fr; }
   }
 
   footer { background: var(--black); border-top: 1px solid rgba(201,162,39,0.15); padding: 48px; text-align: center; }
@@ -253,8 +274,6 @@
     .nav-links a { display: block; padding: 14px 4px; font-size: 1rem; letter-spacing: 2px; }
     section { padding: 70px 20px; }
     .historia-inner { grid-template-columns: 1fr; gap: 48px; }
-    .galeria-grid { grid-template-columns: 1fr 1fr; }
-    .galeria-item.large { grid-column: span 1; grid-row: span 1; }
     footer { padding: 40px 20px; }
   }
 </style>
@@ -272,6 +291,7 @@
   </button>
   <ul class="nav-links" id="nav-links">
     <li><a href="#fechas">Fechas</a></li>
+    <li><a href="#venue">Venue</a></li>
     <li><a href="#historia">Historia</a></li>
     <li><a href="#categorias">Categorías</a></li>
     <li><a href="#galeria">Galería</a></li>
@@ -333,19 +353,35 @@
   </div>
 </section>
 
+<section class="venue line-accent" id="venue">
+  <div class="section-label">El escenario</div>
+  <div class="section-title">DÓNDE COMPETIMOS</div>
+  <div class="venue-card">
+    <div class="venue-pin">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+        <circle cx="12" cy="9" r="2.5"/>
+      </svg>
+    </div>
+    <div class="venue-name">Campus de Maldonado</div>
+    <div class="venue-city">Maldonado, Uruguay</div>
+    <a href="https://www.google.com/maps/search/Campus+de+Maldonado,+Uruguay" target="_blank" rel="noopener" class="btn-secondary">VER UBICACIÓN</a>
+  </div>
+</section>
+
 <section class="historia" id="historia">
   <div class="historia-inner">
     <div class="historia-text">
       <div class="section-label">Nuestra historia</div>
       <h2>AÑOS DE <em>COMPETENCIA REAL</em></h2>
-      <p>Extremo Sur BJJ nació en Maldonado con una visión clara: llevar la competencia de Brazilian Jiu Jitsu al más alto nivel en el sur del continente.</p>
+      <p>Extremo Sur BJJ nació en 2019 en Maldonado con una visión clara: llevar la competencia de Brazilian Jiu Jitsu al más alto nivel en el sur del continente.</p>
       <p>Año tras año, el torneo crece en participantes, academias y nivel técnico, consolidándose como uno de los eventos de referencia en la región.</p>
       <p>En 2026, el circuito incluye por primera vez una fecha oficial del AJP Uruguay, marcando un hito histórico para el BJJ regional.</p>
     </div>
     <div class="stats-grid">
       <div class="stat-box">
-        <div class="stat-number">+5</div>
-        <div class="stat-label">Años de historia</div>
+        <div class="stat-number">2019</div>
+        <div class="stat-label">Primera edición</div>
       </div>
       <div class="stat-box">
         <div class="stat-number">3</div>
@@ -356,8 +392,8 @@
         <div class="stat-label">Fecha oficial Uruguay</div>
       </div>
       <div class="stat-box">
-        <div class="stat-number">🇺🇾</div>
-        <div class="stat-label">Maldonado · Uruguay</div>
+        <div class="stat-number">+7</div>
+        <div class="stat-label">Años de historia</div>
       </div>
     </div>
   </div>
@@ -381,31 +417,22 @@
 <section class="galeria" id="galeria">
   <div class="section-label">Momentos</div>
   <div class="section-title">GALERÍA</div>
-  <div class="galeria-grid">
-    <div class="galeria-item large" data-src="assets/img/foto1.jpeg" style="background-image: url('assets/img/foto1.jpeg'); background-size: cover; background-position: center;">
-      <div class="g-overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div>
+  <div style="position:relative; margin-bottom: 40px;">
+    <div class="swiper galeria-swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide"><div class="galeria-slide" data-index="0" style="background-image:url('assets/img/foto1.jpeg')"><div class="g-overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div></div></div>
+        <div class="swiper-slide"><div class="galeria-slide" data-index="1" style="background-image:url('assets/img/foto2.jpeg')"><div class="g-overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div></div></div>
+        <div class="swiper-slide"><div class="galeria-slide" data-index="2" style="background-image:url('assets/img/foto3.jpeg')"><div class="g-overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div></div></div>
+        <div class="swiper-slide"><div class="galeria-slide" data-index="3" style="background-image:url('assets/img/foto4.jpeg')"><div class="g-overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div></div></div>
+        <div class="swiper-slide"><div class="galeria-slide" data-index="4" style="background-image:url('assets/img/foto5.jpeg')"><div class="g-overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div></div></div>
+        <div class="swiper-slide"><div class="galeria-slide" data-index="5" style="background-image:url('assets/img/foto6.jpeg')"><div class="g-overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div></div></div>
+        <div class="swiper-slide"><div class="galeria-slide" data-index="6" style="background-image:url('assets/img/foto7.jpeg')"><div class="g-overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div></div></div>
+        <div class="swiper-slide"><div class="galeria-slide" data-index="7" style="background-image:url('assets/img/foto8.jpeg')"><div class="g-overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div></div></div>
+      </div>
+      <div class="swiper-pagination"></div>
     </div>
-    <div class="galeria-item" data-src="assets/img/foto2.jpeg" style="background-image: url('assets/img/foto2.jpeg'); background-size: cover; background-position: center;">
-      <div class="g-overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div>
-    </div>
-    <div class="galeria-item" data-src="assets/img/foto3.jpeg" style="background-image: url('assets/img/foto3.jpeg'); background-size: cover; background-position: center;">
-      <div class="g-overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div>
-    </div>
-    <div class="galeria-item" data-src="assets/img/foto4.jpeg" style="background-image: url('assets/img/foto4.jpeg'); background-size: cover; background-position: center;">
-      <div class="g-overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div>
-    </div>
-    <div class="galeria-item" data-src="assets/img/foto5.jpeg" style="background-image: url('assets/img/foto5.jpeg'); background-size: cover; background-position: center;">
-      <div class="g-overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div>
-    </div>
-    <div class="galeria-item" data-src="assets/img/foto6.jpeg" style="background-image: url('assets/img/foto6.jpeg'); background-size: cover; background-position: center;">
-      <div class="g-overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div>
-    </div>
-    <div class="galeria-item" data-src="assets/img/foto7.jpeg" style="background-image: url('assets/img/foto7.jpeg'); background-size: cover; background-position: center;">
-      <div class="g-overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div>
-    </div>
-    <div class="galeria-item" data-src="assets/img/foto8.jpeg" style="background-image: url('assets/img/foto8.jpeg'); background-size: cover; background-position: center;">
-      <div class="g-overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div>
-    </div>
+    <button class="swiper-btn swiper-btn-prev" aria-label="Anterior">&#x2190;</button>
+    <button class="swiper-btn swiper-btn-next" aria-label="Siguiente">&#x2192;</button>
   </div>
   <div class="center">
     <a href="https://drive.google.com/drive/folders/1SVU5gwh9YCKDxCRFIjWpEMGCojTQmDhF" target="_blank" class="btn-secondary">VER TODAS LAS FOTOS</a>
@@ -422,34 +449,29 @@
   </div>
 </section>
 
-<section class="sponsors" id="sponsors" style="display:none;">
+<section class="sponsors" id="sponsors">
   <div class="section-label">Apoyan el circuito</div>
   <div class="section-title">NOS ACOMPAÑAN</div>
-  <div class="sponsors-grid">
-    <div class="sponsor-item">
-      <img src="assets/sponsors/sponsor1.png" alt="Sponsor 1" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-      <span class="sponsor-placeholder" style="display:none;">Sponsor 1</span>
+
+  <div class="sponsors-featured">
+    <div class="sponsor-card-featured">
+      <div class="sponsor-badge">CONVENIO ATLETAS</div>
+      <div class="sp-name">EGA</div>
+      <div class="sp-desc">Empresa de transporte. Descuento especial para competidores de Extremo Sur.</div>
+      <a href="https://ega.com.uy/" target="_blank" rel="noopener" class="btn-secondary">VER MÁS</a>
     </div>
-    <div class="sponsor-item">
-      <img src="assets/sponsors/sponsor2.png" alt="Sponsor 2" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-      <span class="sponsor-placeholder" style="display:none;">Sponsor 2</span>
+    <div class="sponsor-card-featured">
+      <div class="sponsor-badge">CONVENIO ATLETAS</div>
+      <div class="sp-name">Del Barcito Hostel</div>
+      <div class="sp-desc">Hostel en Maldonado. Convenio de alojamiento para atletas que vienen de otras ciudades o países.</div>
     </div>
-    <div class="sponsor-item">
-      <img src="assets/sponsors/sponsor3.png" alt="Sponsor 3" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-      <span class="sponsor-placeholder" style="display:none;">Sponsor 3</span>
-    </div>
-    <div class="sponsor-item">
-      <img src="assets/sponsors/sponsor4.png" alt="Sponsor 4" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-      <span class="sponsor-placeholder" style="display:none;">Sponsor 4</span>
-    </div>
-    <div class="sponsor-item">
-      <img src="assets/sponsors/sponsor5.png" alt="Sponsor 5" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-      <span class="sponsor-placeholder" style="display:none;">Sponsor 5</span>
-    </div>
-    <div class="sponsor-item">
-      <img src="assets/sponsors/sponsor6.png" alt="Sponsor 6" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-      <span class="sponsor-placeholder" style="display:none;">Sponsor 6</span>
-    </div>
+  </div>
+
+  <div class="sponsors-simple">
+    <div class="sponsor-card-simple"><div class="sp-name">Sal e Pimienta</div></div>
+    <div class="sponsor-card-simple"><div class="sp-name">UBK</div></div>
+    <div class="sponsor-card-simple"><div class="sp-name">BC Servicios</div></div>
+    <div class="sponsor-card-simple"><div class="sp-name">El Mirador Fueguino</div></div>
   </div>
 </section>
 
@@ -458,10 +480,12 @@
   <div class="footer-sub">Brazilian Jiu Jitsu · Maldonado, Uruguay</div>
   <ul class="footer-links">
     <li><a href="#fechas">Fechas</a></li>
+    <li><a href="#venue">Venue</a></li>
     <li><a href="#historia">Historia</a></li>
     <li><a href="#categorias">Categorías</a></li>
     <li><a href="#galeria">Galería</a></li>
-<li><a href="https://www.instagram.com/extremosurbjj/" target="_blank">Instagram</a></li>
+    <li><a href="#sponsors">Sponsors</a></li>
+    <li><a href="https://www.instagram.com/extremosurbjj/" target="_blank">Instagram</a></li>
   </ul>
   <div class="footer-copy">
     © 2026 Extremo Sur BJJ · Desarrollado por <a href="#">Juan Ignacio García Ríos</a>
@@ -476,6 +500,7 @@
   <div class="lb-counter" id="lb-counter"></div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
   (function () {
     // 30 mayo 2026 00:00:00 UTC-3 → UTC+0 = 03:00:00
@@ -516,9 +541,13 @@
     const lightbox  = document.getElementById('lightbox');
     const lbImg     = document.getElementById('lb-img');
     const lbCounter = document.getElementById('lb-counter');
-    const items     = Array.from(document.querySelectorAll('.galeria-item[data-src]'));
-    const srcs      = items.map(el => el.dataset.src);
-    let current     = 0;
+    const srcs = [
+      'assets/img/foto1.jpeg', 'assets/img/foto2.jpeg',
+      'assets/img/foto3.jpeg', 'assets/img/foto4.jpeg',
+      'assets/img/foto5.jpeg', 'assets/img/foto6.jpeg',
+      'assets/img/foto7.jpeg', 'assets/img/foto8.jpeg'
+    ];
+    let current = 0;
 
     function open(index) {
       current = (index + srcs.length) % srcs.length;
@@ -533,20 +562,74 @@
       document.body.style.overflow = '';
     }
 
-    items.forEach((el, i) => el.addEventListener('click', () => open(i)));
+    window.openLightbox = open;
 
     document.getElementById('lb-prev').addEventListener('click',  (e) => { e.stopPropagation(); open(current - 1); });
     document.getElementById('lb-next').addEventListener('click',  (e) => { e.stopPropagation(); open(current + 1); });
     document.getElementById('lb-close').addEventListener('click', (e) => { e.stopPropagation(); close(); });
-
     lightbox.addEventListener('click', (e) => { if (e.target === lightbox) close(); });
-
     document.addEventListener('keydown', (e) => {
       if (!lightbox.classList.contains('open')) return;
       if (e.key === 'Escape')     close();
       if (e.key === 'ArrowLeft')  open(current - 1);
       if (e.key === 'ArrowRight') open(current + 1);
     });
+  })();
+
+  // SWIPER GALERIA
+  new Swiper('.galeria-swiper', {
+    loop: true,
+    centeredSlides: true,
+    spaceBetween: 4,
+    slidesPerView: 1.2,
+    autoplay: { delay: 3500, disableOnInteraction: false },
+    pagination: { el: '.swiper-pagination', clickable: true },
+    navigation: { prevEl: '.swiper-btn-prev', nextEl: '.swiper-btn-next' },
+    breakpoints: {
+      768:  { slidesPerView: 2.5 },
+      1024: { slidesPerView: 3.5 }
+    }
+  });
+
+  document.querySelector('.galeria-swiper').addEventListener('click', (e) => {
+    const slide = e.target.closest('.galeria-slide');
+    if (slide) window.openLightbox(parseInt(slide.dataset.index));
+  });
+
+  // NAV SCROLL
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  // STAT COUNTER
+  (function () {
+    const section = document.getElementById('historia');
+    let animated = false;
+
+    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+    function animateCounter(el, target, prefix, duration) {
+      const start = performance.now();
+      function step(now) {
+        const t = Math.min((now - start) / duration, 1);
+        el.textContent = prefix + Math.round(easeOut(t) * target);
+        if (t < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    new IntersectionObserver((entries, obs) => {
+      if (!entries[0].isIntersecting || animated) return;
+      animated = true;
+      obs.disconnect();
+      document.querySelectorAll('.stat-number').forEach(el => {
+        const raw = el.textContent.trim();
+        const prefix = raw.startsWith('+') ? '+' : '';
+        const num = parseInt(raw.replace('+', ''));
+        if (!isNaN(num)) animateCounter(el, num, prefix, 1500);
+      });
+    }, { threshold: 0.3 }).observe(section);
   })();
 
   const hamburger = document.getElementById('hamburger');
