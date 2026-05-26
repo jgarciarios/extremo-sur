@@ -68,14 +68,20 @@ Referencia estética: oscura, combativa, estilo UFC — no corporativo ni pastel
 
 ### Completado
 - [x] Navbar fija con scroll suave
-- [x] Hero animado con las 3 fechas del circuito
+- [x] Hero animado con las 3 fechas del circuito + slideshow automático de fotos
 - [x] Sección Fechas (card AJP en dorado diferenciada)
-- [x] Sección Historia con stats
+- [x] Sección Historia con stats animados
 - [x] Sección Categorías (Kids, Juvenil, Adulto, Master, Absoluto)
-- [x] Galería con placeholders (esperando fotos reales)
+- [x] Galería Swiper con lightbox
 - [x] Sección Inscripción conectada al Google Form
 - [x] Footer con créditos
 - [x] Responsive mobile
+- [x] Deploy en Netlify — URL activa: https://extremo-sur.netlify.app
+
+### Deploy / CI
+- Netlify ya configurado con URL activa
+- PENDIENTE: conectar repo de GitHub a Netlify para auto-deploy en cada push
+- Workflow objetivo: git push → Netlify redeploya automáticamente en ~30s
 
 ### Pendiente V1
 - [ ] Reemplazar placeholders de galería con fotos reales del torneo
@@ -83,7 +89,7 @@ Referencia estética: oscura, combativa, estilo UFC — no corporativo ni pastel
 - [ ] Confirmar lugar exacto del evento (venue)
 - [ ] Confirmar precio de inscripción
 - [ ] Agregar logos de sponsors
-- [ ] Deploy en Netlify o GitHub Pages
+- [ ] Conectar GitHub → Netlify para auto-deploy
 - [ ] Compartir URL con Ricardo antes del 30 de mayo
 
 ## Roadmap V2 (post 30 de mayo)
