@@ -301,11 +301,11 @@
   .sponsor-card-simple { background: rgba(5,8,16,0.6); border: 1px solid rgba(42,107,194,0.15); padding: 28px 16px; text-align: center; transition: all 0.3s; }
   .sponsor-card-simple:hover { border-color: rgba(201,162,39,0.3); background: rgba(13,33,68,0.6); }
   .sponsor-card-simple .sp-name { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 2px; color: var(--gray); }
-  .sp-logo { display: block; width: auto; object-fit: contain; filter: brightness(0) invert(1); transition: filter 0.3s; }
+  .sp-logo { display: block; width: auto; object-fit: contain; filter: grayscale(1) opacity(0.65); transition: filter 0.3s; }
   .sponsor-card-featured .sp-logo { max-height: 80px; margin-bottom: 24px; }
   .sponsor-card-simple .sp-logo { max-height: 48px; margin: 0 auto 12px; }
   .sponsor-card-featured:hover .sp-logo,
-  .sponsor-card-simple:hover .sp-logo { filter: none; }
+  .sponsor-card-simple:hover .sp-logo { filter: none; opacity: 1; }
   @media (max-width: 768px) {
     .sponsors-featured { grid-template-columns: 1fr; }
     .sponsors-simple { grid-template-columns: 1fr 1fr; }
@@ -574,14 +574,14 @@
 
   <div class="sponsors-featured">
     <div class="sponsor-card-featured">
-      <img class="sp-logo" src="assets/sponsors/image copy 2.png" alt="EGA">
+      <img class="sp-logo" src="assets/sponsors/ega.png" alt="EGA">
       <div class="sponsor-badge">CONVENIO ATLETAS</div>
       <div class="sp-name">EGA</div>
       <div class="sp-desc">Empresa de transporte. Descuento especial para competidores de Extremo Sur.</div>
       <a href="https://ega.com.uy/" target="_blank" rel="noopener" class="btn-secondary">VER MÁS</a>
     </div>
     <div class="sponsor-card-featured">
-      <img class="sp-logo" src="assets/sponsors/image copy 3.png" alt="Del Barcito Hostel">
+      <img class="sp-logo" src="assets/sponsors/delbarcito.png" alt="Del Barcito Hostel">
       <div class="sponsor-badge">CONVENIO ATLETAS</div>
       <div class="sp-name">Del Barcito Hostel</div>
       <div class="sp-desc">Hostel en Maldonado. Convenio de alojamiento para atletas que vienen de otras ciudades o países.</div>
@@ -590,19 +590,19 @@
 
   <div class="sponsors-simple">
     <div class="sponsor-card-simple">
-      <img class="sp-logo" src="assets/sponsors/image copy.png" alt="Sal e Pimienta">
+      <img class="sp-logo" src="assets/sponsors/sal-pimienta.png" alt="Sal e Pimienta">
       <div class="sp-name">Sal e Pimienta</div>
     </div>
     <div class="sponsor-card-simple">
-      <img class="sp-logo" src="assets/sponsors/image.png" alt="UBK">
+      <img class="sp-logo" src="assets/sponsors/ubk.png" alt="UBK">
       <div class="sp-name">UBK</div>
     </div>
     <div class="sponsor-card-simple">
-      <img class="sp-logo" src="assets/sponsors/PHOTO-2026-05-22-12-11-17 copy.jpg" alt="BC Servicios">
+      <img class="sp-logo" src="assets/sponsors/bc-servicios.jpg" alt="BC Servicios">
       <div class="sp-name">BC Servicios</div>
     </div>
     <div class="sponsor-card-simple">
-      <img class="sp-logo" src="assets/sponsors/PHOTO-2026-05-22-12-11-17.jpg" alt="El Mirador Fueguino">
+      <img class="sp-logo" src="assets/sponsors/mirador-fueguino.jpg" alt="El Mirador Fueguino">
       <div class="sp-name">El Mirador Fueguino</div>
     </div>
   </div>
