@@ -1,63 +1,63 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import type { FajaTipo, DivisionTipo, CategoriaTipo } from '@/lib/types'
 
-// ─── Weight table (IBJJF) ─────────────────────────────────────────────────────
+// ─── IBJJF Weight table ───────────────────────────────────────────────────────
 
 type WeightOption = { key: string; label: string; range: string; max: number }
 
 const W_MASC_JUVENIL: WeightOption[] = [
-  { key: 'galo',        label: 'Galo (Rooster)',   range: '≤ 53.5 kg',  max: 53.5  },
-  { key: 'pluma',       label: 'Pluma',             range: '≤ 58.5 kg',  max: 58.5  },
-  { key: 'pena',        label: 'Pena',              range: '≤ 64 kg',    max: 64    },
-  { key: 'leve',        label: 'Leve',              range: '≤ 69 kg',    max: 69    },
-  { key: 'medio',       label: 'Médio',             range: '≤ 74 kg',    max: 74    },
-  { key: 'meiopes',     label: 'Meio-pesado',       range: '≤ 79.3 kg',  max: 79.3  },
-  { key: 'pesado',      label: 'Pesado',            range: '≤ 84.3 kg',  max: 84.3  },
-  { key: 'superpesado', label: 'Super-pesado',      range: '≤ 89.3 kg',  max: 89.3  },
-  { key: 'pesadissimo', label: 'Pesadíssimo',       range: 'Sin límite', max: 999   },
-  { key: 'absoluto',    label: 'Absoluto',          range: 'Peso libre', max: 999   },
+  { key: 'galo',        label: 'Galo',         range: '≤ 53.5 kg',  max: 53.5  },
+  { key: 'pluma',       label: 'Pluma',        range: '≤ 58.5 kg',  max: 58.5  },
+  { key: 'pena',        label: 'Pena',         range: '≤ 64 kg',    max: 64    },
+  { key: 'leve',        label: 'Leve',         range: '≤ 69 kg',    max: 69    },
+  { key: 'medio',       label: 'Médio',        range: '≤ 74 kg',    max: 74    },
+  { key: 'meiopes',     label: 'Meio-pesado',  range: '≤ 79.3 kg',  max: 79.3  },
+  { key: 'pesado',      label: 'Pesado',       range: '≤ 84.3 kg',  max: 84.3  },
+  { key: 'superpesado', label: 'Super-pesado', range: '≤ 89.3 kg',  max: 89.3  },
+  { key: 'pesadissimo', label: 'Pesadíssimo',  range: 'Sin límite', max: 999   },
+  { key: 'absoluto',    label: 'Absoluto',     range: 'Peso libre', max: 999   },
 ]
 
 const W_MASC_ADULTO: WeightOption[] = [
-  { key: 'galo',        label: 'Galo (Rooster)',   range: '≤ 57.5 kg',  max: 57.5  },
-  { key: 'pluma',       label: 'Pluma',             range: '≤ 64 kg',    max: 64    },
-  { key: 'pena',        label: 'Pena',              range: '≤ 70 kg',    max: 70    },
-  { key: 'leve',        label: 'Leve',              range: '≤ 76 kg',    max: 76    },
-  { key: 'medio',       label: 'Médio',             range: '≤ 82.3 kg',  max: 82.3  },
-  { key: 'meiopes',     label: 'Meio-pesado',       range: '≤ 88.3 kg',  max: 88.3  },
-  { key: 'pesado',      label: 'Pesado',            range: '≤ 94.3 kg',  max: 94.3  },
-  { key: 'superpesado', label: 'Super-pesado',      range: '≤ 100.5 kg', max: 100.5 },
-  { key: 'pesadissimo', label: 'Pesadíssimo',       range: 'Sin límite', max: 999   },
-  { key: 'absoluto',    label: 'Absoluto',          range: 'Peso libre', max: 999   },
+  { key: 'galo',        label: 'Galo',         range: '≤ 57.5 kg',  max: 57.5  },
+  { key: 'pluma',       label: 'Pluma',        range: '≤ 64 kg',    max: 64    },
+  { key: 'pena',        label: 'Pena',         range: '≤ 70 kg',    max: 70    },
+  { key: 'leve',        label: 'Leve',         range: '≤ 76 kg',    max: 76    },
+  { key: 'medio',       label: 'Médio',        range: '≤ 82.3 kg',  max: 82.3  },
+  { key: 'meiopes',     label: 'Meio-pesado',  range: '≤ 88.3 kg',  max: 88.3  },
+  { key: 'pesado',      label: 'Pesado',       range: '≤ 94.3 kg',  max: 94.3  },
+  { key: 'superpesado', label: 'Super-pesado', range: '≤ 100.5 kg', max: 100.5 },
+  { key: 'pesadissimo', label: 'Pesadíssimo',  range: 'Sin límite', max: 999   },
+  { key: 'absoluto',    label: 'Absoluto',     range: 'Peso libre', max: 999   },
 ]
 
 const W_FEM_JUVENIL: WeightOption[] = [
-  { key: 'galo',        label: 'Galo (Rooster)',   range: '≤ 44.3 kg',  max: 44.3  },
-  { key: 'pluma',       label: 'Pluma',             range: '≤ 48.3 kg',  max: 48.3  },
-  { key: 'pena',        label: 'Pena',              range: '≤ 52.5 kg',  max: 52.5  },
-  { key: 'leve',        label: 'Leve',              range: '≤ 56.5 kg',  max: 56.5  },
-  { key: 'medio',       label: 'Médio',             range: '≤ 60.5 kg',  max: 60.5  },
-  { key: 'meiopes',     label: 'Meio-pesado',       range: '≤ 65 kg',    max: 65    },
-  { key: 'pesado',      label: 'Pesado',            range: '≤ 69 kg',    max: 69    },
-  { key: 'superpesado', label: 'Super-pesado',      range: 'Sin límite', max: 999   },
-  { key: 'pesadissimo', label: 'Pesadíssimo',       range: 'Sin límite', max: 999   },
-  { key: 'absoluto',    label: 'Absoluto',          range: 'Peso libre', max: 999   },
+  { key: 'galo',        label: 'Galo',         range: '≤ 44.3 kg',  max: 44.3  },
+  { key: 'pluma',       label: 'Pluma',        range: '≤ 48.3 kg',  max: 48.3  },
+  { key: 'pena',        label: 'Pena',         range: '≤ 52.5 kg',  max: 52.5  },
+  { key: 'leve',        label: 'Leve',         range: '≤ 56.5 kg',  max: 56.5  },
+  { key: 'medio',       label: 'Médio',        range: '≤ 60.5 kg',  max: 60.5  },
+  { key: 'meiopes',     label: 'Meio-pesado',  range: '≤ 65 kg',    max: 65    },
+  { key: 'pesado',      label: 'Pesado',       range: '≤ 69 kg',    max: 69    },
+  { key: 'superpesado', label: 'Super-pesado', range: 'Sin límite', max: 999   },
+  { key: 'pesadissimo', label: 'Pesadíssimo',  range: 'Sin límite', max: 999   },
+  { key: 'absoluto',    label: 'Absoluto',     range: 'Peso libre', max: 999   },
 ]
 
 const W_FEM_ADULTO: WeightOption[] = [
-  { key: 'galo',        label: 'Galo (Rooster)',   range: '≤ 45.5 kg',  max: 45.5  },
-  { key: 'pluma',       label: 'Pluma',             range: '≤ 53.5 kg',  max: 53.5  },
-  { key: 'pena',        label: 'Pena',              range: '≤ 58.5 kg',  max: 58.5  },
-  { key: 'leve',        label: 'Leve',              range: '≤ 64 kg',    max: 64    },
-  { key: 'medio',       label: 'Médio',             range: '≤ 69 kg',    max: 69    },
-  { key: 'meiopes',     label: 'Meio-pesado',       range: '≤ 74 kg',    max: 74    },
-  { key: 'pesado',      label: 'Pesado',            range: '≤ 79.3 kg',  max: 79.3  },
-  { key: 'superpesado', label: 'Super-pesado',      range: 'Sin límite', max: 999   },
-  { key: 'pesadissimo', label: 'Pesadíssimo',       range: 'Sin límite', max: 999   },
-  { key: 'absoluto',    label: 'Absoluto',          range: 'Peso libre', max: 999   },
+  { key: 'galo',        label: 'Galo',         range: '≤ 45.5 kg',  max: 45.5  },
+  { key: 'pluma',       label: 'Pluma',        range: '≤ 53.5 kg',  max: 53.5  },
+  { key: 'pena',        label: 'Pena',         range: '≤ 58.5 kg',  max: 58.5  },
+  { key: 'leve',        label: 'Leve',         range: '≤ 64 kg',    max: 64    },
+  { key: 'medio',       label: 'Médio',        range: '≤ 69 kg',    max: 69    },
+  { key: 'meiopes',     label: 'Meio-pesado',  range: '≤ 74 kg',    max: 74    },
+  { key: 'pesado',      label: 'Pesado',       range: '≤ 79.3 kg',  max: 79.3  },
+  { key: 'superpesado', label: 'Super-pesado', range: 'Sin límite', max: 999   },
+  { key: 'pesadissimo', label: 'Pesadíssimo',  range: 'Sin límite', max: 999   },
+  { key: 'absoluto',    label: 'Absoluto',     range: 'Peso libre', max: 999   },
 ]
 
 function getWeightOptions(genero: string, categoria: string): WeightOption[] | null {
@@ -82,18 +82,20 @@ type FormFields = {
   faja:            FajaTipo | ''
   division:        DivisionTipo | ''
   categoria:       CategoriaTipo | ''
-  categoria_peso:  string   // key from WeightOption
+  categoria_peso:  string
 }
 
 type FieldErrors = Partial<Record<keyof FormFields, string>>
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
+type Countdown = { d: number; h: number; m: number; s: number; passed: boolean }
+
 const PAISES = [
-  { code: '+598', flag: '🇺🇾', label: '🇺🇾 +598' },
-  { code: '+54',  flag: '🇦🇷', label: '🇦🇷 +54'  },
-  { code: '+55',  flag: '🇧🇷', label: '🇧🇷 +55'  },
-  { code: '+56',  flag: '🇨🇱', label: '🇨🇱 +56'  },
-  { code: '+595', flag: '🇵🇾', label: '🇵🇾 +595' },
+  { code: '+598', label: '🇺🇾 +598' },
+  { code: '+54',  label: '🇦🇷 +54'  },
+  { code: '+55',  label: '🇧🇷 +55'  },
+  { code: '+56',  label: '🇨🇱 +56'  },
+  { code: '+595', label: '🇵🇾 +595' },
 ]
 
 const EMPTY: FormFields = {
@@ -110,6 +112,8 @@ const EMPTY: FormFields = {
   categoria:       '',
   categoria_peso:  '',
 }
+
+const EVENT_DATE = '2026-05-30T09:00:00-03:00'
 
 // ─── Shared styles ────────────────────────────────────────────────────────────
 
@@ -146,79 +150,96 @@ const ERROR_TEXT: React.CSSProperties = {
   marginTop:  '4px',
 }
 
-const SECTION_LABEL: React.CSSProperties = {
-  fontFamily:    'var(--font-barlow-condensed), sans-serif',
-  fontSize:      '0.7rem',
-  fontWeight:    700,
-  letterSpacing: '4px',
-  color:         '#c9a227',
-  textTransform: 'uppercase',
-  marginBottom:  '24px',
-  paddingBottom: '12px',
-  borderBottom:  '1px solid rgba(201,162,39,0.15)',
-}
-
-const CARD: React.CSSProperties = {
-  background:   'rgba(7,20,40,0.6)',
-  border:       '1px solid rgba(42,107,194,0.15)',
-  padding:      '36px 40px',
-  marginBottom: '2px',
-}
-
 const GRID_2: React.CSSProperties = {
   display:             'grid',
-  gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
   gap:                 '20px',
+  marginBottom:        '32px',
 }
 
-// ─── Component ────────────────────────────────────────────────────────────────
+// ─── useCountdown ─────────────────────────────────────────────────────────────
+
+function useCountdown(isoTarget: string): Countdown {
+  const [cd, setCd] = useState<Countdown>({ d: 0, h: 0, m: 0, s: 0, passed: false })
+
+  useEffect(() => {
+    function tick() {
+      const diff = new Date(isoTarget).getTime() - Date.now()
+      if (diff <= 0) { setCd({ d: 0, h: 0, m: 0, s: 0, passed: true }); return }
+      setCd({
+        d:      Math.floor(diff / 86400000),
+        h:      Math.floor((diff % 86400000) / 3600000),
+        m:      Math.floor((diff % 3600000)  / 60000),
+        s:      Math.floor((diff % 60000)    / 1000),
+        passed: false,
+      })
+    }
+    tick()
+    const id = setInterval(tick, 1000)
+    return () => clearInterval(id)
+  }, [isoTarget])
+
+  return cd
+}
+
+// ─── Main component ───────────────────────────────────────────────────────────
 
 export default function InscripcionPage() {
+  const [step,         setStep]         = useState(1)
   const [form,         setForm]         = useState<FormFields>(EMPTY)
   const [errors,       setErrors]       = useState<FieldErrors>({})
   const [status,       setStatus]       = useState<Status>('idle')
   const [errorMessage, setErrorMessage] = useState('')
   const [focused,      setFocused]      = useState<string | null>(null)
-  const [successName,  setSuccessName]  = useState('')
-
+  const [successData,  setSuccessData]  = useState<FormFields | null>(null)
+  const countdown     = useCountdown(EVENT_DATE)
   const weightOptions = getWeightOptions(form.genero, form.categoria)
 
-  // ── Validation ──────────────────────────────────────────────────────────────
+  // ── Per-step validation ─────────────────────────────────────────────────────
 
-  function validate(): boolean {
+  function validateStep(s: number): boolean {
     const e: FieldErrors = {}
 
-    if (!form.nombre_completo.trim()) e.nombre_completo = 'Requerido'
-    if (!form.documento.trim())       e.documento       = 'Requerido'
-
-    if (!form.email.trim()) {
-      e.email = 'Requerido'
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-      e.email = 'Email inválido'
+    if (s === 1) {
+      if (!form.nombre_completo.trim()) e.nombre_completo = 'Requerido'
+      if (!form.documento.trim())       e.documento       = 'Requerido'
+      if (!form.email.trim())           e.email           = 'Requerido'
+      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Email inválido'
+      if (!form.telefono.trim())        e.telefono        = 'Requerido'
     }
 
-    if (!form.telefono.trim()) e.telefono = 'Requerido'
-    if (!form.academia.trim()) e.academia = 'Requerido'
-    if (!form.ciudad_pais.trim()) e.ciudad_pais = 'Requerido'
-    if (!form.genero)          e.genero   = 'Seleccioná una opción'
-    if (!form.faja)            e.faja     = 'Seleccioná una opción'
-    if (!form.division)        e.division = 'Seleccioná una opción'
-    if (!form.categoria)       e.categoria = 'Seleccioná una opción'
+    if (s === 2) {
+      if (!form.academia.trim())    e.academia    = 'Requerido'
+      if (!form.ciudad_pais.trim()) e.ciudad_pais = 'Requerido'
+    }
 
-    // Absoluto doesn't need a weight category
-    if (form.categoria !== 'absoluto' && !form.categoria_peso) {
-      e.categoria_peso = 'Seleccioná una opción'
+    if (s === 3) {
+      if (!form.genero)    e.genero    = 'Seleccioná una opción'
+      if (!form.faja)      e.faja      = 'Seleccioná una opción'
+      if (!form.division)  e.division  = 'Seleccioná una opción'
+      if (!form.categoria) e.categoria = 'Seleccioná una opción'
+      if (form.categoria !== 'absoluto' && !form.categoria_peso)
+        e.categoria_peso = 'Seleccioná una opción'
     }
 
     setErrors(e)
     return Object.keys(e).length === 0
   }
 
-  // ── Submit ───────────────────────────────────────────────────────────────────
+  function nextStep() {
+    if (validateStep(step)) { setErrors({}); setStep(s => s + 1) }
+  }
+
+  function prevStep() {
+    setErrors({})
+    setStep(s => s - 1)
+  }
+
+  // ── Submit ──────────────────────────────────────────────────────────────────
 
   async function handleSubmit(ev: React.FormEvent) {
     ev.preventDefault()
-    if (!validate()) return
+    if (!validateStep(3)) return
 
     setStatus('submitting')
     setErrorMessage('')
@@ -227,43 +248,37 @@ export default function InscripcionPage() {
       const supabase = createClient()
 
       const { data: eventos, error: eventoErr } = await supabase
-        .from('eventos')
-        .select('id')
-        .eq('activo', true)
-        .order('fecha', { ascending: true })
-        .limit(1)
+        .from('eventos').select('id').eq('activo', true)
+        .order('fecha', { ascending: true }).limit(1)
 
       if (eventoErr) throw eventoErr
       if (!eventos?.length) throw new Error('No hay eventos activos en este momento.')
 
-      // Resolve peso_kg from category
-      const opts = getWeightOptions(form.genero, form.categoria)
-      const selectedWeight = opts?.find(o => o.key === form.categoria_peso)
-      const pesoKg = form.categoria === 'absoluto' ? 999 : (selectedWeight?.max ?? 999)
+      const opts   = getWeightOptions(form.genero, form.categoria)
+      const wOpt   = opts?.find(o => o.key === form.categoria_peso)
+      const pesoKg = form.categoria === 'absoluto' ? 999 : (wOpt?.max ?? 999)
 
       const { error: insertErr } = await supabase.from('inscripciones').insert({
-        evento_id:      eventos[0].id,
-        nombre:         form.nombre_completo.trim(),
-        documento:      form.documento.trim(),
-        email:          form.email.trim().toLowerCase(),
-        telefono:       `${form.codigoArea} ${form.telefono.trim()}`,
-        academia:       form.academia.trim(),
-        ciudad:         form.ciudad_pais.trim(),
-        faja:           form.faja || null,
-        division:       form.division,
-        categoria:      form.categoria,
-        peso_kg:        pesoKg,
-        genero:         form.genero,
+        evento_id: eventos[0].id,
+        nombre:    form.nombre_completo.trim(),
+        documento: form.documento.trim(),
+        email:     form.email.trim().toLowerCase(),
+        telefono:  `${form.codigoArea} ${form.telefono.trim()}`,
+        academia:  form.academia.trim(),
+        ciudad:    form.ciudad_pais.trim(),
+        faja:      form.faja || null,
+        division:  form.division,
+        categoria: form.categoria,
+        peso_kg:   pesoKg,
+        genero:    form.genero,
       })
 
       if (insertErr) throw insertErr
 
-      setSuccessName(form.nombre_completo.trim())
+      setSuccessData({ ...form })
       setStatus('success')
     } catch (err) {
-      setErrorMessage(
-        err instanceof Error ? err.message : 'Error inesperado. Intentá de nuevo.'
-      )
+      setErrorMessage(err instanceof Error ? err.message : 'Error inesperado. Intentá de nuevo.')
       setStatus('error')
     }
   }
@@ -272,348 +287,260 @@ export default function InscripcionPage() {
 
   function handleChange(ev: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     const { name, value } = ev.target
-
-    // Reset categoria_peso when genero or categoria changes
     if (name === 'genero' || name === 'categoria') {
       setForm(prev => ({ ...prev, [name]: value, categoria_peso: '' }))
     } else {
       setForm(prev => ({ ...prev, [name]: value }))
     }
-
-    if (errors[name as keyof FormFields]) {
+    if (errors[name as keyof FormFields])
       setErrors(prev => ({ ...prev, [name]: undefined }))
-    }
   }
 
-  // ── Derived input style ───────────────────────────────────────────────────────
-
-  function inputStyle(name: string): React.CSSProperties {
-    const hasError = !!errors[name as keyof FormFields]
+  function iStyle(name: string): React.CSSProperties {
+    const err = !!errors[name as keyof FormFields]
     return {
       ...BASE_INPUT,
-      borderColor: hasError        ? '#ef4444'
-                 : focused === name ? '#c9a227'
-                 : 'rgba(42,107,194,0.3)',
-      boxShadow: focused === name && !hasError
-        ? '0 0 0 1px rgba(201,162,39,0.15)'
-        : 'none',
+      borderColor: err ? '#ef4444' : focused === name ? '#c9a227' : 'rgba(42,107,194,0.3)',
+      boxShadow:   !err && focused === name ? '0 0 0 1px rgba(201,162,39,0.15)' : 'none',
     }
   }
 
   function fp(name: string) {
-    return {
-      onFocus: () => setFocused(name),
-      onBlur:  () => setFocused(null),
-    }
+    return { onFocus: () => setFocused(name), onBlur: () => setFocused(null) }
   }
 
-  // ── Success view ──────────────────────────────────────────────────────────────
+  // ── Success view ─────────────────────────────────────────────────────────────
 
-  if (status === 'success') {
-    return (
-      <main style={{ minHeight: '100vh', background: '#050810', color: '#f0f4ff', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 24px' }}>
-        <div style={{ maxWidth: '560px', width: '100%', textAlign: 'center' }}>
-
-          <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '60px', height: '60px', border: '2px solid #c9a227', borderRadius: '2px', marginBottom: '32px' }}>
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#c9a227" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="20 6 9 17 4 12"/>
-            </svg>
-          </div>
-
-          <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.72rem', fontWeight: 700, letterSpacing: '6px', textTransform: 'uppercase', color: '#c9a227', marginBottom: '12px' }}>
-            Inscripción recibida
-          </div>
-
-          <h1 style={{ fontFamily: 'var(--font-bebas-neue), sans-serif', fontSize: 'clamp(2.5rem, 8vw, 5rem)', letterSpacing: '4px', lineHeight: 0.9, marginBottom: '20px' }}>
-            {successName.toUpperCase()}
-          </h1>
-
-          <div style={{ width: '60px', height: '2px', background: 'linear-gradient(90deg, transparent, #c9a227, transparent)', margin: '0 auto 32px' }} />
-
-          <div style={{ background: 'rgba(13,33,68,0.8)', border: '1px solid rgba(201,162,39,0.25)', padding: '28px 32px', textAlign: 'left', marginBottom: '32px', borderRadius: '2px' }}>
-            <p style={{ fontFamily: 'var(--font-barlow), sans-serif', fontSize: '1rem', lineHeight: 1.8, color: '#f0f4ff', margin: 0 }}>
-              Tu inscripción fue registrada. Para confirmar tu lugar, realizá la transferencia de{' '}
-              <strong style={{ color: '#c9a227' }}>USD 25</strong>{' '}
-              e indicá tu nombre completo.
-            </p>
-          </div>
-
-          <a href="https://extremo-sur.netlify.app" style={{ display: 'inline-block', border: '1px solid rgba(201,162,39,0.5)', color: '#c9a227', fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.9rem', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', textDecoration: 'none', padding: '14px 32px', borderRadius: '2px' }}>
-            VOLVER AL INICIO
-          </a>
-
-        </div>
-      </main>
-    )
+  if (status === 'success' && successData) {
+    return <SuccessScreen data={successData} countdown={countdown} />
   }
+
+  // ── Countdown string ──────────────────────────────────────────────────────────
+
+  const pad = (n: number) => String(n).padStart(2, '0')
+  const cdStr = countdown.passed
+    ? '¡HOY ES EL DÍA!'
+    : `${countdown.d}D ${pad(countdown.h)}H ${pad(countdown.m)}M ${pad(countdown.s)}S`
 
   // ── Form view ─────────────────────────────────────────────────────────────────
 
   return (
-    <main style={{ minHeight: '100vh', background: '#050810', color: '#f0f4ff', padding: '72px 24px 64px' }}>
-      <div style={{ maxWidth: '720px', margin: '0 auto' }}>
+    <main style={{ minHeight: '100vh', background: '#050810', color: '#f0f4ff' }}>
 
-        {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: '52px' }}>
-          <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.72rem', fontWeight: 700, letterSpacing: '6px', textTransform: 'uppercase', color: '#c9a227', marginBottom: '12px' }}>
-            Circuito 2026 · Maldonado, Uruguay
+      {/* ── Stats bar ── */}
+      <div style={{
+        background:    'rgba(5,8,16,0.98)',
+        borderBottom:  '1px solid rgba(201,162,39,0.2)',
+        padding:       '0 24px',
+        display:       'flex',
+        justifyContent:'center',
+        alignItems:    'stretch',
+        gap:           '0',
+        overflowX:     'auto',
+      }}>
+        <StatPill>
+          <span style={{ fontFamily: 'var(--font-bebas-neue), sans-serif', fontSize: '1.1rem', color: '#e8c14a', letterSpacing: '2px', lineHeight: 1 }}>
+            {cdStr}
+          </span>
+          <span style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.62rem', fontWeight: 700, letterSpacing: '2px', color: '#8a9ab5', textTransform: 'uppercase' }}>
+            Para el evento
+          </span>
+        </StatPill>
+        <Divider />
+        <StatPill>
+          <span style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.82rem', fontWeight: 700, letterSpacing: '2px', color: '#f0f4ff', textTransform: 'uppercase' }}>
+            30 Mayo 2026
+          </span>
+          <span style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.62rem', fontWeight: 700, letterSpacing: '2px', color: '#8a9ab5', textTransform: 'uppercase' }}>
+            Maldonado, Uruguay
+          </span>
+        </StatPill>
+      </div>
+
+      <div style={{ maxWidth: '720px', margin: '0 auto', padding: '56px 24px 64px' }}>
+
+        {/* ── Header ── */}
+        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+          <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '6px', textTransform: 'uppercase', color: '#c9a227', marginBottom: '10px' }}>
+            Extremo Sur BJJ · Circuito 2026 · 1° Etapa
           </div>
-          <h1 style={{ fontFamily: 'var(--font-bebas-neue), sans-serif', fontSize: 'clamp(3rem, 10vw, 6rem)', letterSpacing: '4px', lineHeight: 0.9 }}>
+          <h1 style={{ fontFamily: 'var(--font-bebas-neue), sans-serif', fontSize: 'clamp(3.2rem, 10vw, 6rem)', letterSpacing: '4px', lineHeight: 0.9, margin: 0 }}>
             INSCRIPCIÓN
           </h1>
-          <div style={{ width: '60px', height: '2px', background: 'linear-gradient(90deg, transparent, #c9a227, transparent)', margin: '16px auto 20px' }} />
-          <div style={{ display: 'inline-block', background: 'rgba(201,162,39,0.1)', border: '1px solid rgba(201,162,39,0.35)', padding: '8px 22px', fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.82rem', fontWeight: 700, letterSpacing: '2px', color: '#c9a227', borderRadius: '2px' }}>
-            PRÓXIMA FECHA: 30 DE MAYO 2026 · USD 25
-          </div>
+          <div style={{ width: '60px', height: '2px', background: 'linear-gradient(90deg, transparent, #c9a227, transparent)', margin: '14px auto 0' }} />
         </div>
 
+        {/* ── Progress indicator ── */}
+        <ProgressBar step={step} />
+
+        {/* ── Multi-step slider ── */}
         <form onSubmit={handleSubmit} noValidate>
+          <div style={{ overflow: 'hidden' }}>
+            <div style={{
+              display:    'flex',
+              width:      '300%',
+              transform:  `translateX(${(step - 1) * (-100 / 3)}%)`,
+              transition: 'transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            }}>
 
-          {/* 01 · Datos personales */}
-          <div style={CARD}>
-            <div style={SECTION_LABEL}>01 · Datos Personales</div>
-            <div style={GRID_2}>
-
-              <Field label="Nombre completo" error={errors.nombre_completo}>
-                <input
-                  name="nombre_completo" type="text" required
-                  placeholder="Juan García"
-                  value={form.nombre_completo} onChange={handleChange}
-                  style={inputStyle('nombre_completo')} {...fp('nombre_completo')}
-                />
-              </Field>
-
-              {/* CI / DNI / Pasaporte — no numeric restriction (passports have letters) */}
-              <Field label="CI / DNI / Pasaporte" error={errors.documento}>
-                <input
-                  name="documento" type="text" required
-                  placeholder="Ej: 1.234.567-8 o AB123456"
-                  value={form.documento} onChange={handleChange}
-                  style={inputStyle('documento')} {...fp('documento')}
-                />
-              </Field>
-
-              <Field label="Email" error={errors.email}>
-                <input
-                  name="email" type="email" required
-                  placeholder="juan@email.com"
-                  value={form.email} onChange={handleChange}
-                  style={inputStyle('email')} {...fp('email')}
-                />
-              </Field>
-
-              {/* Phone with country code selector */}
-              <Field label="Teléfono" error={errors.telefono}>
-                <div style={{ display: 'flex', gap: '8px' }}>
-                  <select
-                    name="codigoArea"
-                    value={form.codigoArea}
-                    onChange={handleChange}
-                    style={{
-                      ...BASE_INPUT,
-                      width:       'auto',
-                      minWidth:    '100px',
-                      flexShrink:  0,
-                      cursor:      'pointer',
-                      borderColor: focused === 'codigoArea' ? '#c9a227' : 'rgba(42,107,194,0.3)',
-                      boxShadow:   focused === 'codigoArea' ? '0 0 0 1px rgba(201,162,39,0.15)' : 'none',
-                      padding:     '12px 10px',
-                    }}
-                    {...fp('codigoArea')}
-                  >
-                    {PAISES.map(p => (
-                      <option key={p.code} value={p.code}>{p.label}</option>
-                    ))}
-                  </select>
-                  <input
-                    name="telefono" type="tel" required
-                    inputMode="numeric" pattern="[0-9]*"
-                    placeholder="99 123 456"
-                    value={form.telefono} onChange={handleChange}
-                    onKeyDown={e => {
-                      if (!/[0-9]/.test(e.key) && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight',' '].includes(e.key))
-                        e.preventDefault()
-                    }}
-                    style={{ ...inputStyle('telefono'), flex: 1 }}
-                    {...fp('telefono')}
-                  />
+              {/* ─ STEP 1: Datos personales ─ */}
+              <div style={{ width: '33.333%', padding: '0' }}>
+                <div style={{ background: 'rgba(7,20,40,0.7)', border: '1px solid rgba(42,107,194,0.2)', padding: '36px 40px 28px' }}>
+                  <StepHeader number="01" title="Datos Personales" subtitle="Información del competidor" />
+                  <div style={GRID_2}>
+                    <Field label="Nombre completo" error={errors.nombre_completo}>
+                      <input name="nombre_completo" type="text" required placeholder="Juan García"
+                        value={form.nombre_completo} onChange={handleChange}
+                        style={iStyle('nombre_completo')} {...fp('nombre_completo')} />
+                    </Field>
+                    <Field label="CI / DNI / Pasaporte" error={errors.documento}>
+                      <input name="documento" type="text" required placeholder="1.234.567-8 ó AB123456"
+                        value={form.documento} onChange={handleChange}
+                        style={iStyle('documento')} {...fp('documento')} />
+                    </Field>
+                    <Field label="Email" error={errors.email}>
+                      <input name="email" type="email" required placeholder="juan@email.com"
+                        value={form.email} onChange={handleChange}
+                        style={iStyle('email')} {...fp('email')} />
+                    </Field>
+                    <Field label="Teléfono" error={errors.telefono}>
+                      <div style={{ display: 'flex', gap: '8px' }}>
+                        <select name="codigoArea" value={form.codigoArea} onChange={handleChange}
+                          style={{ ...BASE_INPUT, width: 'auto', minWidth: '100px', flexShrink: 0, cursor: 'pointer', padding: '12px 10px', borderColor: focused === 'codigoArea' ? '#c9a227' : 'rgba(42,107,194,0.3)' }}
+                          {...fp('codigoArea')}>
+                          {PAISES.map(p => <option key={p.code} value={p.code}>{p.label}</option>)}
+                        </select>
+                        <input name="telefono" type="tel" required inputMode="numeric" pattern="[0-9]*"
+                          placeholder="99 123 456" value={form.telefono} onChange={handleChange}
+                          onKeyDown={e => { if (!/[0-9]/.test(e.key) && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight',' '].includes(e.key)) e.preventDefault() }}
+                          style={{ ...iStyle('telefono'), flex: 1 }} {...fp('telefono')} />
+                      </div>
+                    </Field>
+                  </div>
+                  <StepNav step={step} onNext={nextStep} onPrev={prevStep} submitting={false} />
                 </div>
-              </Field>
+              </div>
 
-            </div>
-          </div>
+              {/* ─ STEP 2: Academia ─ */}
+              <div style={{ width: '33.333%', padding: '0' }}>
+                <div style={{ background: 'rgba(7,20,40,0.7)', border: '1px solid rgba(42,107,194,0.2)', padding: '36px 40px 28px' }}>
+                  <StepHeader number="02" title="Academia y Procedencia" subtitle="¿De dónde venís?" />
+                  <div style={{ ...GRID_2 }}>
+                    <Field label="Academia" error={errors.academia}>
+                      <input name="academia" type="text" required placeholder="Nombre de tu equipo"
+                        value={form.academia} onChange={handleChange}
+                        style={iStyle('academia')} {...fp('academia')} />
+                    </Field>
+                    <Field label="Ciudad / País" error={errors.ciudad_pais}>
+                      <input name="ciudad_pais" type="text" required placeholder="Montevideo, Uruguay"
+                        value={form.ciudad_pais} onChange={handleChange}
+                        style={iStyle('ciudad_pais')} {...fp('ciudad_pais')} />
+                    </Field>
+                  </div>
+                  <StepNav step={step} onNext={nextStep} onPrev={prevStep} submitting={false} />
+                </div>
+              </div>
 
-          {/* 02 · Academia */}
-          <div style={CARD}>
-            <div style={SECTION_LABEL}>02 · Academia y Procedencia</div>
-            <div style={GRID_2}>
-              <Field label="Academia" error={errors.academia}>
-                <input
-                  name="academia" type="text" required
-                  placeholder="Nombre de tu equipo"
-                  value={form.academia} onChange={handleChange}
-                  style={inputStyle('academia')} {...fp('academia')}
-                />
-              </Field>
-              <Field label="Ciudad / País" error={errors.ciudad_pais}>
-                <input
-                  name="ciudad_pais" type="text" required
-                  placeholder="Montevideo, Uruguay"
-                  value={form.ciudad_pais} onChange={handleChange}
-                  style={inputStyle('ciudad_pais')} {...fp('ciudad_pais')}
-                />
-              </Field>
-            </div>
-          </div>
+              {/* ─ STEP 3: Categoría ─ */}
+              <div style={{ width: '33.333%', padding: '0' }}>
+                <div style={{ background: 'rgba(7,20,40,0.7)', border: '1px solid rgba(42,107,194,0.2)', padding: '36px 40px 28px' }}>
+                  <StepHeader number="03" title="Tu Categoría" subtitle="Dónde vas a competir" />
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(155px, 1fr))', gap: '20px', marginBottom: '24px' }}>
 
-          {/* 03 · Categoría */}
-          <div style={{ ...CARD, marginBottom: '24px' }}>
-            <div style={SECTION_LABEL}>03 · Categoría</div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '20px' }}>
+                    <Field label="Faixa" error={errors.faja}>
+                      <select name="faja" required value={form.faja} onChange={handleChange}
+                        style={{ ...iStyle('faja'), cursor: 'pointer' }} {...fp('faja')}>
+                        <option value="" disabled>Seleccioná</option>
+                        <option value="blanca">Blanca</option>
+                        <option value="azul">Azul</option>
+                        <option value="morada">Morada</option>
+                        <option value="marron">Marrón</option>
+                        <option value="negra">Negra</option>
+                      </select>
+                    </Field>
 
-              {/* Faixa (was "Faja") */}
-              <Field label="Faixa" error={errors.faja}>
-                <select name="faja" required value={form.faja} onChange={handleChange} style={{ ...inputStyle('faja'), cursor: 'pointer' }} {...fp('faja')}>
-                  <option value="" disabled>Seleccioná</option>
-                  <option value="blanca">Blanca</option>
-                  <option value="azul">Azul</option>
-                  <option value="morada">Morada</option>
-                  <option value="marron">Marrón</option>
-                  <option value="negra">Negra</option>
-                </select>
-              </Field>
+                    <Field label="División" error={errors.division}>
+                      <select name="division" required value={form.division} onChange={handleChange}
+                        style={{ ...iStyle('division'), cursor: 'pointer' }} {...fp('division')}>
+                        <option value="" disabled>Seleccioná</option>
+                        <option value="gi">Gi</option>
+                        <option value="nogi">No-Gi</option>
+                        <option value="ambas">Ambas</option>
+                      </select>
+                    </Field>
 
-              <Field label="División" error={errors.division}>
-                <select name="division" required value={form.division} onChange={handleChange} style={{ ...inputStyle('division'), cursor: 'pointer' }} {...fp('division')}>
-                  <option value="" disabled>Seleccioná</option>
-                  <option value="gi">Gi</option>
-                  <option value="nogi">No-Gi</option>
-                  <option value="ambas">Ambas</option>
-                </select>
-              </Field>
+                    <Field label="Género" error={errors.genero}>
+                      <select name="genero" required value={form.genero} onChange={handleChange}
+                        style={{ ...iStyle('genero'), cursor: 'pointer' }} {...fp('genero')}>
+                        <option value="" disabled>Seleccioná</option>
+                        <option value="masculino">Masculino</option>
+                        <option value="femenino">Femenino</option>
+                      </select>
+                    </Field>
 
-              <Field label="Género" error={errors.genero}>
-                <select name="genero" required value={form.genero} onChange={handleChange} style={{ ...inputStyle('genero'), cursor: 'pointer' }} {...fp('genero')}>
-                  <option value="" disabled>Seleccioná</option>
-                  <option value="masculino">Masculino</option>
-                  <option value="femenino">Femenino</option>
-                </select>
-              </Field>
+                    <Field label="Categoría" error={errors.categoria}>
+                      <select name="categoria" required value={form.categoria} onChange={handleChange}
+                        style={{ ...iStyle('categoria'), cursor: 'pointer' }} {...fp('categoria')}>
+                        <option value="" disabled>Seleccioná</option>
+                        <option value="kids">Kids</option>
+                        <option value="juvenil">Juvenil</option>
+                        <option value="adulto">Adulto</option>
+                        <option value="master">Master</option>
+                        <option value="absoluto">Absoluto</option>
+                      </select>
+                    </Field>
 
-              <Field label="Categoría" error={errors.categoria}>
-                <select name="categoria" required value={form.categoria} onChange={handleChange} style={{ ...inputStyle('categoria'), cursor: 'pointer' }} {...fp('categoria')}>
-                  <option value="" disabled>Seleccioná</option>
-                  <option value="kids">Kids</option>
-                  <option value="juvenil">Juvenil</option>
-                  <option value="adulto">Adulto</option>
-                  <option value="master">Master</option>
-                  <option value="absoluto">Absoluto</option>
-                </select>
-              </Field>
-
-              {/* Peso por categoría — dinámico según género y categoría */}
-              <div style={{ gridColumn: form.categoria === 'absoluto' ? 'auto' : 'span 2' }}>
-                <Field label="Categoría de Peso" error={errors.categoria_peso}>
-                  {form.categoria === 'absoluto' ? (
-                    <div style={{ ...BASE_INPUT, color: '#8a9ab5', cursor: 'default' }}>
-                      Absoluto — Peso libre
+                    <div style={{ gridColumn: '1 / -1' }}>
+                      <Field label="Categoría de Peso" error={errors.categoria_peso}>
+                        {form.categoria === 'absoluto' ? (
+                          <div style={{ ...BASE_INPUT, color: '#8a9ab5', cursor: 'default', display: 'flex', alignItems: 'center' }}>
+                            Absoluto — Peso libre
+                          </div>
+                        ) : !weightOptions ? (
+                          <div style={{ ...BASE_INPUT, color: '#4a5a70', cursor: 'default', fontSize: '0.875rem', display: 'flex', alignItems: 'center' }}>
+                            Seleccioná género y categoría primero
+                          </div>
+                        ) : (
+                          <select name="categoria_peso" required value={form.categoria_peso} onChange={handleChange}
+                            style={{ ...iStyle('categoria_peso'), cursor: 'pointer' }} {...fp('categoria_peso')}>
+                            <option value="" disabled>Seleccioná tu categoría de peso</option>
+                            {weightOptions.map(opt => (
+                              <option key={opt.key} value={opt.key}>
+                                {opt.label} — {opt.range}
+                              </option>
+                            ))}
+                          </select>
+                        )}
+                      </Field>
                     </div>
-                  ) : !weightOptions ? (
-                    <div style={{ ...BASE_INPUT, color: '#8a9ab5', cursor: 'default', fontSize: '0.85rem' }}>
-                      Seleccioná género y categoría primero
+
+                  </div>
+
+                  {status === 'error' && (
+                    <div style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.35)', color: '#ef4444', padding: '12px 16px', fontFamily: 'var(--font-barlow), sans-serif', fontSize: '0.875rem', marginBottom: '20px', borderRadius: '2px' }}>
+                      {errorMessage}
                     </div>
-                  ) : (
-                    <select
-                      name="categoria_peso"
-                      required
-                      value={form.categoria_peso}
-                      onChange={handleChange}
-                      style={{ ...inputStyle('categoria_peso'), cursor: 'pointer' }}
-                      {...fp('categoria_peso')}
-                    >
-                      <option value="" disabled>Seleccioná categoría de peso</option>
-                      {weightOptions.map(opt => (
-                        <option key={opt.key} value={opt.key}>
-                          {opt.label} — {opt.range}
-                        </option>
-                      ))}
-                    </select>
                   )}
-                </Field>
+
+                  <StepNav step={step} onNext={nextStep} onPrev={prevStep} submitting={status === 'submitting'} isLastStep />
+                </div>
               </div>
 
             </div>
           </div>
-
-          {/* Error banner */}
-          {status === 'error' && (
-            <div style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.4)', color: '#ef4444', padding: '14px 18px', fontFamily: 'var(--font-barlow), sans-serif', fontSize: '0.9rem', marginBottom: '20px', borderRadius: '2px' }}>
-              {errorMessage}
-            </div>
-          )}
-
-          {/* Submit */}
-          <button
-            type="submit"
-            disabled={status === 'submitting'}
-            style={{
-              width:         '100%',
-              background:    status === 'submitting' ? 'rgba(201,162,39,0.5)' : '#c9a227',
-              color:         '#050810',
-              fontFamily:    'var(--font-barlow-condensed), sans-serif',
-              fontSize:      '1.1rem',
-              fontWeight:    900,
-              letterSpacing: '4px',
-              textTransform: 'uppercase',
-              border:        'none',
-              padding:       '20px',
-              borderRadius:  '2px',
-              cursor:        status === 'submitting' ? 'not-allowed' : 'pointer',
-              transition:    'background 0.2s',
-            }}
-          >
-            {status === 'submitting' ? 'ENVIANDO...' : 'CONFIRMAR INSCRIPCIÓN'}
-          </button>
-
         </form>
 
-        {/* Reglamento */}
-        <div style={{ marginTop: '48px', paddingTop: '32px', borderTop: '1px solid rgba(42,107,194,0.15)', textAlign: 'center' }}>
-          <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.68rem', fontWeight: 700, letterSpacing: '4px', textTransform: 'uppercase', color: '#8a9ab5', marginBottom: '12px' }}>
-            Reglamento
-          </div>
-          <p style={{ fontFamily: 'var(--font-barlow), sans-serif', fontSize: '0.88rem', color: '#8a9ab5', lineHeight: 1.7, marginBottom: '12px' }}>
-            El torneo se rige por el reglamento oficial de la IBJJF (International Brazilian Jiu-Jitsu Federation).
-          </p>
-          <a
-            href="https://ibjjf.com/rules/"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display:       'inline-flex',
-              alignItems:    'center',
-              gap:           '6px',
-              color:         '#c9a227',
-              fontFamily:    'var(--font-barlow-condensed), sans-serif',
-              fontSize:      '0.82rem',
-              fontWeight:    700,
-              letterSpacing: '2px',
-              textTransform: 'uppercase',
-              textDecoration: 'none',
-              border:        '1px solid rgba(201,162,39,0.3)',
-              padding:       '10px 20px',
-              borderRadius:  '2px',
-              transition:    'border-color 0.2s, color 0.2s',
-            }}
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-              <line x1="16" y1="13" x2="8" y2="13"/>
-              <line x1="16" y1="17" x2="8" y2="17"/>
-              <polyline points="10 9 9 9 8 9"/>
+        {/* ── Reglamento ── */}
+        <div style={{ marginTop: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '20px', flexWrap: 'wrap' }}>
+          <span style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.68rem', fontWeight: 700, letterSpacing: '3px', color: '#4a5a70', textTransform: 'uppercase' }}>
+            Reglamento oficial
+          </span>
+          <a href="https://ibjjf.com/rules/" target="_blank" rel="noopener noreferrer"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#8a9ab5', fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.78rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid rgba(42,107,194,0.2)', padding: '8px 16px', borderRadius: '2px', transition: 'color 0.2s, border-color 0.2s' }}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
             </svg>
-            Ver Reglamento IBJJF
+            IBJJF Rules
           </a>
         </div>
 
@@ -622,17 +549,246 @@ export default function InscripcionPage() {
   )
 }
 
-// ─── Field wrapper ─────────────────────────────────────────────────────────────
+// ─── Success Screen ───────────────────────────────────────────────────────────
 
-function Field({
-  label,
-  error,
-  children,
-}: {
-  label:    string
-  error?:   string
-  children: React.ReactNode
+function SuccessScreen({ data, countdown }: { data: FormFields; countdown: Countdown }) {
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const id = requestAnimationFrame(() => requestAnimationFrame(() => setVisible(true)))
+    return () => cancelAnimationFrame(id)
+  }, [])
+
+  const opts     = getWeightOptions(data.genero, data.categoria)
+  const wOpt     = opts?.find(o => o.key === data.categoria_peso)
+  const pesoLabel = data.categoria === 'absoluto' ? 'Absoluto' : (wOpt ? `${wOpt.label} ${wOpt.range}` : '—')
+
+  const pad = (n: number) => String(n).padStart(2, '0')
+  const cdStr = countdown.passed
+    ? '¡HOY ES EL DÍA!'
+    : `${countdown.d}D ${pad(countdown.h)}H ${pad(countdown.m)}M ${pad(countdown.s)}S`
+
+  const cap = (s: string) => s ? s.charAt(0).toUpperCase() + s.slice(1) : '—'
+
+  return (
+    <main style={{
+      minHeight:      '100vh',
+      background:     '#050810',
+      color:          '#f0f4ff',
+      display:        'flex',
+      alignItems:     'center',
+      justifyContent: 'center',
+      padding:        '48px 24px',
+      opacity:        visible ? 1 : 0,
+      transform:      visible ? 'translateY(0)' : 'translateY(28px)',
+      transition:     'opacity 0.65s ease, transform 0.65s ease',
+    }}>
+      <div style={{ maxWidth: '640px', width: '100%' }}>
+
+        {/* Checkmark */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '28px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '56px', height: '56px', border: '2px solid #c9a227', borderRadius: '2px' }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a227" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+        </div>
+
+        {/* Confirmed label */}
+        <div style={{ textAlign: 'center', fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '8px', textTransform: 'uppercase', color: '#c9a227', marginBottom: '8px' }}>
+          Inscripción Confirmada
+        </div>
+
+        {/* Athlete name */}
+        <h1 style={{ textAlign: 'center', fontFamily: 'var(--font-bebas-neue), sans-serif', fontSize: 'clamp(2.8rem, 9vw, 5.5rem)', letterSpacing: '4px', lineHeight: 0.9, margin: '0 0 8px' }}>
+          {data.nombre_completo.toUpperCase()}
+        </h1>
+        <div style={{ textAlign: 'center', fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.875rem', color: '#8a9ab5', letterSpacing: '2px', marginBottom: '28px' }}>
+          {data.academia}
+        </div>
+
+        {/* Gold divider */}
+        <div style={{ width: '80px', height: '2px', background: 'linear-gradient(90deg, transparent, #c9a227, transparent)', margin: '0 auto 32px' }} />
+
+        {/* Competitor badge */}
+        <div style={{
+          background:    'rgba(7,20,40,0.8)',
+          border:        '1px solid rgba(201,162,39,0.25)',
+          borderRadius:  '2px',
+          padding:       '28px 32px',
+          marginBottom:  '28px',
+          display:       'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))',
+          gap:           '24px',
+        }}>
+          {[
+            { label: 'Faixa',     value: cap(data.faja)     },
+            { label: 'División',  value: data.division === 'nogi' ? 'No-Gi' : cap(data.division) },
+            { label: 'Categoría', value: cap(data.categoria) },
+            { label: 'Peso',      value: pesoLabel           },
+          ].map(({ label, value }) => (
+            <div key={label} style={{ textAlign: 'center' }}>
+              <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.62rem', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#c9a227', marginBottom: '6px' }}>
+                {label}
+              </div>
+              <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '1rem', fontWeight: 600, color: '#f0f4ff', letterSpacing: '1px' }}>
+                {value}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Countdown to event */}
+        <div style={{ textAlign: 'center', marginBottom: '28px', padding: '20px', border: '1px solid rgba(42,107,194,0.2)', borderRadius: '2px' }}>
+          <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.62rem', fontWeight: 700, letterSpacing: '4px', textTransform: 'uppercase', color: '#8a9ab5', marginBottom: '8px' }}>
+            Faltan
+          </div>
+          <div style={{ fontFamily: 'var(--font-bebas-neue), sans-serif', fontSize: 'clamp(1.8rem, 6vw, 2.8rem)', letterSpacing: '4px', color: '#e8c14a', lineHeight: 1 }}>
+            {cdStr}
+          </div>
+          <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#8a9ab5', marginTop: '8px' }}>
+            30 DE MAYO · MALDONADO, URUGUAY
+          </div>
+        </div>
+
+        {/* Payment instructions */}
+        <div style={{ background: 'rgba(201,162,39,0.05)', border: '1px solid rgba(201,162,39,0.2)', padding: '24px 28px', marginBottom: '32px', borderRadius: '2px' }}>
+          <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '4px', textTransform: 'uppercase', color: '#c9a227', marginBottom: '12px' }}>
+            Confirmá tu lugar
+          </div>
+          <p style={{ fontFamily: 'var(--font-barlow), sans-serif', fontSize: '0.95rem', lineHeight: 1.8, color: '#d0d8e8', margin: 0 }}>
+            Realizá la transferencia de <strong style={{ color: '#c9a227' }}>USD 25</strong> indicando tu nombre completo. Una vez confirmado el pago, tu inscripción queda activa.
+          </p>
+        </div>
+
+        {/* Back link */}
+        <div style={{ textAlign: 'center' }}>
+          <a href="https://extremo-sur.netlify.app"
+            style={{ display: 'inline-block', border: '1px solid rgba(42,107,194,0.3)', color: '#8a9ab5', fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.82rem', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', textDecoration: 'none', padding: '12px 28px', borderRadius: '2px' }}>
+            ← Volver al inicio
+          </a>
+        </div>
+
+      </div>
+    </main>
+  )
+}
+
+// ─── Progress bar ─────────────────────────────────────────────────────────────
+
+const STEP_LABELS = ['Datos', 'Academia', 'Categoría']
+
+function ProgressBar({ step }: { step: number }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '32px', gap: '0' }}>
+      {STEP_LABELS.map((label, i) => {
+        const s       = i + 1
+        const done    = s < step
+        const current = s === step
+        return (
+          <div key={s} style={{ display: 'flex', alignItems: 'center' }}>
+            {i > 0 && (
+              <div style={{ width: '48px', height: '1px', background: done ? '#c9a227' : 'rgba(42,107,194,0.25)', transition: 'background 0.3s' }} />
+            )}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
+              <div style={{
+                width:      '32px',
+                height:     '32px',
+                borderRadius: '2px',
+                border:     `2px solid ${done || current ? '#c9a227' : 'rgba(42,107,194,0.3)'}`,
+                background: done ? '#c9a227' : current ? 'rgba(201,162,39,0.1)' : 'transparent',
+                display:    'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.3s',
+                flexShrink: 0,
+              }}>
+                {done ? (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#050810" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                ) : (
+                  <span style={{ fontFamily: 'var(--font-bebas-neue), sans-serif', fontSize: '0.9rem', color: current ? '#c9a227' : '#4a5a70', letterSpacing: '1px' }}>
+                    {s}
+                  </span>
+                )}
+              </div>
+              <span style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: done || current ? '#c9a227' : '#4a5a70', transition: 'color 0.3s', whiteSpace: 'nowrap' }}>
+                {label}
+              </span>
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+// ─── StepHeader ───────────────────────────────────────────────────────────────
+
+function StepHeader({ number, title, subtitle }: { number: string; title: string; subtitle: string }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', marginBottom: '32px', paddingBottom: '24px', borderBottom: '1px solid rgba(201,162,39,0.12)' }}>
+      <div style={{ fontFamily: 'var(--font-bebas-neue), sans-serif', fontSize: '3.5rem', color: 'rgba(201,162,39,0.15)', letterSpacing: '2px', lineHeight: 1, flexShrink: 0, marginTop: '-6px' }}>
+        {number}
+      </div>
+      <div>
+        <div style={{ fontFamily: 'var(--font-bebas-neue), sans-serif', fontSize: '1.6rem', letterSpacing: '3px', color: '#f0f4ff', lineHeight: 1, marginBottom: '4px' }}>
+          {title.toUpperCase()}
+        </div>
+        <div style={{ fontFamily: 'var(--font-barlow), sans-serif', fontSize: '0.82rem', color: '#8a9ab5' }}>
+          {subtitle}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ─── StepNav ─────────────────────────────────────────────────────────────────
+
+function StepNav({ step, onNext, onPrev, submitting, isLastStep = false }: {
+  step: number; onNext: () => void; onPrev: () => void; submitting: boolean; isLastStep?: boolean
 }) {
+  return (
+    <div style={{ display: 'flex', gap: '12px', marginTop: '8px' }}>
+      {step > 1 && (
+        <button type="button" onClick={onPrev}
+          style={{ flex: '0 0 auto', background: 'transparent', border: '1px solid rgba(42,107,194,0.3)', color: '#8a9ab5', fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.85rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', padding: '14px 20px', borderRadius: '2px', cursor: 'pointer' }}>
+          ← Volver
+        </button>
+      )}
+      {isLastStep ? (
+        <button type="submit" disabled={submitting}
+          style={{ flex: 1, background: submitting ? 'rgba(201,162,39,0.5)' : '#c9a227', color: '#050810', fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '1rem', fontWeight: 900, letterSpacing: '4px', textTransform: 'uppercase', border: 'none', padding: '16px', borderRadius: '2px', cursor: submitting ? 'not-allowed' : 'pointer', transition: 'background 0.2s' }}>
+          {submitting ? 'ENVIANDO...' : 'CONFIRMAR INSCRIPCIÓN'}
+        </button>
+      ) : (
+        <button type="button" onClick={onNext}
+          style={{ flex: 1, background: '#c9a227', color: '#050810', fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '1rem', fontWeight: 900, letterSpacing: '4px', textTransform: 'uppercase', border: 'none', padding: '16px', borderRadius: '2px', cursor: 'pointer', transition: 'background 0.2s' }}>
+          SIGUIENTE →
+        </button>
+      )}
+    </div>
+  )
+}
+
+// ─── StatPill + Divider ───────────────────────────────────────────────────────
+
+function StatPill({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '3px', padding: '10px 24px' }}>
+      {children}
+    </div>
+  )
+}
+
+function Divider() {
+  return <div style={{ width: '1px', alignSelf: 'stretch', background: 'rgba(201,162,39,0.15)', margin: '8px 0' }} />
+}
+
+// ─── Field wrapper ────────────────────────────────────────────────────────────
+
+function Field({ label, error, children }: { label: string; error?: string; children: React.ReactNode }) {
   return (
     <div>
       <label style={LABEL_STYLE}>{label}</label>
