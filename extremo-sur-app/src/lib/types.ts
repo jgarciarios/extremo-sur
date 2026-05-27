@@ -30,24 +30,19 @@ export interface Evento {
 export interface Inscripcion {
   id: string
   evento_id: string
+  nombre: string
   documento: string
-  competidor_nombre: string
-  competidor_apellido: string
-  competidor_email: string
-  competidor_telefono: string | null
+  email: string
+  telefono: string | null
   academia: string
   ciudad: string
-  pais: string
-  categoria: CategoriaTipo
-  division: DivisionTipo
   faja: FajaTipo | null
+  division: DivisionTipo
+  categoria: CategoriaTipo
   peso_kg: number
   estado: InscripcionEstado
   pagado: boolean
-  numero_bracket: number | null
   created_at: string
-  updated_at: string
-  // join
   evento?: Evento
 }
 

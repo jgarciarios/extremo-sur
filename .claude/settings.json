@@ -3,7 +3,8 @@
     "allow": [
       "Bash(cd \"/Users/juanignaciogarciarios/Desktop/Extremo Sur/extremo-sur-app\" && mkdir -p src/app/\\\\\\(public\\\\\\)/inscripcion src/app/\\\\\\(admin\\\\\\) src/lib/supabase src/types)",
       "Bash(npx tsc *)",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(git commit -m ' *)"
     ],
     "additionalDirectories": [
       "/Users/juanignaciogarciarios/Desktop/Extremo Sur/extremo-sur-app/src/app/(public)"
