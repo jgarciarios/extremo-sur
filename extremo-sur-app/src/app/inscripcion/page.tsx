@@ -248,7 +248,7 @@ export default function InscripcionPage() {
             </p>
           </div>
 
-          <a href="/" style={{ display: 'inline-block', border: '1px solid rgba(201,162,39,0.5)', color: '#c9a227', fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.9rem', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', textDecoration: 'none', padding: '14px 32px', borderRadius: '2px' }}>
+          <a href="https://extremo-sur.netlify.app" style={{ display: 'inline-block', border: '1px solid rgba(201,162,39,0.5)', color: '#c9a227', fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.9rem', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', textDecoration: 'none', padding: '14px 32px', borderRadius: '2px' }}>
             VOLVER AL INICIO
           </a>
 
@@ -288,13 +288,13 @@ export default function InscripcionPage() {
                 <input name="nombre_completo" type="text" required placeholder="Juan García" value={form.nombre_completo} onChange={handleChange} style={inputStyle('nombre_completo')} {...fp('nombre_completo')} />
               </Field>
               <Field label="CI / DNI" error={errors.documento}>
-                <input name="documento" type="text" required placeholder="1.234.567-8" value={form.documento} onChange={handleChange} style={inputStyle('documento')} {...fp('documento')} />
+                <input name="documento" type="text" required inputMode="numeric" pattern="[0-9]*" placeholder="1.234.567-8" value={form.documento} onChange={handleChange} onKeyDown={e => { if (!/[0-9]/.test(e.key) && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight'].includes(e.key)) e.preventDefault() }} style={inputStyle('documento')} {...fp('documento')} />
               </Field>
               <Field label="Email" error={errors.email}>
                 <input name="email" type="email" required placeholder="juan@email.com" value={form.email} onChange={handleChange} style={inputStyle('email')} {...fp('email')} />
               </Field>
               <Field label="Teléfono" error={errors.telefono}>
-                <input name="telefono" type="tel" required placeholder="+598 99 123 456" value={form.telefono} onChange={handleChange} style={inputStyle('telefono')} {...fp('telefono')} />
+                <input name="telefono" type="tel" required inputMode="numeric" pattern="[0-9]*" placeholder="+598 99 123 456" value={form.telefono} onChange={handleChange} onKeyDown={e => { if (!/[0-9]/.test(e.key) && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight'].includes(e.key)) e.preventDefault() }} style={inputStyle('telefono')} {...fp('telefono')} />
               </Field>
             </div>
           </div>
