@@ -40,6 +40,7 @@ export interface Inscripcion {
   division: DivisionTipo
   categoria: CategoriaTipo
   peso_kg: number
+  genero: string | null
   estado: InscripcionEstado
   pagado: boolean
   created_at: string

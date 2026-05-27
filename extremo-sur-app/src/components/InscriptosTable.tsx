@@ -113,12 +113,13 @@ export function InscriptosTable({ inscripciones }: { inscripciones: Inscripcion[
 
       {/* Table */}
       <div style={{ overflowX: 'auto', border: '1px solid rgba(42,107,194,0.15)', borderRadius: '2px' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '900px' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '1050px' }}>
           <thead>
             <tr style={{ background: 'rgba(7,20,40,0.8)' }}>
               <th style={TH}>Nombre</th>
               <th style={TH}>Academia</th>
-              <th style={TH}>Faja</th>
+              <th style={TH}>Faixa</th>
+              <th style={TH}>Género</th>
               <th style={TH}>División</th>
               <th style={TH}>Categoría</th>
               <th style={{ ...TH, textAlign: 'right' }}>Peso</th>
@@ -130,7 +131,7 @@ export function InscriptosTable({ inscripciones }: { inscripciones: Inscripcion[
           <tbody>
             {rows.length === 0 && (
               <tr>
-                <td colSpan={9} style={{ ...TD, textAlign: 'center', color: '#8a9ab5', padding: '40px' }}>
+                <td colSpan={10} style={{ ...TD, textAlign: 'center', color: '#8a9ab5', padding: '40px' }}>
                   Sin inscripciones aún.
                 </td>
               </tr>
@@ -148,6 +149,7 @@ export function InscriptosTable({ inscripciones }: { inscripciones: Inscripcion[
                 </td>
                 <td style={TD_GRAY}>{row.academia}</td>
                 <td style={TD_GRAY}>{capitalize(row.faja)}</td>
+                <td style={TD_GRAY}>{capitalize(row.genero)}</td>
                 <td style={TD_GRAY}>{row.division === 'nogi' ? 'No-Gi' : capitalize(row.division)}</td>
                 <td style={TD_GRAY}>{capitalize(row.categoria)}</td>
                 <td style={{ ...TD_GRAY, textAlign: 'right' }}>{row.peso_kg} kg</td>
