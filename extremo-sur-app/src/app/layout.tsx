@@ -24,6 +24,29 @@ const bebasNeue = Bebas_Neue({
 export const metadata: Metadata = {
   title: "Extremo Sur BJJ 2026",
   description: "Circuito 2026 de Brazilian Jiu Jitsu en Maldonado, Uruguay. Inscribite ahora.",
+  metadataBase: new URL("https://extremo-sur.vercel.app"),
+  openGraph: {
+    title:       "Extremo Sur BJJ 2026",
+    description: "Circuito 2026 de Brazilian Jiu Jitsu en Maldonado, Uruguay. 30 Mayo · 23 Agosto · 31 Octubre.",
+    url:         "https://extremo-sur.vercel.app",
+    siteName:    "Extremo Sur BJJ",
+    images: [
+      {
+        url:    "/og-image.jpg",
+        width:  1440,
+        height: 960,
+        alt:    "Extremo Sur BJJ 2026 — Circuito Maldonado, Uruguay",
+      },
+    ],
+    locale: "es_UY",
+    type:   "website",
+  },
+  twitter: {
+    card:        "summary_large_image",
+    title:       "Extremo Sur BJJ 2026",
+    description: "Circuito 2026 de Brazilian Jiu Jitsu en Maldonado, Uruguay.",
+    images:      ["/og-image.jpg"],
+  },
 }
 
 export default function RootLayout({
