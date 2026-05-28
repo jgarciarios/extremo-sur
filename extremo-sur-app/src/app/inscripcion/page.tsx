@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClient } from '@/lib/supabase/client'
 import type { FajaTipo, DivisionTipo, CategoriaTipo } from '@/lib/types'
 
 // ─── IBJJF Weight table ───────────────────────────────────────────────────────
@@ -245,35 +244,31 @@ export default function InscripcionPage() {
     setErrorMessage('')
 
     try {
-      const supabase = createClient()
-
-      const { data: eventos, error: eventoErr } = await supabase
-        .from('eventos').select('id').eq('activo', true)
-        .order('fecha', { ascending: true }).limit(1)
-
-      if (eventoErr) throw eventoErr
-      if (!eventos?.length) throw new Error('No hay eventos activos en este momento.')
-
       const opts   = getWeightOptions(form.genero, form.categoria)
       const wOpt   = opts?.find(o => o.key === form.categoria_peso)
       const pesoKg = form.categoria === 'absoluto' ? 999 : (wOpt?.max ?? 999)
 
-      const { error: insertErr } = await supabase.from('inscripciones').insert({
-        evento_id: eventos[0].id,
-        nombre:    form.nombre_completo.trim(),
-        documento: form.documento.trim(),
-        email:     form.email.trim().toLowerCase(),
-        telefono:  `${form.codigoArea} ${form.telefono.trim()}`,
-        academia:  form.academia.trim(),
-        ciudad:    form.ciudad_pais.trim(),
-        faja:      form.faja || null,
-        division:  form.division,
-        categoria: form.categoria,
-        peso_kg:   pesoKg,
-        genero:    form.genero,
+      const res = await fetch('/api/inscripcion', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nombre:    form.nombre_completo.trim(),
+          documento: form.documento.trim(),
+          email:     form.email.trim().toLowerCase(),
+          telefono:  `${form.codigoArea} ${form.telefono.trim()}`,
+          academia:  form.academia.trim(),
+          ciudad:    form.ciudad_pais.trim(),
+          faja:      form.faja || null,
+          division:  form.division,
+          categoria: form.categoria,
+          peso_kg:   pesoKg,
+          genero:    form.genero,
+          _trap:     '', // honeypot — siempre vacío en humanos
+        }),
       })
 
-      if (insertErr) throw insertErr
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Error inesperado.')
 
       setSuccessData({ ...form })
       setStatus('success')
