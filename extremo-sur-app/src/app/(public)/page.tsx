@@ -301,7 +301,7 @@ export default function LandingPage() {
         <div className="inscripcion-content">
           <div className="section-label">Unite al circuito</div>
           <h2>INSCRIBITE<span>AHORA</span></h2>
-          <div className="precio-badge">INSCRIPCIÓN: USD 25 · PRÓXIMA FECHA: 30 DE MAYO 2026</div>
+          <div className="precio-badge">PRÓXIMA FECHA: 30 DE MAYO 2026</div>
           <p>Completá el formulario con tus datos, categoría y academia. Los cupos son limitados — no te quedés afuera.</p>
           {/* ⚠️  href="/inscripcion" — misma URL, sin target="_blank" */}
           <a href="/inscripcion" className="btn-primary">COMPLETAR INSCRIPCIÓN</a>
