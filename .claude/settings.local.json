@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git init *)",
+      "Bash(git remote *)",
+      "Bash(git rm *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // .tool_response.filePath // \"\"' | { read -r f; case \"$f\" in *index.html) printf '{\"systemMessage\":\"index.html modificado — acordate de hacer el deploy:\\n  git add . && git commit -m \\\\\"[descripción]\\\\\" && git push\"}';; esac; } 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  }
+}
