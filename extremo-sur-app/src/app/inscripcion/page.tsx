@@ -1,7 +1,160 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import type { FajaTipo, DivisionTipo, CategoriaTipo } from '@/lib/types'
+
+// ─── Ciudad autocomplete ──────────────────────────────────────────────────────
+
+const CIUDADES = [
+  // Uruguay
+  'Montevideo, Uruguay', 'Maldonado, Uruguay', 'Punta del Este, Uruguay',
+  'Canelones, Uruguay', 'San José, Uruguay', 'Colonia del Sacramento, Uruguay',
+  'Salto, Uruguay', 'Paysandú, Uruguay', 'Rivera, Uruguay', 'Melo, Uruguay',
+  'Rocha, Uruguay', 'Tacuarembó, Uruguay', 'Durazno, Uruguay', 'Trinidad, Uruguay',
+  'Mercedes, Uruguay', 'Artigas, Uruguay', 'Minas, Uruguay', 'Treinta y Tres, Uruguay',
+  // Argentina
+  'Buenos Aires, Argentina', 'Córdoba, Argentina', 'Rosario, Argentina',
+  'Mendoza, Argentina', 'La Plata, Argentina', 'Mar del Plata, Argentina',
+  'San Miguel de Tucumán, Argentina', 'Salta, Argentina', 'Santa Fe, Argentina',
+  'San Juan, Argentina', 'Resistencia, Argentina', 'Corrientes, Argentina',
+  'Posadas, Argentina', 'Neuquén, Argentina', 'Bahía Blanca, Argentina',
+  'San Luis, Argentina', 'Paraná, Argentina', 'Formosa, Argentina',
+  'San Salvador de Jujuy, Argentina', 'Santiago del Estero, Argentina',
+  'Catamarca, Argentina', 'La Rioja, Argentina', 'Rawson, Argentina',
+  // Brasil
+  'São Paulo, Brasil', 'Rio de Janeiro, Brasil', 'Brasília, Brasil',
+  'Salvador, Brasil', 'Fortaleza, Brasil', 'Belo Horizonte, Brasil',
+  'Manaus, Brasil', 'Curitiba, Brasil', 'Recife, Brasil', 'Porto Alegre, Brasil',
+  'Belém, Brasil', 'Goiânia, Brasil', 'Florianópolis, Brasil', 'Natal, Brasil',
+  'Campo Grande, Brasil', 'Maceió, Brasil', 'João Pessoa, Brasil',
+  'Teresina, Brasil', 'São Luís, Brasil', 'Cuiabá, Brasil',
+  // Paraguay
+  'Asunción, Paraguay', 'Ciudad del Este, Paraguay', 'San Lorenzo, Paraguay',
+  'Luque, Paraguay', 'Capiatá, Paraguay', 'Lambaré, Paraguay',
+  'Fernando de la Mora, Paraguay', 'Encarnación, Paraguay',
+  // Chile
+  'Santiago, Chile', 'Valparaíso, Chile', 'Concepción, Chile',
+  'La Serena, Chile', 'Antofagasta, Chile', 'Temuco, Chile',
+  'Rancagua, Chile', 'Talca, Chile', 'Arica, Chile', 'Iquique, Chile',
+  // Bolivia
+  'La Paz, Bolivia', 'Santa Cruz de la Sierra, Bolivia', 'Cochabamba, Bolivia',
+  'Sucre, Bolivia', 'Oruro, Bolivia', 'Potosí, Bolivia',
+  // Perú
+  'Lima, Perú', 'Arequipa, Perú', 'Trujillo, Perú', 'Chiclayo, Perú',
+  'Cusco, Perú', 'Iquitos, Perú',
+  // Colombia
+  'Bogotá, Colombia', 'Medellín, Colombia', 'Cali, Colombia',
+  'Barranquilla, Colombia', 'Cartagena, Colombia', 'Cúcuta, Colombia',
+  // Ecuador
+  'Quito, Ecuador', 'Guayaquil, Ecuador', 'Cuenca, Ecuador',
+  // Venezuela
+  'Caracas, Venezuela', 'Maracaibo, Venezuela', 'Valencia, Venezuela',
+  // España
+  'Madrid, España', 'Barcelona, España', 'Valencia, España',
+  'Sevilla, España', 'Zaragoza, España', 'Málaga, España',
+  // México
+  'Ciudad de México, México', 'Guadalajara, México', 'Monterrey, México',
+  'Tijuana, México', 'Cancún, México',
+  // Estados Unidos
+  'Miami, Estados Unidos', 'Nueva York, Estados Unidos', 'Los Ángeles, Estados Unidos',
+  'Chicago, Estados Unidos', 'Houston, Estados Unidos',
+]
+
+type CiudadAutocompleteProps = {
+  value:    string
+  onChange: (val: string) => void
+  style:    React.CSSProperties
+  onFocus:  () => void
+  onBlur:   () => void
+  error:    boolean
+}
+
+function CiudadAutocomplete({ value, onChange, style, onFocus, onBlur, error }: CiudadAutocompleteProps) {
+  const [open,    setOpen]    = useState(false)
+  const [hiIdx,   setHiIdx]   = useState(0)
+  const containerRef          = useRef<HTMLDivElement>(null)
+
+  const matches = value.trim().length >= 2
+    ? CIUDADES.filter(c => c.toLowerCase().includes(value.toLowerCase())).slice(0, 8)
+    : []
+
+  // Cerrar si click fuera
+  useEffect(() => {
+    function handler(e: MouseEvent) {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
+  function handleKeyDown(e: React.KeyboardEvent) {
+    if (!open || matches.length === 0) return
+    if (e.key === 'ArrowDown')  { e.preventDefault(); setHiIdx(i => Math.min(i + 1, matches.length - 1)) }
+    if (e.key === 'ArrowUp')    { e.preventDefault(); setHiIdx(i => Math.max(i - 1, 0)) }
+    if (e.key === 'Enter')      { e.preventDefault(); select(matches[hiIdx]) }
+    if (e.key === 'Escape')     setOpen(false)
+  }
+
+  function select(city: string) {
+    onChange(city)
+    setOpen(false)
+  }
+
+  return (
+    <div ref={containerRef} style={{ position: 'relative' }}>
+      <input
+        type="text"
+        autoComplete="off"
+        placeholder="Montevideo, Uruguay"
+        value={value}
+        onChange={e => { onChange(e.target.value); setOpen(true); setHiIdx(0) }}
+        onFocus={() => { onFocus(); setOpen(true) }}
+        onBlur={onBlur}
+        onKeyDown={handleKeyDown}
+        style={style}
+      />
+      {open && matches.length > 0 && (
+        <ul style={{
+          position:       'absolute',
+          top:            'calc(100% + 4px)',
+          left:           0,
+          right:          0,
+          zIndex:         50,
+          background:     '#071428',
+          border:         `1px solid ${error ? '#ef4444' : 'rgba(201,162,39,0.35)'}`,
+          borderRadius:   '2px',
+          listStyle:      'none',
+          margin:         0,
+          padding:        '4px 0',
+          maxHeight:      '220px',
+          overflowY:      'auto',
+          boxShadow:      '0 8px 32px rgba(0,0,0,0.6)',
+        }}>
+          {matches.map((city, i) => (
+            <li
+              key={city}
+              onMouseDown={e => { e.preventDefault(); select(city) }}
+              style={{
+                padding:    '10px 16px',
+                cursor:     'pointer',
+                fontFamily: 'var(--font-barlow), sans-serif',
+                fontSize:   '0.9rem',
+                color:      i === hiIdx ? '#c9a227' : '#f0f4ff',
+                background: i === hiIdx ? 'rgba(201,162,39,0.08)' : 'transparent',
+                transition: 'background 0.1s',
+              }}
+              onMouseEnter={() => setHiIdx(i)}
+            >
+              {city}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
 
 // ─── IBJJF Weight table ───────────────────────────────────────────────────────
 
@@ -427,9 +580,17 @@ export default function InscripcionPage() {
                         style={iStyle('academia')} {...fp('academia')} />
                     </Field>
                     <Field label="Ciudad / País" error={errors.ciudad_pais}>
-                      <input name="ciudad_pais" type="text" required placeholder="Montevideo, Uruguay"
-                        value={form.ciudad_pais} onChange={handleChange}
-                        style={iStyle('ciudad_pais')} {...fp('ciudad_pais')} />
+                      <CiudadAutocomplete
+                        value={form.ciudad_pais}
+                        onChange={val => {
+                          setForm(prev => ({ ...prev, ciudad_pais: val }))
+                          if (errors.ciudad_pais) setErrors(prev => ({ ...prev, ciudad_pais: undefined }))
+                        }}
+                        style={iStyle('ciudad_pais')}
+                        onFocus={() => setFocused('ciudad_pais')}
+                        onBlur={() => setFocused(null)}
+                        error={!!errors.ciudad_pais}
+                      />
                     </Field>
                   </div>
                   <StepNav step={step} onNext={nextStep} onPrev={prevStep} submitting={false} />
