@@ -28,7 +28,7 @@ nav {
   transition: all 0.3s ease;
 }
 nav.scrolled { padding: 10px 48px; border-bottom-color: rgba(201,162,39,0.4); }
-.nav-logo { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: 3px; color: var(--gold); }
+.nav-logo { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: 3px; color: var(--gold); text-decoration: none; cursor: pointer; }
 .nav-links { display: flex; gap: 32px; list-style: none; }
 .nav-links a { font-family: var(--font-heading); font-weight: 600; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); text-decoration: none; transition: color 0.2s; }
 .nav-links a:hover { color: var(--gold); }

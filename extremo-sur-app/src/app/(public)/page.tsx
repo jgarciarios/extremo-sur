@@ -127,9 +127,9 @@ export default function LandingPage() {
 
       {/* ── NAV ─────────────────────────────────────────────────────────── */}
       <nav className={scrolled ? 'scrolled' : ''}>
-        <div className="nav-logo">
+        <a href="/" className="nav-logo">
           <img src="/assets/img/logo.jpeg" alt="Extremo Sur BJJ" style={{ height: 48, width: 'auto', objectFit: 'contain' }} />
-        </div>
+        </a>
         <button
           className={`hamburger${menuOpen ? ' open' : ''}`}
           aria-label="Abrir menú"
