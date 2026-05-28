@@ -813,13 +813,13 @@ function SuccessScreen({ data, countdown }: { data: FormFields; countdown: Count
             Confirmá tu lugar
           </div>
           <p style={{ fontFamily: 'var(--font-barlow), sans-serif', fontSize: '0.95rem', lineHeight: 1.8, color: '#d0d8e8', margin: 0 }}>
-            Realizá la transferencia de <strong style={{ color: '#c9a227' }}>USD 25</strong> indicando tu nombre completo. Una vez confirmado el pago, tu inscripción queda activa.
+            Realizá la transferencia indicando tu nombre completo. Una vez confirmado el pago, tu inscripción queda activa. Ricardo te va a contactar con los detalles del pago por WhatsApp.
           </p>
         </div>
 
         {/* Back link */}
         <div style={{ textAlign: 'center' }}>
-          <a href="https://extremo-sur.netlify.app"
+          <a href="/"
             style={{ display: 'inline-block', border: '1px solid rgba(42,107,194,0.3)', color: '#8a9ab5', fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.82rem', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', textDecoration: 'none', padding: '12px 28px', borderRadius: '2px' }}>
             ← Volver al inicio
           </a>
