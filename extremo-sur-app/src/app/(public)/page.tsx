@@ -73,6 +73,17 @@ export default function LandingPage() {
     return () => window.removeEventListener('scroll', h)
   }, [])
 
+  // Scroll reveal
+  useEffect(() => {
+    const els = document.querySelectorAll('.reveal, .reveal-left')
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target) } }),
+      { threshold: 0.12 }
+    )
+    els.forEach(el => obs.observe(el))
+    return () => obs.disconnect()
+  }, [])
+
   // Hero slideshow
   useEffect(() => {
     const id = setInterval(() => setHeroSlide(s => (s + 1) % FOTOS.length), 3800)
@@ -186,8 +197,8 @@ export default function LandingPage() {
 
       {/* ── FECHAS ──────────────────────────────────────────────────────── */}
       <section className="fechas line-accent" id="fechas">
-        <div className="section-label">Calendario Oficial</div>
-        <div className="section-title">FECHAS 2026</div>
+        <div className="section-label reveal">Calendario Oficial</div>
+        <div className="section-title reveal reveal-delay-1">FECHAS 2026</div>
         <div className="fechas-grid">
           <div className="fecha-card">
             <div className="fecha-num">30</div>
@@ -210,8 +221,8 @@ export default function LandingPage() {
 
       {/* ── VENUE ───────────────────────────────────────────────────────── */}
       <section className="venue line-accent" id="venue">
-        <div className="section-label">El escenario</div>
-        <div className="section-title">DÓNDE COMPETIMOS</div>
+        <div className="section-label reveal">El escenario</div>
+        <div className="section-title reveal reveal-delay-1">DÓNDE COMPETIMOS</div>
         <div className="venue-card">
           <div className="venue-pin">
             <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#c9a227" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -231,8 +242,8 @@ export default function LandingPage() {
       <section className="historia" id="historia">
         <div className="historia-inner">
           <div className="historia-text">
-            <div className="section-label">Nuestra historia</div>
-            <h2>AÑOS DE <em>COMPETENCIA REAL</em></h2>
+            <div className="section-label reveal-left">Nuestra historia</div>
+            <h2 className="reveal-left reveal-delay-1">AÑOS DE <em>COMPETENCIA REAL</em></h2>
             <p>Extremo Sur BJJ nació en 2019 en Maldonado con una visión clara: llevar la competencia de Brazilian Jiu Jitsu al más alto nivel en el sur del continente.</p>
             <p>Año tras año, el torneo crece en participantes, academias y nivel técnico, consolidándose como uno de los eventos de referencia en la región.</p>
             <p>En 2026, el circuito incluye por primera vez una fecha oficial del AJP Uruguay, marcando un hito histórico para el BJJ regional.</p>
@@ -248,8 +259,8 @@ export default function LandingPage() {
 
       {/* ── CATEGORÍAS ──────────────────────────────────────────────────── */}
       <section className="categorias line-accent" id="categorias">
-        <div className="section-label">Competencia</div>
-        <div className="section-title">CATEGORÍAS</div>
+        <div className="section-label reveal">Competencia</div>
+        <div className="section-title reveal reveal-delay-1">CATEGORÍAS</div>
         <div className="categorias-grid">
           <div className="cat-card"><span className="cat-icon">I</span><div className="cat-name">Kids</div><div className="cat-desc">Categorías infantiles por edad y peso</div></div>
           <div className="cat-card"><span className="cat-icon">II</span><div className="cat-name">Juvenil</div><div className="cat-desc">División para competidores jóvenes</div></div>
@@ -266,8 +277,8 @@ export default function LandingPage() {
 
       {/* ── GALERÍA ─────────────────────────────────────────────────────── */}
       <section className="galeria" id="galeria">
-        <div className="section-label">Momentos</div>
-        <div className="section-title">GALERÍA</div>
+        <div className="section-label reveal">Momentos</div>
+        <div className="section-title reveal reveal-delay-1">GALERÍA</div>
         <div style={{ position: 'relative', marginBottom: 40 }}>
           <div className="swiper galeria-swiper">
             <div className="swiper-wrapper">
@@ -302,8 +313,8 @@ export default function LandingPage() {
       {/* ── CRONOGRAMA ──────────────────────────────────────────────────── */}
       <section style={{ background: '#071428', padding: '100px 24px', borderTop: '1px solid rgba(201,162,39,0.15)' }} id="cronograma">
         <div style={{ maxWidth: '780px', margin: '0 auto' }}>
-          <div className="section-label">30 de Mayo 2026 · Maldonado</div>
-          <div className="section-title">CRONOGRAMA</div>
+          <div className="section-label reveal">30 de Mayo 2026 · Maldonado</div>
+          <div className="section-title reveal reveal-delay-1">CRONOGRAMA</div>
 
           {(() => {
             const bloques = [
@@ -434,8 +445,8 @@ export default function LandingPage() {
       {/* ── REGLAMENTO ──────────────────────────────────────────────────── */}
       <section style={{ background: '#050810', padding: '100px 24px', borderTop: '1px solid rgba(42,107,194,0.15)' }} id="reglamento">
         <div style={{ maxWidth: '860px', margin: '0 auto' }}>
-          <div className="section-label">No-Gi · 1° Etapa 2026</div>
-          <div className="section-title">REGLAMENTO</div>
+          <div className="section-label reveal">No-Gi · 1° Etapa 2026</div>
+          <div className="section-title reveal reveal-delay-1">REGLAMENTO</div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px', marginTop: '48px' }}>
 
@@ -530,8 +541,8 @@ export default function LandingPage() {
 
       {/* ── SPONSORS ────────────────────────────────────────────────────── */}
       <section className="sponsors" id="sponsors">
-        <div className="section-label">Apoyan el circuito</div>
-        <div className="section-title">NOS ACOMPAÑAN</div>
+        <div className="section-label reveal">Apoyan el circuito</div>
+        <div className="section-title reveal reveal-delay-1">NOS ACOMPAÑAN</div>
         <div className="sponsors-featured">
           <div className="sponsor-card-featured">
             <img className="sp-logo" src="/assets/sponsors/ega.png" alt="EGA" />
