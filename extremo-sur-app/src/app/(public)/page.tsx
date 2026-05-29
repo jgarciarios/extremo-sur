@@ -154,8 +154,6 @@ export default function LandingPage() {
           <li><a href="#venue"       onClick={closeMenu}>Venue</a></li>
           <li><a href="#historia"    onClick={closeMenu}>Historia</a></li>
           <li><a href="#categorias"  onClick={closeMenu}>Categorías</a></li>
-          <li><a href="#cronograma"  onClick={closeMenu}>Cronograma</a></li>
-          <li><a href="#reglamento"  onClick={closeMenu}>Reglamento</a></li>
           <li><a href="#galeria"     onClick={closeMenu}>Galería</a></li>
           <li><a href="/inscriptos"  onClick={closeMenu}>Inscriptos</a></li>
           <li><a href="#inscripcion" className="nav-cta" onClick={closeMenu}>Inscribite</a></li>
@@ -200,22 +198,25 @@ export default function LandingPage() {
         <div className="section-label reveal">Calendario Oficial</div>
         <div className="section-title reveal reveal-delay-1">FECHAS 2026</div>
         <div className="fechas-grid">
-          <div className="fecha-card">
+          <a href="/etapa/primera-etapa" className="fecha-card" style={{ textDecoration: 'none', cursor: 'pointer' }}>
             <div className="fecha-num">30</div>
             <div className="fecha-mes">Mayo</div>
             <div className="fecha-etapa">1° Etapa · Circuito Extremo Sur</div>
-          </div>
-          <div className="fecha-card gold">
+            <div style={{ marginTop: '12px', fontFamily: 'var(--font-barlow-condensed)', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '2px', color: '#22c55e' }}>VER DETALLE →</div>
+          </a>
+          <a href="/etapa/ajp-uruguay" className="fecha-card gold" style={{ textDecoration: 'none', cursor: 'pointer' }}>
             <div className="ajp-tag">AJP URUGUAY</div>
             <div className="fecha-num">23</div>
             <div className="fecha-mes">Agosto</div>
             <div className="fecha-etapa">Evento Internacional Especial</div>
-          </div>
-          <div className="fecha-card">
+            <div style={{ marginTop: '12px', fontFamily: 'var(--font-barlow-condensed)', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '2px', color: '#c9a227' }}>VER DETALLE →</div>
+          </a>
+          <a href="/etapa/segunda-etapa" className="fecha-card" style={{ textDecoration: 'none', cursor: 'pointer' }}>
             <div className="fecha-num">31</div>
             <div className="fecha-mes">Octubre</div>
             <div className="fecha-etapa">2° Etapa · Circuito Extremo Sur</div>
-          </div>
+            <div style={{ marginTop: '12px', fontFamily: 'var(--font-barlow-condensed)', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '2px', color: '#8a9ab5' }}>VER DETALLE →</div>
+          </a>
         </div>
       </section>
 
@@ -310,222 +311,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── CRONOGRAMA ──────────────────────────────────────────────────── */}
-      <section style={{ background: '#071428', padding: '100px 24px', borderTop: '1px solid rgba(201,162,39,0.15)' }} id="cronograma">
-        <div style={{ maxWidth: '780px', margin: '0 auto' }}>
-          <div className="section-label reveal">30 de Mayo 2026 · Maldonado</div>
-          <div className="section-title reveal reveal-delay-1">CRONOGRAMA</div>
 
-          {(() => {
-            const bloques = [
-              {
-                titulo: 'APERTURA',
-                color: '#c9a227',
-                items: [
-                  { hora: '08:30', desc: 'Apertura de los portones' },
-                ]
-              },
-              {
-                titulo: 'NO-GI — MAÑANA',
-                color: '#2a6bc2',
-                items: [
-                  { hora: '09:00', desc: 'Pesaje — Avanzados (marrón y negro) adulto y master' },
-                  { hora: '09:30', desc: 'Inicio de luchas — Avanzados (marrón y negro) adulto y master' },
-                  { hora: '09:30', desc: 'Pesaje — Blancos masculino adulto y master' },
-                  { hora: '09:50', desc: 'Inicio de luchas — Blanco masculino adulto y master' },
-                  { hora: '10:30', desc: 'Pesaje — Infanto juvenil, juvenil y todas las categorías femenino' },
-                  { hora: '11:15', desc: 'Inicio de luchas — Infanto juvenil, juvenil y femenino' },
-                  { hora: '11:20', desc: 'Pesaje — Intermedio masculino (azul, violeta) adulto y master' },
-                  { hora: '11:45', desc: 'Inicio de luchas — Intermedio masculino (azul, violeta) adulto y master' },
-                ]
-              },
-              {
-                titulo: 'GI (KIMONO) — MEDIODÍA',
-                color: '#2a6bc2',
-                items: [
-                  { hora: '12:15', desc: 'Pesaje — Cinturón marrón y negro masculino' },
-                  { hora: '12:30', desc: 'Inicio de luchas — Marrón y negro masculino' },
-                  { hora: '12:40', desc: 'Pesaje — Blanco pluma, pena y leve adulto y master' },
-                  { hora: '13:00', desc: 'Inicio de luchas — Blanco pluma, pena y leve adulto y master' },
-                ]
-              },
-              {
-                titulo: 'KIDS',
-                color: '#e8c14a',
-                items: [
-                  { hora: '13:00', desc: 'Pesaje de los niños y organización (en colaboración con los profesores)' },
-                  { hora: '13:30', desc: 'Luchas de los niños (en colaboración con los profesores)' },
-                ]
-              },
-              {
-                titulo: 'GI (KIMONO) — TARDE',
-                color: '#2a6bc2',
-                items: [
-                  { hora: '14:10', desc: 'Pesaje — Blanco medio, medio pesado, pesado y pesadísimo adulto y master' },
-                  { hora: '14:30', desc: 'Inicio de luchas — Blanco medio, medio pesado, pesado y pesadísimo' },
-                  { hora: '15:15', desc: 'Pesaje — Infanto juvenil, juvenil y femenino (todas las categorías)' },
-                  { hora: '15:30', desc: 'Inicio de luchas — Femenino e infanto juvenil' },
-                  { hora: '15:45', desc: 'Pesaje — Cinturón azul adulto y master' },
-                  { hora: '16:50', desc: 'Inicio de luchas — Cinturón azul adulto y master' },
-                  { hora: '17:30', desc: 'Pesaje — Cinturón violeta adulto y master' },
-                  { hora: '17:50', desc: 'Inicio de luchas — Cinturón violeta adulto y master' },
-                ]
-              },
-              {
-                titulo: 'ABSOLUTOS',
-                color: '#c9a227',
-                items: [
-                  { hora: '16:00', desc: 'Cinturón blanco adulto y master — pasar por mesa de control para confirmar asistencia al absoluto', highlight: true },
-                  { hora: '16:00', desc: 'Categorías femenino, infanto juvenil y juvenil — confirmar asistencia al absoluto', highlight: true },
-                  { hora: '16:00', desc: 'Cinturones marrón y negro — pasar por mesa de control para confirmar asistencia', highlight: true },
-                  { hora: '17:30', desc: 'Cinturón azul adulto y master — confirmar asistencia al absoluto', highlight: true },
-                  { hora: '17:30', desc: 'Cinturón violeta — confirmar asistencia al absoluto', highlight: true },
-                  { hora: '18:20', desc: 'Inicio de todos los absolutos — blancos, azules, violetas, marrón y negro adulto y master' },
-                ]
-              },
-            ]
-
-            return bloques.map((bloque, bi) => (
-              <div key={bi} style={{ marginBottom: '40px' }}>
-                <div style={{
-                  fontFamily:    'var(--font-barlow-condensed), sans-serif',
-                  fontSize:      '0.65rem',
-                  fontWeight:    700,
-                  letterSpacing: '4px',
-                  textTransform: 'uppercase',
-                  color:         bloque.color,
-                  marginBottom:  '12px',
-                  paddingBottom: '8px',
-                  borderBottom:  `1px solid ${bloque.color}30`,
-                }}>
-                  {bloque.titulo}
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                  {bloque.items.map((item, ii) => (
-                    <div key={ii} style={{
-                      display:    'grid',
-                      gridTemplateColumns: '72px 1fr',
-                      gap:        '16px',
-                      padding:    '10px 14px',
-                      background: item.highlight
-                        ? 'rgba(201,162,39,0.07)'
-                        : ii % 2 === 0 ? 'rgba(5,8,16,0.5)' : 'rgba(13,33,68,0.2)',
-                      borderLeft: item.highlight ? '3px solid #c9a227' : '3px solid transparent',
-                      borderRadius: '1px',
-                    }}>
-                      <div style={{
-                        fontFamily:  'var(--font-bebas-neue), sans-serif',
-                        fontSize:    '1.1rem',
-                        color:       item.highlight ? '#c9a227' : bloque.color,
-                        lineHeight:  1.2,
-                        letterSpacing: '1px',
-                        alignSelf:   'start',
-                        paddingTop:  '1px',
-                      }}>
-                        {item.hora}
-                      </div>
-                      <div style={{
-                        fontFamily: 'var(--font-barlow), sans-serif',
-                        fontSize:   '0.88rem',
-                        color:      item.highlight ? '#e8c14a' : '#d0d8e8',
-                        lineHeight: 1.5,
-                        fontWeight: item.highlight ? 500 : 400,
-                      }}>
-                        {item.desc}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))
-          })()}
-        </div>
-      </section>
-
-      {/* ── REGLAMENTO ──────────────────────────────────────────────────── */}
-      <section style={{ background: '#050810', padding: '100px 24px', borderTop: '1px solid rgba(42,107,194,0.15)' }} id="reglamento">
-        <div style={{ maxWidth: '860px', margin: '0 auto' }}>
-          <div className="section-label reveal">No-Gi · 1° Etapa 2026</div>
-          <div className="section-title reveal reveal-delay-1">REGLAMENTO</div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px', marginTop: '48px' }}>
-
-            {/* Camiseta */}
-            <div style={{ background: 'rgba(7,20,40,0.8)', border: '1px solid rgba(42,107,194,0.2)', borderRadius: '2px', padding: '28px' }}>
-              <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '4px', textTransform: 'uppercase', color: '#2a6bc2', marginBottom: '12px' }}>
-                Camiseta
-              </div>
-              <div style={{ fontFamily: 'var(--font-bebas-neue), sans-serif', fontSize: '1.6rem', letterSpacing: '2px', marginBottom: '16px', lineHeight: 1 }}>
-                OBLIGATORIO USAR CAMISETA
-              </div>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                {[
-                  'Material elástico',
-                  'Largo que cubra todo el torso',
-                  'Color: negro, blanco, o negro y blanco con al menos 10% del color de graduación',
-                  'También se permiten camisetas 100% del color de graduación',
-                  'Cinturones negros: se acepta una pequeña área roja que no recaracterice el color',
-                ].map((r, i) => (
-                  <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-                    <span style={{ color: '#2a6bc2', fontWeight: 700, flexShrink: 0, marginTop: '1px' }}>·</span>
-                    <span style={{ fontFamily: 'var(--font-barlow), sans-serif', fontSize: '0.85rem', color: '#d0d8e8', lineHeight: 1.5 }}>{r}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Shorts */}
-            <div style={{ background: 'rgba(7,20,40,0.8)', border: '1px solid rgba(42,107,194,0.2)', borderRadius: '2px', padding: '28px' }}>
-              <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '4px', textTransform: 'uppercase', color: '#2a6bc2', marginBottom: '12px' }}>
-                Shorts
-              </div>
-              <div style={{ fontFamily: 'var(--font-bebas-neue), sans-serif', fontSize: '1.6rem', letterSpacing: '2px', marginBottom: '16px', lineHeight: 1 }}>
-                TEJIDO COMPLETAMENTE NEGRO
-              </div>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                {[
-                  'Largo: entre la mitad del muslo y la rodilla',
-                  'No más de 15cm por encima de las rodillas, no por debajo',
-                  'Detalles de cualquier color',
-                  'Logotipos de cualquier color y en cualquier lugar',
-                  'Se permiten calzas negras, blancas o blanco y negro por debajo',
-                ].map((r, i) => (
-                  <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-                    <span style={{ color: '#2a6bc2', fontWeight: 700, flexShrink: 0, marginTop: '1px' }}>·</span>
-                    <span style={{ fontFamily: 'var(--font-barlow), sans-serif', fontSize: '0.85rem', color: '#d0d8e8', lineHeight: 1.5 }}>{r}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-          </div>
-
-          {/* Ejemplos por faja */}
-          <div style={{ marginTop: '32px', background: 'rgba(201,162,39,0.05)', border: '1px solid rgba(201,162,39,0.2)', borderRadius: '2px', padding: '24px 28px' }}>
-            <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '4px', textTransform: 'uppercase', color: '#c9a227', marginBottom: '16px' }}>
-              Ejemplos por graduación
-            </div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
-              {[
-                { faja: 'Blanca', color: '#f0f4ff', ejemplo: 'Camiseta blanca, negra o negro/blanca' },
-                { faja: 'Azul',   color: '#3b82f6', ejemplo: 'Camiseta azul, negra o negro con 10% azul' },
-                { faja: 'Morada', color: '#a855f7', ejemplo: 'Camiseta morada, negra o negro con 10% morado' },
-                { faja: 'Marrón', color: '#b45309', ejemplo: 'Camiseta marrón, negra o negro con 10% marrón' },
-                { faja: 'Negra',  color: '#9ca3af', ejemplo: 'Camiseta negra — se acepta pequeña área roja' },
-              ].map(({ faja, color, ejemplo }) => (
-                <div key={faja} style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'rgba(5,8,16,0.5)', border: `1px solid ${color}30`, borderRadius: '2px', padding: '10px 16px', flex: '1 1 200px' }}>
-                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: color, flexShrink: 0 }} />
-                  <div>
-                    <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color }} >{faja}</div>
-                    <div style={{ fontFamily: 'var(--font-barlow), sans-serif', fontSize: '0.78rem', color: '#8a9ab5', marginTop: '2px' }}>{ejemplo}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-        </div>
-      </section>
 
       {/* ── INSCRIPCIÓN CTA ─────────────────────────────────────────────── */}
       <section className="inscripcion line-accent" id="inscripcion">
