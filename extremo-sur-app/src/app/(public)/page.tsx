@@ -144,6 +144,7 @@ export default function LandingPage() {
           <li><a href="#historia"    onClick={closeMenu}>Historia</a></li>
           <li><a href="#categorias"  onClick={closeMenu}>Categorías</a></li>
           <li><a href="#cronograma"  onClick={closeMenu}>Cronograma</a></li>
+          <li><a href="#reglamento"  onClick={closeMenu}>Reglamento</a></li>
           <li><a href="#galeria"     onClick={closeMenu}>Galería</a></li>
           <li><a href="/inscriptos"  onClick={closeMenu}>Inscriptos</a></li>
           <li><a href="#inscripcion" className="nav-cta" onClick={closeMenu}>Inscribite</a></li>
@@ -427,6 +428,91 @@ export default function LandingPage() {
               </div>
             ))
           })()}
+        </div>
+      </section>
+
+      {/* ── REGLAMENTO ──────────────────────────────────────────────────── */}
+      <section style={{ background: '#050810', padding: '100px 24px', borderTop: '1px solid rgba(42,107,194,0.15)' }} id="reglamento">
+        <div style={{ maxWidth: '860px', margin: '0 auto' }}>
+          <div className="section-label">No-Gi · 1° Etapa 2026</div>
+          <div className="section-title">REGLAMENTO</div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px', marginTop: '48px' }}>
+
+            {/* Camiseta */}
+            <div style={{ background: 'rgba(7,20,40,0.8)', border: '1px solid rgba(42,107,194,0.2)', borderRadius: '2px', padding: '28px' }}>
+              <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '4px', textTransform: 'uppercase', color: '#2a6bc2', marginBottom: '12px' }}>
+                Camiseta
+              </div>
+              <div style={{ fontFamily: 'var(--font-bebas-neue), sans-serif', fontSize: '1.6rem', letterSpacing: '2px', marginBottom: '16px', lineHeight: 1 }}>
+                OBLIGATORIO USAR CAMISETA
+              </div>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {[
+                  'Material elástico',
+                  'Largo que cubra todo el torso',
+                  'Color: negro, blanco, o negro y blanco con al menos 10% del color de graduación',
+                  'También se permiten camisetas 100% del color de graduación',
+                  'Cinturones negros: se acepta una pequeña área roja que no recaracterice el color',
+                ].map((r, i) => (
+                  <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                    <span style={{ color: '#2a6bc2', fontWeight: 700, flexShrink: 0, marginTop: '1px' }}>·</span>
+                    <span style={{ fontFamily: 'var(--font-barlow), sans-serif', fontSize: '0.85rem', color: '#d0d8e8', lineHeight: 1.5 }}>{r}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Shorts */}
+            <div style={{ background: 'rgba(7,20,40,0.8)', border: '1px solid rgba(42,107,194,0.2)', borderRadius: '2px', padding: '28px' }}>
+              <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '4px', textTransform: 'uppercase', color: '#2a6bc2', marginBottom: '12px' }}>
+                Shorts
+              </div>
+              <div style={{ fontFamily: 'var(--font-bebas-neue), sans-serif', fontSize: '1.6rem', letterSpacing: '2px', marginBottom: '16px', lineHeight: 1 }}>
+                TEJIDO COMPLETAMENTE NEGRO
+              </div>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {[
+                  'Largo: entre la mitad del muslo y la rodilla',
+                  'No más de 15cm por encima de las rodillas, no por debajo',
+                  'Detalles de cualquier color',
+                  'Logotipos de cualquier color y en cualquier lugar',
+                  'Se permiten calzas negras, blancas o blanco y negro por debajo',
+                ].map((r, i) => (
+                  <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                    <span style={{ color: '#2a6bc2', fontWeight: 700, flexShrink: 0, marginTop: '1px' }}>·</span>
+                    <span style={{ fontFamily: 'var(--font-barlow), sans-serif', fontSize: '0.85rem', color: '#d0d8e8', lineHeight: 1.5 }}>{r}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+          </div>
+
+          {/* Ejemplos por faja */}
+          <div style={{ marginTop: '32px', background: 'rgba(201,162,39,0.05)', border: '1px solid rgba(201,162,39,0.2)', borderRadius: '2px', padding: '24px 28px' }}>
+            <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '4px', textTransform: 'uppercase', color: '#c9a227', marginBottom: '16px' }}>
+              Ejemplos por graduación
+            </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+              {[
+                { faja: 'Blanca', color: '#f0f4ff', ejemplo: 'Camiseta blanca, negra o negro/blanca' },
+                { faja: 'Azul',   color: '#3b82f6', ejemplo: 'Camiseta azul, negra o negro con 10% azul' },
+                { faja: 'Morada', color: '#a855f7', ejemplo: 'Camiseta morada, negra o negro con 10% morado' },
+                { faja: 'Marrón', color: '#b45309', ejemplo: 'Camiseta marrón, negra o negro con 10% marrón' },
+                { faja: 'Negra',  color: '#9ca3af', ejemplo: 'Camiseta negra — se acepta pequeña área roja' },
+              ].map(({ faja, color, ejemplo }) => (
+                <div key={faja} style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'rgba(5,8,16,0.5)', border: `1px solid ${color}30`, borderRadius: '2px', padding: '10px 16px', flex: '1 1 200px' }}>
+                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: color, flexShrink: 0 }} />
+                  <div>
+                    <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color }} >{faja}</div>
+                    <div style={{ fontFamily: 'var(--font-barlow), sans-serif', fontSize: '0.78rem', color: '#8a9ab5', marginTop: '2px' }}>{ejemplo}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
         </div>
       </section>
 
