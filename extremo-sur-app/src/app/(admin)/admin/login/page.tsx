@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
-type Status = 'idle' | 'submitting' | 'error'
+type Status = 'idle' | 'submitting' | 'error' | 'reset-sent'
 
 const BASE_INPUT: React.CSSProperties = {
   width:       '100%',
@@ -48,6 +48,22 @@ export default function LoginPage() {
         ? '0 0 0 1px rgba(201,162,39,0.15)'
         : 'none',
     }
+  }
+
+  async function handleReset() {
+    if (!email.trim()) {
+      setMessage('Ingresá tu email para recuperar la contraseña.')
+      setStatus('error')
+      return
+    }
+    setStatus('submitting')
+    const supabase = createClient()
+    await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/auth/callback?next=/auth/reset-password`,
+    })
+    // Siempre mostrar éxito (no revelar si el email existe o no)
+    setStatus('reset-sent')
+    setMessage('')
   }
 
   async function handleSubmit(ev: React.FormEvent) {
@@ -137,6 +153,12 @@ export default function LoginPage() {
               </div>
             )}
 
+            {status === 'reset-sent' && (
+              <div style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.4)', color: '#22c55e', padding: '12px 16px', fontSize: '0.875rem', fontFamily: 'var(--font-barlow), sans-serif', borderRadius: '2px', marginBottom: '20px' }}>
+                ✓ Si el email existe, vas a recibir el link de recuperación en breve.
+              </div>
+            )}
+
             <button
               type="submit"
               disabled={status === 'submitting'}
@@ -158,6 +180,27 @@ export default function LoginPage() {
             >
               {status === 'submitting' ? 'INGRESANDO...' : 'INGRESAR'}
             </button>
+
+            {/* Recuperar contraseña */}
+            <div style={{ textAlign: 'center', marginTop: '20px' }}>
+              <button
+                type="button"
+                onClick={handleReset}
+                style={{
+                  background:    'none',
+                  border:        'none',
+                  color:         '#8a9ab5',
+                  fontFamily:    'var(--font-barlow-condensed), sans-serif',
+                  fontSize:      '0.75rem',
+                  letterSpacing: '1px',
+                  cursor:        'pointer',
+                  textDecoration:'underline',
+                  padding:       0,
+                }}
+              >
+                Olvidé mi contraseña
+              </button>
+            </div>
 
           </div>
         </form>
