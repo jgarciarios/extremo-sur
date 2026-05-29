@@ -198,24 +198,21 @@ export default function LandingPage() {
         <div className="section-label reveal">Calendario Oficial</div>
         <div className="section-title reveal reveal-delay-1">FECHAS 2026</div>
         <div className="fechas-grid">
-          <a href="/etapa/primera-etapa" className="fecha-card" style={{ textDecoration: 'none', cursor: 'pointer' }}>
+          <a href="/etapa/primera-etapa" className="fecha-card" style={{ textDecoration: 'none' }}>
             <div className="fecha-num">30</div>
             <div className="fecha-mes">Mayo</div>
             <div className="fecha-etapa">1° Etapa · Circuito Extremo Sur</div>
-            <div style={{ marginTop: '12px', fontFamily: 'var(--font-barlow-condensed)', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '2px', color: '#22c55e' }}>VER DETALLE →</div>
           </a>
-          <a href="/etapa/ajp-uruguay" className="fecha-card gold" style={{ textDecoration: 'none', cursor: 'pointer' }}>
+          <a href="/etapa/ajp-uruguay" className="fecha-card gold" style={{ textDecoration: 'none' }}>
             <div className="ajp-tag">AJP URUGUAY</div>
             <div className="fecha-num">23</div>
             <div className="fecha-mes">Agosto</div>
             <div className="fecha-etapa">Evento Internacional Especial</div>
-            <div style={{ marginTop: '12px', fontFamily: 'var(--font-barlow-condensed)', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '2px', color: '#c9a227' }}>VER DETALLE →</div>
           </a>
-          <a href="/etapa/segunda-etapa" className="fecha-card" style={{ textDecoration: 'none', cursor: 'pointer' }}>
+          <a href="/etapa/segunda-etapa" className="fecha-card" style={{ textDecoration: 'none' }}>
             <div className="fecha-num">31</div>
             <div className="fecha-mes">Octubre</div>
             <div className="fecha-etapa">2° Etapa · Circuito Extremo Sur</div>
-            <div style={{ marginTop: '12px', fontFamily: 'var(--font-barlow-condensed)', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '2px', color: '#8a9ab5' }}>VER DETALLE →</div>
           </a>
         </div>
       </section>

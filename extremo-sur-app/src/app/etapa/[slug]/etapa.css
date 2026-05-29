@@ -1,0 +1,24 @@
+/* ─── Extremo Sur — Página de Etapa ─────────────────────────────────────── */
+
+.etapa-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #f0f4ff;
+  text-decoration: none;
+  margin-bottom: 32px;
+  background: rgba(42, 107, 194, 0.15);
+  border: 1px solid rgba(42, 107, 194, 0.35);
+  padding: 10px 20px;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.etapa-back:hover {
+  background: rgba(42, 107, 194, 0.3);
+  border-color: rgba(42, 107, 194, 0.65);
+}

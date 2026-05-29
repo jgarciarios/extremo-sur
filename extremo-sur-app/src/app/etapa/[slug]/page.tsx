@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { getEtapa, ETAPAS } from '@/lib/etapas'
 import type { Metadata } from 'next'
+import './etapa.css'
 
 // ─── Static params ────────────────────────────────────────────────────────────
 
@@ -45,8 +46,8 @@ export default async function EtapaPage({ params }: { params: Promise<{ slug: st
         padding:       '80px 24px 60px',
         textAlign:     'center',
       }}>
-        <a href="/#fechas" style={{ display: 'inline-block', fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '4px', textTransform: 'uppercase', color: '#8a9ab5', textDecoration: 'none', marginBottom: '24px' }}>
-          ← Circuito 2026
+        <a href="/#fechas" className="etapa-back">
+          ← VOLVER AL INICIO
         </a>
 
         <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '16px', flexWrap: 'wrap' }}>
