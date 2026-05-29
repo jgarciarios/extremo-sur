@@ -143,6 +143,7 @@ export default function LandingPage() {
           <li><a href="#venue"       onClick={closeMenu}>Venue</a></li>
           <li><a href="#historia"    onClick={closeMenu}>Historia</a></li>
           <li><a href="#categorias"  onClick={closeMenu}>Categorías</a></li>
+          <li><a href="#cronograma"  onClick={closeMenu}>Cronograma</a></li>
           <li><a href="#galeria"     onClick={closeMenu}>Galería</a></li>
           <li><a href="/inscriptos"  onClick={closeMenu}>Inscriptos</a></li>
           <li><a href="#inscripcion" className="nav-cta" onClick={closeMenu}>Inscribite</a></li>
@@ -294,6 +295,138 @@ export default function LandingPage() {
           <a href="https://drive.google.com/drive/folders/1SVU5gwh9YCKDxCRFIjWpEMGMCojTQmDhF" target="_blank" className="btn-secondary">
             VER TODAS LAS FOTOS
           </a>
+        </div>
+      </section>
+
+      {/* ── CRONOGRAMA ──────────────────────────────────────────────────── */}
+      <section style={{ background: '#071428', padding: '100px 24px', borderTop: '1px solid rgba(201,162,39,0.15)' }} id="cronograma">
+        <div style={{ maxWidth: '780px', margin: '0 auto' }}>
+          <div className="section-label">30 de Mayo 2026 · Maldonado</div>
+          <div className="section-title">CRONOGRAMA</div>
+
+          {(() => {
+            const bloques = [
+              {
+                titulo: 'APERTURA',
+                color: '#c9a227',
+                items: [
+                  { hora: '08:30', desc: 'Apertura de los portones' },
+                ]
+              },
+              {
+                titulo: 'NO-GI — MAÑANA',
+                color: '#2a6bc2',
+                items: [
+                  { hora: '09:00', desc: 'Pesaje — Avanzados (marrón y negro) adulto y master' },
+                  { hora: '09:30', desc: 'Inicio de luchas — Avanzados (marrón y negro) adulto y master' },
+                  { hora: '09:30', desc: 'Pesaje — Blancos masculino adulto y master' },
+                  { hora: '09:50', desc: 'Inicio de luchas — Blanco masculino adulto y master' },
+                  { hora: '10:30', desc: 'Pesaje — Infanto juvenil, juvenil y todas las categorías femenino' },
+                  { hora: '11:15', desc: 'Inicio de luchas — Infanto juvenil, juvenil y femenino' },
+                  { hora: '11:20', desc: 'Pesaje — Intermedio masculino (azul, violeta) adulto y master' },
+                  { hora: '11:45', desc: 'Inicio de luchas — Intermedio masculino (azul, violeta) adulto y master' },
+                ]
+              },
+              {
+                titulo: 'GI (KIMONO) — MEDIODÍA',
+                color: '#2a6bc2',
+                items: [
+                  { hora: '12:15', desc: 'Pesaje — Cinturón marrón y negro masculino' },
+                  { hora: '12:30', desc: 'Inicio de luchas — Marrón y negro masculino' },
+                  { hora: '12:40', desc: 'Pesaje — Blanco pluma, pena y leve adulto y master' },
+                  { hora: '13:00', desc: 'Inicio de luchas — Blanco pluma, pena y leve adulto y master' },
+                ]
+              },
+              {
+                titulo: 'KIDS',
+                color: '#e8c14a',
+                items: [
+                  { hora: '13:00', desc: 'Pesaje de los niños y organización (en colaboración con los profesores)' },
+                  { hora: '13:30', desc: 'Luchas de los niños (en colaboración con los profesores)' },
+                ]
+              },
+              {
+                titulo: 'GI (KIMONO) — TARDE',
+                color: '#2a6bc2',
+                items: [
+                  { hora: '14:10', desc: 'Pesaje — Blanco medio, medio pesado, pesado y pesadísimo adulto y master' },
+                  { hora: '14:30', desc: 'Inicio de luchas — Blanco medio, medio pesado, pesado y pesadísimo' },
+                  { hora: '15:15', desc: 'Pesaje — Infanto juvenil, juvenil y femenino (todas las categorías)' },
+                  { hora: '15:30', desc: 'Inicio de luchas — Femenino e infanto juvenil' },
+                  { hora: '15:45', desc: 'Pesaje — Cinturón azul adulto y master' },
+                  { hora: '16:50', desc: 'Inicio de luchas — Cinturón azul adulto y master' },
+                  { hora: '17:30', desc: 'Pesaje — Cinturón violeta adulto y master' },
+                  { hora: '17:50', desc: 'Inicio de luchas — Cinturón violeta adulto y master' },
+                ]
+              },
+              {
+                titulo: 'ABSOLUTOS',
+                color: '#c9a227',
+                items: [
+                  { hora: '16:00', desc: 'Cinturón blanco adulto y master — pasar por mesa de control para confirmar asistencia al absoluto', highlight: true },
+                  { hora: '16:00', desc: 'Categorías femenino, infanto juvenil y juvenil — confirmar asistencia al absoluto', highlight: true },
+                  { hora: '16:00', desc: 'Cinturones marrón y negro — pasar por mesa de control para confirmar asistencia', highlight: true },
+                  { hora: '17:30', desc: 'Cinturón azul adulto y master — confirmar asistencia al absoluto', highlight: true },
+                  { hora: '17:30', desc: 'Cinturón violeta — confirmar asistencia al absoluto', highlight: true },
+                  { hora: '18:20', desc: 'Inicio de todos los absolutos — blancos, azules, violetas, marrón y negro adulto y master' },
+                ]
+              },
+            ]
+
+            return bloques.map((bloque, bi) => (
+              <div key={bi} style={{ marginBottom: '40px' }}>
+                <div style={{
+                  fontFamily:    'var(--font-barlow-condensed), sans-serif',
+                  fontSize:      '0.65rem',
+                  fontWeight:    700,
+                  letterSpacing: '4px',
+                  textTransform: 'uppercase',
+                  color:         bloque.color,
+                  marginBottom:  '12px',
+                  paddingBottom: '8px',
+                  borderBottom:  `1px solid ${bloque.color}30`,
+                }}>
+                  {bloque.titulo}
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                  {bloque.items.map((item, ii) => (
+                    <div key={ii} style={{
+                      display:    'grid',
+                      gridTemplateColumns: '72px 1fr',
+                      gap:        '16px',
+                      padding:    '10px 14px',
+                      background: item.highlight
+                        ? 'rgba(201,162,39,0.07)'
+                        : ii % 2 === 0 ? 'rgba(5,8,16,0.5)' : 'rgba(13,33,68,0.2)',
+                      borderLeft: item.highlight ? '3px solid #c9a227' : '3px solid transparent',
+                      borderRadius: '1px',
+                    }}>
+                      <div style={{
+                        fontFamily:  'var(--font-bebas-neue), sans-serif',
+                        fontSize:    '1.1rem',
+                        color:       item.highlight ? '#c9a227' : bloque.color,
+                        lineHeight:  1.2,
+                        letterSpacing: '1px',
+                        alignSelf:   'start',
+                        paddingTop:  '1px',
+                      }}>
+                        {item.hora}
+                      </div>
+                      <div style={{
+                        fontFamily: 'var(--font-barlow), sans-serif',
+                        fontSize:   '0.88rem',
+                        color:      item.highlight ? '#e8c14a' : '#d0d8e8',
+                        lineHeight: 1.5,
+                        fontWeight: item.highlight ? 500 : 400,
+                      }}>
+                        {item.desc}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))
+          })()}
         </div>
       </section>
 
