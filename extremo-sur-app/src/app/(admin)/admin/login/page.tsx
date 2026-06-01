@@ -91,8 +91,10 @@ export default function LoginPage() {
       .eq('id', user!.id)
       .single()
 
-    if (profile?.rol === 'admin') {
+    if (profile?.rol === 'admin' || profile?.rol === 'superadmin') {
       router.push('/admin')
+    } else if (profile?.rol === 'llamador') {
+      router.push('/llamador')
     } else {
       await supabase.auth.signOut()
       setMessage('Sin acceso.')

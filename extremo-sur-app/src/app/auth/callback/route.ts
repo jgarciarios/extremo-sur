@@ -8,16 +8,32 @@ export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url)
 
   const code = searchParams.get('code')
-  const next = searchParams.get('next') ?? '/admin'
+  const next = searchParams.get('next') ?? '/perfil'
 
   if (code) {
     const supabase = await createClient()
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     if (!error) {
-      return NextResponse.redirect(`${origin}${next}`)
+      // Si el next es explícito (reset-password, etc), respetar
+      if (searchParams.get('next')) {
+        return NextResponse.redirect(`${origin}${next}`)
+      }
+      // Si viene de OAuth (Google), verificar rol y redirigir según corresponda
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles').select('rol').eq('id', user.id).single()
+        if (profile?.rol === 'admin' || profile?.rol === 'superadmin') {
+          return NextResponse.redirect(`${origin}/admin`)
+        }
+        if (profile?.rol === 'llamador') {
+          return NextResponse.redirect(`${origin}/llamador`)
+        }
+      }
+      return NextResponse.redirect(`${origin}/perfil`)
     }
   }
 
-  // Si algo falla, manda al login con un flag de error
-  return NextResponse.redirect(`${origin}/admin/login?error=link_invalido`)
+  // Si algo falla, manda al login
+  return NextResponse.redirect(`${origin}/login?error=link_invalido`)
 }

@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { getEtapa, ETAPAS } from '@/lib/etapas'
 import type { Metadata } from 'next'
 import './etapa.css'
+import { BracketsSection } from '@/components/BracketsSection'
 
 // ─── Static params ────────────────────────────────────────────────────────────
 
@@ -149,6 +150,14 @@ export default async function EtapaPage({ params }: { params: Promise<{ slug: st
         ) : (
           <ProximamenteCard titulo="REGLAMENTO" mensaje="El reglamento se publicará próximo al evento." />
         )}
+
+        {/* ── Brackets ── */}
+        <section style={{ marginBottom: '72px' }}>
+          <SectionHeader label="Llaves" title="BRACKETS" />
+          <div style={{ marginTop: '40px' }}>
+            <BracketsSection fechaISO={etapa.fechaISO} />
+          </div>
+        </section>
 
         {/* ── Resultados / Podios ── */}
         {etapa.podios.length > 0 ? (

@@ -156,6 +156,7 @@ export default function LandingPage() {
           <li><a href="#categorias"  onClick={closeMenu}>Categorías</a></li>
           <li><a href="#galeria"     onClick={closeMenu}>Galería</a></li>
           <li><a href="/inscriptos"  onClick={closeMenu}>Inscriptos</a></li>
+          <li><a href="/login"       onClick={closeMenu}>Mi cuenta</a></li>
           <li><a href="#inscripcion" className="nav-cta" onClick={closeMenu}>Inscribite</a></li>
         </ul>
       </nav>

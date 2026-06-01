@@ -47,6 +47,9 @@ export const metadata: Metadata = {
     description: "Circuito 2026 de Brazilian Jiu Jitsu en Maldonado, Uruguay.",
     images:      ["/og-image.jpg"],
   },
+  verification: {
+    google: "-4SFxSiQC3YRL68BlC55ntDfV4PuhAQDElyhoLEI_Lc",
+  },
 }
 
 export default function RootLayout({
