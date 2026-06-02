@@ -55,9 +55,9 @@ export const ETAPAS: Etapa[] = [
     fechaISO:  '2026-05-30',
     venue:     'Campus de Maldonado',
     ciudad:    'Maldonado, Uruguay',
-    estado:    'proximo',
+    estado:    'finalizado',
     esAJP:     false,
-    descripcion: 'Primera fecha del Circuito Extremo Sur 2026. Competencia de Brazilian Jiu Jitsu Gi y No-Gi para todas las categorías.',
+    descripcion: 'Primera fecha del Circuito Extremo Sur 2026. Más de 400 competidores de toda la región se dieron cita en el Campus de Maldonado.',
     cronograma: [
       {
         titulo: 'APERTURA',

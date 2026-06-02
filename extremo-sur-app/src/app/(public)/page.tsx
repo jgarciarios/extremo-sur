@@ -25,7 +25,7 @@ const Countdown = memo(function Countdown() {
   const [cd, setCd] = useState({ days: '00', hours: '00', mins: '00', secs: '00', done: false })
 
   useEffect(() => {
-    const TARGET = new Date('2026-05-30T03:00:00Z').getTime()
+    const TARGET = new Date('2026-08-23T12:00:00Z').getTime()
     const tick = () => {
       const diff = TARGET - Date.now()
       if (diff <= 0) { setCd(p => ({ ...p, done: true })); return }
@@ -42,7 +42,7 @@ const Countdown = memo(function Countdown() {
     return () => clearInterval(id)
   }, [])
 
-  if (cd.done) return <div className="cd-done a5">¡HOY ES EL DÍA!</div>
+  if (cd.done) return <div className="cd-done a5">¡AJP URUGUAY — HOY!</div>
 
   return (
     <div className="countdown a5">
@@ -176,14 +176,14 @@ export default function LandingPage() {
         <div className="hero-bg-pattern" />
         <div className="hero-glow" />
         <div className="hero-content">
-          <div className="hero-eyebrow a1">Brazilian Jiu Jitsu · Maldonado, Uruguay</div>
+          <div className="hero-eyebrow a1">AJP Uruguay · 23 de Agosto · Maldonado</div>
           <div className="hero-title a2">EXTREMO</div>
           <div className="hero-title blue a2">SUR</div>
           <div className="hero-subtitle a3">CIRCUITO 2026</div>
           <div className="hero-divider a3" />
           <div className="hero-badges a4">
-            <span className="badge">30 MAYO — 1° ETAPA</span>
-            <span className="badge">23 AGO — AJP URUGUAY</span>
+            <span className="badge done">✓ 30 MAYO — 1° ETAPA</span>
+            <span className="badge gold">23 AGO — AJP URUGUAY</span>
             <span className="badge">31 OCT — 2° ETAPA</span>
           </div>
           <Countdown />
@@ -242,7 +242,7 @@ export default function LandingPage() {
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2a6bc2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
                 </svg>
-                <span>30 de Mayo, 2026</span>
+                <span>23 de Agosto, 2026 — AJP Uruguay</span>
               </div>
               <div className="venue-detail-row">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2a6bc2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -309,9 +309,9 @@ export default function LandingPage() {
           </div>
           <div className="stats-grid">
             <div className="stat-box"><div className="stat-number">2019</div><div className="stat-label">Primera edición</div></div>
-            <div className="stat-box"><div className="stat-number">3</div><div className="stat-label">Fechas en 2026</div></div>
+            <div className="stat-box"><div className="stat-number">+400</div><div className="stat-label">Inscriptos 1ª etapa</div></div>
             <div className="stat-box"><div className="stat-number">AJP</div><div className="stat-label">Fecha oficial Uruguay</div></div>
-            <div className="stat-box"><div className="stat-number">+7</div><div className="stat-label">Años de historia</div></div>
+            <div className="stat-box"><div className="stat-number">3</div><div className="stat-label">Fechas en 2026</div></div>
           </div>
         </div>
       </section>
@@ -376,7 +376,7 @@ export default function LandingPage() {
         <div className="inscripcion-content">
           <div className="section-label">Unite al circuito</div>
           <h2>INSCRIBITE<span>AHORA</span></h2>
-          <div className="precio-badge">PRÓXIMA FECHA: 30 DE MAYO 2026</div>
+          <div className="precio-badge">PRÓXIMA FECHA: 23 DE AGOSTO 2026 — AJP URUGUAY</div>
           <p>Completá el formulario con tus datos, categoría y academia. Los cupos son limitados — no te quedés afuera.</p>
           {/* ⚠️  href="/inscripcion" — misma URL, sin target="_blank" */}
           <a href="/inscripcion" className="btn-primary">COMPLETAR INSCRIPCIÓN</a>
