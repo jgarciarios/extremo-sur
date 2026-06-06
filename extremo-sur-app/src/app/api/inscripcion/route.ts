@@ -119,18 +119,19 @@ export async function POST(req: NextRequest) {
   // ── 6. Insert inscripcion ──────────────────────────────────────────────────
 
   const { error: insertErr } = await supabase.from('inscripciones').insert({
-    evento_id: eventos[0].id,
-    nombre:    sanitize(body.nombre),
-    documento: sanitize(body.documento),
-    email:     sanitize(body.email).toLowerCase(),
-    telefono:  sanitize(body.telefono),
-    academia:  sanitize(body.academia),
-    ciudad:    sanitize(body.ciudad),
-    faja:      body.faja as string,
-    division:  body.division as string,
-    categoria: body.categoria as string,
-    peso_kg:   Number(body.peso_kg),
-    genero:    body.genero as string,
+    evento_id:       eventos[0].id,
+    nombre:          sanitize(body.nombre),
+    documento:       sanitize(body.documento),
+    email:           sanitize(body.email).toLowerCase(),
+    telefono:        sanitize(body.telefono),
+    academia:        sanitize(body.academia),
+    ciudad:          sanitize(body.ciudad),
+    faja:            body.faja as string,
+    division:        body.division as string,
+    categoria:       body.categoria as string,
+    peso_kg:         Number(body.peso_kg),
+    genero:          body.genero as string,
+    comprobante_url: typeof body.comprobante_url === 'string' ? body.comprobante_url : null,
   })
 
   if (insertErr) {

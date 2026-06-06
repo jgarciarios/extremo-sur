@@ -136,6 +136,15 @@ export default function LandingPage() {
         onLoad={initSwiper}
       />
 
+      {/* ── PROMO BAR ───────────────────────────────────────────────────── */}
+      <div className="promo-bar">
+        <span>INSCRIPCIONES ABIERTAS</span>
+        <span className="promo-bar-sep">·</span>
+        <span>AJP URUGUAY — 23 DE AGOSTO 2026</span>
+        <span className="promo-bar-sep">·</span>
+        <a href="/inscripcion">INSCRIBITE →</a>
+      </div>
+
       {/* ── NAV ─────────────────────────────────────────────────────────── */}
       <nav className={scrolled ? 'scrolled' : ''}>
         <a href="/" className="nav-logo">
@@ -151,11 +160,11 @@ export default function LandingPage() {
         </button>
         <ul className={`nav-links${menuOpen ? ' open' : ''}`}>
           <li><a href="#fechas"      onClick={closeMenu}>Fechas</a></li>
-          <li><a href="#venue"       onClick={closeMenu}>Venue</a></li>
           <li><a href="#historia"    onClick={closeMenu}>Historia</a></li>
           <li><a href="#categorias"  onClick={closeMenu}>Categorías</a></li>
           <li><a href="#galeria"     onClick={closeMenu}>Galería</a></li>
-          <li><a href="/inscriptos"  onClick={closeMenu}>Inscriptos</a></li>
+          <li><a href="/inscriptos"  onClick={closeMenu}>Competidores</a></li>
+          <li><a href="/resultados" onClick={closeMenu}>Resultados</a></li>
           <li><a href="/login"       onClick={closeMenu}>Mi cuenta</a></li>
           <li><a href="#inscripcion" className="nav-cta" onClick={closeMenu}>Inscribite</a></li>
         </ul>
@@ -196,104 +205,40 @@ export default function LandingPage() {
 
       {/* ── FECHAS ──────────────────────────────────────────────────────── */}
       <section className="fechas line-accent" id="fechas">
-        <div className="section-label reveal">Calendario Oficial</div>
-        <div className="section-title reveal reveal-delay-1">FECHAS 2026</div>
-        <div className="fechas-grid">
-          <a href="/etapa/primera-etapa" className="fecha-card" style={{ textDecoration: 'none' }}>
+        <div className="section-label reveal">Circuito 2026</div>
+        <div className="section-title reveal reveal-delay-1">PRÓXIMAS FECHAS</div>
+
+        {/* Fecha destacada — AJP Uruguay */}
+        <a href="/etapa/ajp-uruguay" className="fecha-featured reveal reveal-delay-2" style={{ textDecoration: 'none' }}>
+          <div className="fecha-featured-left">
+            <div className="fecha-featured-tag">PRÓXIMA FECHA</div>
+            <div className="fecha-featured-title">AJP URUGUAY</div>
+            <div className="fecha-featured-sub">Evento Internacional Oficial · Maldonado, Uruguay</div>
+          </div>
+          <div className="fecha-featured-right">
+            <div className="fecha-featured-num">23</div>
+            <div className="fecha-featured-mes">AGOSTO 2026</div>
+            <div className="fecha-featured-cta">VER DETALLE →</div>
+          </div>
+        </a>
+
+        {/* Fechas secundarias */}
+        <div className="fechas-secondary-header reveal reveal-delay-3">
+          <div className="fecha-col-label fecha-col-label-done">↩ COMPLETADO</div>
+          <div className="fecha-col-label fecha-col-label-next">PRÓXIMAMENTE ↓</div>
+        </div>
+        <div className="fechas-secondary reveal reveal-delay-3">
+          <a href="/etapa/primera-etapa" className="fecha-card done" style={{ textDecoration: 'none' }}>
+            <div className="fecha-done-badge">✓ FINALIZADO</div>
             <div className="fecha-num">30</div>
             <div className="fecha-mes">Mayo</div>
             <div className="fecha-etapa">1° Etapa · Circuito Extremo Sur</div>
           </a>
-          <a href="/etapa/ajp-uruguay" className="fecha-card gold" style={{ textDecoration: 'none' }}>
-            <div className="ajp-tag">AJP URUGUAY</div>
-            <div className="fecha-num">23</div>
-            <div className="fecha-mes">Agosto</div>
-            <div className="fecha-etapa">Evento Internacional Especial</div>
-          </a>
-          <a href="/etapa/segunda-etapa" className="fecha-card" style={{ textDecoration: 'none' }}>
+          <a href="/etapa/segunda-etapa" className="fecha-card upcoming" style={{ textDecoration: 'none' }}>
             <div className="fecha-num">31</div>
             <div className="fecha-mes">Octubre</div>
             <div className="fecha-etapa">2° Etapa · Circuito Extremo Sur</div>
           </a>
-        </div>
-      </section>
-
-      {/* ── VENUE ───────────────────────────────────────────────────────── */}
-      <section className="venue line-accent" id="venue">
-        <div className="section-label reveal">El escenario</div>
-        <div className="section-title reveal reveal-delay-1">DÓNDE COMPETIMOS</div>
-
-        <div className="venue-layout reveal reveal-delay-2">
-
-          {/* Info panel */}
-          <div className="venue-info">
-            <div className="venue-badge">SEDE OFICIAL</div>
-            <div className="venue-name">Campus de Maldonado</div>
-            <div className="venue-city">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c9a227" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
-                <circle cx="12" cy="9" r="2.5"/>
-              </svg>
-              Maldonado, Uruguay
-            </div>
-
-            <div className="venue-details">
-              <div className="venue-detail-row">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2a6bc2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-                </svg>
-                <span>23 de Agosto, 2026 — AJP Uruguay</span>
-              </div>
-              <div className="venue-detail-row">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2a6bc2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-                </svg>
-                <span>Apertura de portones: 08:30 hs</span>
-              </div>
-              <div className="venue-detail-row">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2a6bc2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                </svg>
-                <span>Todas las categorías — Gi y No-Gi</span>
-              </div>
-            </div>
-
-            <a
-              href="https://www.google.com/maps/search/Campus+de+Maldonado,+Maldonado,+Uruguay"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="venue-cta"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
-                <circle cx="12" cy="9" r="2.5"/>
-              </svg>
-              ABRIR EN GOOGLE MAPS
-            </a>
-          </div>
-
-          {/* Mapa embebido */}
-          <div className="venue-map-wrap">
-            <iframe
-              title="Campus de Maldonado"
-              src="https://maps.google.com/maps?q=Campus+de+Maldonado,+Maldonado,+Uruguay&z=15&output=embed"
-              width="100%"
-              height="100%"
-              style={{ border: 0, display: 'block' }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-            {/* Overlay clickeable que abre Google Maps en vez de desplazar el iframe en mobile */}
-            <a
-              href="https://www.google.com/maps/search/Campus+de+Maldonado,+Maldonado,+Uruguay"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="venue-map-overlay"
-              aria-label="Ver en Google Maps"
-            />
-          </div>
-
         </div>
       </section>
 
@@ -380,6 +325,12 @@ export default function LandingPage() {
           <p>Completá el formulario con tus datos, categoría y academia. Los cupos son limitados — no te quedés afuera.</p>
           {/* ⚠️  href="/inscripcion" — misma URL, sin target="_blank" */}
           <a href="/inscripcion" className="btn-primary">COMPLETAR INSCRIPCIÓN</a>
+          <div className="inscripcion-urgency">
+            <span className="inscripcion-urgency-dot" />
+            <span>CUPOS LIMITADOS</span>
+            <span>·</span>
+            <span>NO TE QUEDÉS AFUERA</span>
+          </div>
         </div>
       </section>
 
@@ -418,6 +369,56 @@ export default function LandingPage() {
           <div className="sponsor-card-simple">
             <img className="sp-logo" src="/assets/sponsors/mirador-fueguino.jpg" alt="El Mirador Fueguino" />
             <div className="sp-name">El Mirador Fueguino</div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── VENUE ───────────────────────────────────────────────────────── */}
+      <section className="venue" id="venue">
+        <div className="section-label reveal">El escenario</div>
+        <div className="section-title reveal reveal-delay-1">DÓNDE COMPETIMOS</div>
+        <div className="venue-layout reveal reveal-delay-2">
+          <div className="venue-info">
+            <div className="venue-badge">SEDE OFICIAL</div>
+            <div className="venue-name">Campus de Maldonado</div>
+            <div className="venue-city">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c9a227" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                <circle cx="12" cy="9" r="2.5"/>
+              </svg>
+              Maldonado, Uruguay
+            </div>
+            <div className="venue-details">
+              <div className="venue-detail-row">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2a6bc2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                <span>23 de Agosto, 2026 — AJP Uruguay</span>
+              </div>
+              <div className="venue-detail-row">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2a6bc2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                </svg>
+                <span>Apertura de portones: 08:30 hs</span>
+              </div>
+              <div className="venue-detail-row">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2a6bc2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                <span>Todas las categorías — Gi y No-Gi</span>
+              </div>
+            </div>
+            <a href="https://www.google.com/maps/search/Campus+de+Maldonado,+Maldonado,+Uruguay" target="_blank" rel="noopener noreferrer" className="venue-cta">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                <circle cx="12" cy="9" r="2.5"/>
+              </svg>
+              ABRIR EN GOOGLE MAPS
+            </a>
+          </div>
+          <div className="venue-map-wrap">
+            <iframe title="Campus de Maldonado" src="https://maps.google.com/maps?q=Campus+de+Maldonado,+Maldonado,+Uruguay&z=15&output=embed" width="100%" height="100%" style={{ border: 0, display: 'block' }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+            <a href="https://www.google.com/maps/search/Campus+de+Maldonado,+Maldonado,+Uruguay" target="_blank" rel="noopener noreferrer" className="venue-map-overlay" aria-label="Ver en Google Maps" />
           </div>
         </div>
       </section>

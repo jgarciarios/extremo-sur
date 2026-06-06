@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { AppHeader } from '@/components/AppHeader'
 
 type Tab    = 'login' | 'register'
 type Status = 'idle' | 'submitting' | 'error' | 'success'
@@ -144,9 +145,10 @@ export default function LoginPage() {
       flexDirection:  'column',
       alignItems:     'center',
       justifyContent: 'center',
-      padding:        '40px 24px',
+      padding:        '104px 24px 40px',
       fontFamily:     'var(--font-barlow), sans-serif',
     }}>
+      <AppHeader active="login" />
 
       {/* Logo / back */}
       <a href="/" style={{

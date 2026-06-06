@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import { AppHeader } from '@/components/AppHeader'
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -110,12 +111,13 @@ export function AtletasClient({ inscriptos }: { inscriptos: Atleta[] }) {
       color:      '#f0f4ff',
       fontFamily: 'var(--font-barlow), sans-serif',
     }}>
+      <AppHeader active="inscriptos" />
 
       {/* ── Hero header ── */}
       <div style={{
         background:   'linear-gradient(180deg, #071428 0%, #050810 100%)',
         borderBottom: '1px solid rgba(42,107,194,0.2)',
-        padding:      '72px 24px 48px',
+        padding:      '112px 24px 48px',
         textAlign:    'center',
       }}>
         <a href="/" style={{

@@ -390,6 +390,7 @@ export function InscriptosTable({ inscripciones }: { inscripciones: Inscripcion[
               <th style={{ ...TH, textAlign: 'right' }}>Peso</th>
               <th style={TH}>Estado</th>
               <th style={{ ...TH, textAlign: 'center' }}>Pagado</th>
+              <th style={{ ...TH, textAlign: 'center' }}>Comp.</th>
               <th style={TH}>Teléfono</th>
               <th style={TH}>Fecha</th>
             </tr>
@@ -397,7 +398,7 @@ export function InscriptosTable({ inscripciones }: { inscripciones: Inscripcion[
           <tbody>
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={11} style={{ ...TD, textAlign: 'center', color: '#8a9ab5', padding: '40px' }}>
+                <td colSpan={12} style={{ ...TD, textAlign: 'center', color: '#8a9ab5', padding: '40px' }}>
                   {rows.length === 0 ? 'Sin inscripciones aún.' : 'Ningún resultado para los filtros aplicados.'}
                 </td>
               </tr>
@@ -480,6 +481,21 @@ export function InscriptosTable({ inscripciones }: { inscripciones: Inscripcion[
                   </button>
                 </td>
                 <td style={TD_GRAY}>{formatDate(row.created_at)}</td>
+                <td style={{ ...TD, textAlign: 'center' }}>
+                  {(row as any).comprobante_url ? (
+                    <a
+                      href={(row as any).comprobante_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Ver comprobante"
+                      style={{ color: '#22c55e', fontSize: '1.1rem', textDecoration: 'none' }}
+                    >
+                      📎
+                    </a>
+                  ) : (
+                    <span style={{ color: '#4a5a70', fontSize: '0.75rem' }}>—</span>
+                  )}
+                </td>
                 <td style={TD_GRAY}>
                   {row.telefono ? (
                     <a

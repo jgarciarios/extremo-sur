@@ -1,18 +1,19 @@
 /* ─── EXTREMO SUR BJJ — Landing V1 styles ─────────────────────────────────── */
 
 :root {
-  --black:      #050810;
-  --deep-blue:  #071428;
-  --mid-blue:   #0d2144;
-  --accent-blue:#1a4a8a;
-  --steel-blue: #2a6bc2;
-  --gold:       #c9a227;
-  --gold-light: #e8c14a;
-  --white:      #f0f4ff;
-  --gray:       #8a9ab5;
+  --black:        #050810;
+  --deep-blue:    #071428;
+  --mid-blue:     #0d2144;
+  --accent-blue:  #1a4a8a;
+  --steel-blue:   #2a6bc2;
+  --gold:         #c9a227;
+  --gold-light:   #e8c14a;
+  --white:        #f0f4ff;
+  --gray:         #8a9ab5;
   --font-display: var(--font-bebas-neue), sans-serif;
   --font-heading: var(--font-barlow-condensed), sans-serif;
   --font-body:    var(--font-barlow), sans-serif;
+  --promo-h:      34px;
 }
 
 html { scroll-behavior: smooth; }
@@ -43,8 +44,29 @@ body { overflow-x: hidden; }
 .reveal-delay-4 { transition-delay: 0.4s; }
 
 /* ── NAV ──────────────────────────────────────────────────────────────────── */
+/* ── PROMO BAR ────────────────────────────────────────────────────────────── */
+.promo-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 102;
+  height: var(--promo-h);
+  background: var(--gold);
+  color: var(--black);
+  display: flex; align-items: center; justify-content: center; gap: 16px;
+  font-family: var(--font-heading); font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  padding: 0 20px;
+  white-space: nowrap;
+}
+.promo-bar a {
+  color: var(--black); text-decoration: none;
+  border: 1px solid rgba(5,8,16,0.35); padding: 3px 12px;
+  transition: background 0.2s;
+}
+.promo-bar a:hover { background: rgba(5,8,16,0.12); }
+.promo-bar-sep { opacity: 0.35; }
+
+/* ── NAV ──────────────────────────────────────────────────────────────────── */
 nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  position: fixed; top: var(--promo-h); left: 0; right: 0; z-index: 100;
   display: flex; justify-content: space-between; align-items: center;
   padding: 16px 48px;
   background: rgba(5,8,16,0.92); backdrop-filter: blur(12px);
@@ -148,18 +170,56 @@ section { padding: 100px 48px; position: relative; }
 
 /* ── FECHAS ───────────────────────────────────────────────────────────────── */
 .fechas { background: var(--deep-blue); }
-.fechas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2px; max-width: 1100px; margin: 0 auto; }
-.fecha-card { background: rgba(13,33,68,0.8); padding: 48px 40px; border: 1px solid rgba(42,107,194,0.15); transition: all 0.3s; display: block; position: relative; overflow: hidden; }
-.fecha-card::after { content: 'VER DETALLE →'; position: absolute; bottom: 0; left: 0; right: 0; background: rgba(42,107,194,0.9); color: #f0f4ff; font-family: var(--font-barlow-condensed), sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; text-align: center; padding: 14px; opacity: 0; transform: translateY(100%); transition: opacity 0.25s, transform 0.25s; }
-.fecha-card.gold::after { background: rgba(201,162,39,0.92); color: #050810; }
-.fecha-card:hover { background: rgba(13,33,68,1); border-color: rgba(201,162,39,0.3); transform: translateY(-4px); box-shadow: 0 0 30px rgba(201,162,39,0.12), 0 8px 32px rgba(0,0,0,0.4); }
+
+/* Fecha destacada */
+.fecha-featured {
+  display: flex; justify-content: space-between; align-items: center;
+  max-width: 1100px; margin: 0 auto 4px; gap: 24px;
+  background: linear-gradient(135deg, rgba(201,162,39,0.08) 0%, rgba(13,33,68,0.9) 100%);
+  border: 1px solid rgba(201,162,39,0.45);
+  padding: 48px 56px;
+  position: relative; overflow: hidden;
+  transition: all 0.3s;
+}
+.fecha-featured::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.fecha-featured:hover { border-color: rgba(201,162,39,0.7); box-shadow: 0 0 48px rgba(201,162,39,0.15), 0 12px 48px rgba(0,0,0,0.5); transform: translateY(-2px); }
+.fecha-featured-tag { font-family: var(--font-heading); font-size: 0.65rem; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+.fecha-featured-title { font-family: var(--font-display); font-size: clamp(2.5rem, 6vw, 4.5rem); letter-spacing: 4px; line-height: 0.9; color: var(--white); margin-bottom: 12px; }
+.fecha-featured-sub { font-family: var(--font-heading); font-size: 0.85rem; font-weight: 600; letter-spacing: 2px; color: var(--gray); text-transform: uppercase; }
+.fecha-featured-right { text-align: right; flex-shrink: 0; }
+.fecha-featured-num { font-family: var(--font-display); font-size: clamp(5rem, 12vw, 9rem); line-height: 1; color: var(--gold); }
+.fecha-featured-mes { font-family: var(--font-heading); font-size: 1rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--gold-light); margin-bottom: 16px; }
+.fecha-featured-cta { display: inline-block; background: var(--gold); color: var(--black); font-family: var(--font-heading); font-size: 0.75rem; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; padding: 10px 20px; }
+
+/* Fechas secundarias */
+.fechas-secondary { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; max-width: 1100px; margin: 0 auto; }
+.fecha-card { background: rgba(13,33,68,0.8); padding: 40px; border: 1px solid rgba(42,107,194,0.15); transition: all 0.3s; display: block; position: relative; overflow: hidden; }
+.fecha-card::after { content: 'VER DETALLE →'; position: absolute; bottom: 0; left: 0; right: 0; background: rgba(42,107,194,0.9); color: #f0f4ff; font-family: var(--font-barlow-condensed), sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; text-align: center; padding: 12px; opacity: 0; transform: translateY(100%); transition: opacity 0.25s, transform 0.25s; }
+.fecha-card:hover { background: rgba(13,33,68,1); border-color: rgba(201,162,39,0.3); transform: translateY(-3px); box-shadow: 0 0 24px rgba(201,162,39,0.1), 0 8px 24px rgba(0,0,0,0.4); }
 .fecha-card:hover::after { opacity: 1; transform: translateY(0); }
-.fecha-card.gold { border-color: rgba(201,162,39,0.4); background: rgba(201,162,39,0.05); position: relative; }
-.ajp-tag { position: absolute; top: 16px; right: 16px; background: var(--gold); color: var(--black); font-family: var(--font-heading); font-size: 0.65rem; font-weight: 900; letter-spacing: 2px; padding: 4px 10px; }
-.fecha-num { font-family: var(--font-display); font-size: 5rem; line-height: 1; color: var(--steel-blue); }
-.fecha-card.gold .fecha-num { color: var(--gold); }
-.fecha-mes   { font-family: var(--font-heading); font-size: 1.4rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 8px; }
+.fecha-card.done { opacity: 0.55; }
+.fecha-card.done::after { content: 'VER RESULTADOS →'; background: rgba(138,154,181,0.8); }
+.fecha-done-badge { display: inline-block; font-family: var(--font-heading); font-size: 0.6rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #8a9ab5; border: 1px solid rgba(138,154,181,0.3); padding: 3px 10px; margin-bottom: 16px; }
+.fecha-card.upcoming .fecha-num { color: var(--steel-blue); }
+.fecha-num { font-family: var(--font-display); font-size: 4.5rem; line-height: 1; color: var(--steel-blue); }
+.fecha-mes   { font-family: var(--font-heading); font-size: 1.2rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 8px; }
 .fecha-etapa { font-size: 0.85rem; color: var(--gray); letter-spacing: 1px; }
+
+/* Column headers above secondary grid */
+.fechas-secondary-header {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4px;
+  max-width: 1100px; margin: 16px auto 0;
+}
+.fecha-col-label {
+  font-family: var(--font-heading); font-size: 0.6rem; font-weight: 700;
+  letter-spacing: 4px; text-transform: uppercase;
+  padding: 10px 40px;
+}
+.fecha-col-label-done { color: var(--gray); opacity: 0.55; }
+.fecha-col-label-next { color: var(--gold); }
 
 /* ── VENUE ────────────────────────────────────────────────────────────────── */
 .venue { background: var(--deep-blue); }
@@ -330,6 +390,17 @@ section { padding: 100px 48px; position: relative; }
 .inscripcion h2 span { color: var(--gold); display: block; }
 .inscripcion p  { font-size: 1rem; color: var(--gray); line-height: 1.7; margin-bottom: 40px; }
 .precio-badge   { display: inline-block; background: rgba(201,162,39,0.1); border: 1px solid rgba(201,162,39,0.4); padding: 8px 24px; border-radius: 2px; font-family: var(--font-heading); font-size: 0.85rem; font-weight: 700; letter-spacing: 2px; color: var(--gold); margin-bottom: 40px; }
+.inscripcion-urgency {
+  margin-top: 24px;
+  font-family: var(--font-heading); font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gray); opacity: 0.7;
+  display: flex; justify-content: center; align-items: center; gap: 12px;
+}
+.inscripcion-urgency-dot {
+  width: 5px; height: 5px; background: var(--gold); border-radius: 50%;
+  display: inline-block; animation: pulse 2s ease-in-out infinite;
+}
 
 /* ── SPONSORS ─────────────────────────────────────────────────────────────── */
 .sponsors { background: var(--black); border-top: 1px solid rgba(42,107,194,0.1); }
@@ -362,7 +433,8 @@ footer { background: var(--black); border-top: 1px solid rgba(201,162,39,0.15); 
 
 /* ── RESPONSIVE ───────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
-  nav { padding: 14px 20px; flex-wrap: wrap; }
+  .promo-bar { display: none; }
+  nav { padding: 14px 20px; flex-wrap: wrap; top: 0; }
   .hamburger { display: flex; min-width: 44px; min-height: 44px; }
   .nav-links {
     display: flex; flex-direction: column; width: 100%;
@@ -379,8 +451,11 @@ footer { background: var(--black); border-top: 1px solid rgba(201,162,39,0.15); 
   .hero-subtitle { font-size: clamp(0.9rem, 3.5vw, 1.6rem); letter-spacing: 5px; }
   .section-title { letter-spacing: 2px; }
 
-  .fechas-grid { grid-template-columns: 1fr; }
+  .fechas-secondary { grid-template-columns: 1fr; }
   .fecha-card  { padding: 36px 28px; }
+  .fecha-featured { flex-direction: column; align-items: flex-start; padding: 36px 28px; }
+  .fecha-featured-right { text-align: left; }
+  .fecha-featured-num { font-size: 5rem; }
 
   .historia-inner { grid-template-columns: 1fr; gap: 48px; }
   .stat-box    { padding: 24px 16px; }
@@ -405,4 +480,5 @@ footer { background: var(--black); border-top: 1px solid rgba(201,162,39,0.15); 
 
   .sponsors-featured { grid-template-columns: 1fr; }
   .sponsors-simple   { grid-template-columns: 1fr 1fr; }
+  .fechas-secondary-header { display: none; }
 }

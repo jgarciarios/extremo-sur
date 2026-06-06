@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react'
 import type { FajaTipo, DivisionTipo, CategoriaTipo } from '@/lib/types'
+import { AppHeader } from '@/components/AppHeader'
+import { createClient } from '@/lib/supabase/client'
 
 // ─── Ciudad autocomplete ──────────────────────────────────────────────────────
 
@@ -265,7 +267,7 @@ const EMPTY: FormFields = {
   categoria_peso:  '',
 }
 
-const EVENT_DATE = '2026-05-30T09:00:00-03:00'
+const EVENT_DATE = '2026-08-23T09:00:00-03:00'
 
 // ─── Shared styles ────────────────────────────────────────────────────────────
 
@@ -336,14 +338,23 @@ function useCountdown(isoTarget: string): Countdown {
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
+// ─── Datos de pago — actualizar con datos reales de Ricardo ──────────────────
+const PAGO_ALIAS  = 'extremosurbjj'       // ← reemplazar con alias real
+const PAGO_BANCO  = 'BROU'                // ← reemplazar con banco real
+const PAGO_MONTO  = 'a confirmar'         // ← reemplazar con monto real (ej: '$900 UYU')
+
 export default function InscripcionPage() {
-  const [step,         setStep]         = useState(1)
-  const [form,         setForm]         = useState<FormFields>(EMPTY)
-  const [errors,       setErrors]       = useState<FieldErrors>({})
-  const [status,       setStatus]       = useState<Status>('idle')
-  const [errorMessage, setErrorMessage] = useState('')
-  const [focused,      setFocused]      = useState<string | null>(null)
-  const [successData,  setSuccessData]  = useState<FormFields | null>(null)
+  const [step,              setStep]              = useState(1)
+  const [form,              setForm]              = useState<FormFields>(EMPTY)
+  const [errors,            setErrors]            = useState<FieldErrors>({})
+  const [status,            setStatus]            = useState<Status>('idle')
+  const [errorMessage,      setErrorMessage]      = useState('')
+  const [focused,           setFocused]           = useState<string | null>(null)
+  const [successData,       setSuccessData]       = useState<FormFields | null>(null)
+  const [comprobante,       setComprobante]       = useState<File | null>(null)
+  const [comprobanteUrl,    setComprobanteUrl]    = useState<string | null>(null)
+  const [uploadingComp,     setUploadingComp]     = useState(false)
+  const [comprobanteError,  setComprobanteError]  = useState('')
   const countdown     = useCountdown(EVENT_DATE)
   const weightOptions = getWeightOptions(form.genero, form.categoria)
 
@@ -374,6 +385,12 @@ export default function InscripcionPage() {
         e.categoria_peso = 'Seleccioná una opción'
     }
 
+    // Step 4 — comprobante obligatorio
+    if (s === 4 && !comprobanteUrl) {
+      setComprobanteError('Tenés que subir el comprobante de pago para confirmar la inscripción.')
+      return false
+    }
+
     setErrors(e)
     return Object.keys(e).length === 0
   }
@@ -387,11 +404,55 @@ export default function InscripcionPage() {
     setStep(s => s - 1)
   }
 
+  // ── Upload comprobante a Supabase Storage ────────────────────────────────────
+
+  async function handleComprobanteChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setComprobanteError('')
+
+    // Validar tipo y tamaño (máx 8MB)
+    const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf']
+    if (!validTypes.includes(file.type)) {
+      setComprobanteError('Solo se aceptan imágenes (JPG, PNG) o PDF.')
+      return
+    }
+    if (file.size > 8 * 1024 * 1024) {
+      setComprobanteError('El archivo no puede superar 8MB.')
+      return
+    }
+
+    setComprobante(file)
+    setUploadingComp(true)
+
+    try {
+      const supabase = createClient()
+      const ext      = file.name.split('.').pop()
+      const path     = `${crypto.randomUUID()}.${ext}`
+      const { error } = await supabase.storage
+        .from('comprobantes')
+        .upload(path, file, { contentType: file.type })
+
+      if (error) throw error
+
+      const { data: urlData } = supabase.storage
+        .from('comprobantes')
+        .getPublicUrl(path)
+
+      setComprobanteUrl(urlData.publicUrl)
+    } catch {
+      setComprobanteError('Error al subir el archivo. Intentá de nuevo.')
+      setComprobante(null)
+    } finally {
+      setUploadingComp(false)
+    }
+  }
+
   // ── Submit ──────────────────────────────────────────────────────────────────
 
   async function handleSubmit(ev: React.FormEvent) {
     ev.preventDefault()
-    if (!validateStep(3)) return
+    if (!validateStep(4)) return
 
     setStatus('submitting')
     setErrorMessage('')
@@ -405,18 +466,19 @@ export default function InscripcionPage() {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          nombre:    form.nombre_completo.trim(),
-          documento: form.documento.trim(),
-          email:     form.email.trim().toLowerCase(),
-          telefono:  `${form.codigoArea} ${form.telefono.trim()}`,
-          academia:  form.academia.trim(),
-          ciudad:    form.ciudad_pais.trim(),
-          faja:      form.faja || null,
-          division:  form.division,
-          categoria: form.categoria,
-          peso_kg:   pesoKg,
-          genero:    form.genero,
-          _trap:     '', // honeypot — siempre vacío en humanos
+          nombre:          form.nombre_completo.trim(),
+          documento:       form.documento.trim(),
+          email:           form.email.trim().toLowerCase(),
+          telefono:        `${form.codigoArea} ${form.telefono.trim()}`,
+          academia:        form.academia.trim(),
+          ciudad:          form.ciudad_pais.trim(),
+          faja:            form.faja || null,
+          division:        form.division,
+          categoria:       form.categoria,
+          peso_kg:         pesoKg,
+          genero:          form.genero,
+          comprobante_url: comprobanteUrl,
+          _trap:           '',
         }),
       })
 
@@ -474,11 +536,13 @@ export default function InscripcionPage() {
 
   return (
     <main style={{ minHeight: '100vh', background: '#050810', color: '#f0f4ff' }}>
+      <AppHeader active="inscripcion" />
 
       {/* ── Stats bar ── */}
       <div style={{
         background:    'rgba(5,8,16,0.98)',
         borderBottom:  '1px solid rgba(201,162,39,0.2)',
+        marginTop:     '64px',
         padding:       '0 24px',
         display:       'flex',
         justifyContent:'center',
@@ -497,7 +561,7 @@ export default function InscripcionPage() {
         <Divider />
         <StatPill>
           <span style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.82rem', fontWeight: 700, letterSpacing: '2px', color: '#f0f4ff', textTransform: 'uppercase' }}>
-            30 Mayo 2026
+            23 Agosto 2026 · AJP Uruguay
           </span>
           <span style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.62rem', fontWeight: 700, letterSpacing: '2px', color: '#8a9ab5', textTransform: 'uppercase' }}>
             Maldonado, Uruguay
@@ -510,7 +574,7 @@ export default function InscripcionPage() {
         {/* ── Header ── */}
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '6px', textTransform: 'uppercase', color: '#c9a227', marginBottom: '10px' }}>
-            Extremo Sur BJJ · Circuito 2026 · 1° Etapa
+            Extremo Sur BJJ · AJP Uruguay 2026
           </div>
           <h1 style={{ fontFamily: 'var(--font-bebas-neue), sans-serif', fontSize: 'clamp(3.2rem, 10vw, 6rem)', letterSpacing: '4px', lineHeight: 0.9, margin: 0 }}>
             INSCRIPCIÓN
@@ -526,8 +590,8 @@ export default function InscripcionPage() {
           <div style={{ overflow: 'hidden' }}>
             <div style={{
               display:    'flex',
-              width:      '300%',
-              transform:  `translateX(${(step - 1) * (-100 / 3)}%)`,
+              width:      '400%',
+              transform:  `translateX(${(step - 1) * (-100 / 4)}%)`,
               transition: 'transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
             }}>
 
@@ -678,6 +742,103 @@ export default function InscripcionPage() {
                     </div>
                   )}
 
+                  <StepNav step={step} onNext={nextStep} onPrev={prevStep} submitting={false} />
+                </div>
+              </div>
+
+              {/* ─ STEP 4: Pago ─ */}
+              <div style={{ width: '25%', padding: '0' }}>
+                <div style={{ background: 'rgba(7,20,40,0.7)', border: '1px solid rgba(42,107,194,0.2)', padding: '36px 40px 28px' }}>
+                  <StepHeader number="04" title="Confirmá tu pago" subtitle="Transferí y subí el comprobante" />
+
+                  {/* Instrucciones de pago */}
+                  <div style={{ background: 'rgba(201,162,39,0.06)', border: '1px solid rgba(201,162,39,0.25)', borderRadius: '2px', padding: '24px 28px', marginBottom: '28px' }}>
+                    <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '4px', textTransform: 'uppercase', color: '#c9a227', marginBottom: '16px' }}>
+                      Datos de transferencia
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                      {[
+                        { label: 'Banco',   value: PAGO_BANCO  },
+                        { label: 'Alias',   value: PAGO_ALIAS  },
+                        { label: 'Monto',   value: PAGO_MONTO  },
+                        { label: 'Concepto',value: 'Tu nombre completo' },
+                      ].map(({ label, value }) => (
+                        <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '10px', borderBottom: '1px solid rgba(42,107,194,0.1)' }}>
+                          <span style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#8a9ab5' }}>
+                            {label}
+                          </span>
+                          <span style={{ fontFamily: 'var(--font-barlow), sans-serif', fontSize: '0.95rem', fontWeight: 600, color: '#f0f4ff' }}>
+                            {value}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Upload comprobante */}
+                  <div style={{ marginBottom: '24px' }}>
+                    <label style={{ display: 'block', fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.72rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#8a9ab5', marginBottom: '10px' }}>
+                      Comprobante de transferencia *
+                    </label>
+
+                    <label style={{
+                      display:       'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                      gap:           '8px', padding: '28px 20px',
+                      background:    comprobanteUrl ? 'rgba(34,197,94,0.08)' : 'rgba(13,33,68,0.6)',
+                      border:        `2px dashed ${comprobanteUrl ? 'rgba(34,197,94,0.6)' : comprobanteError ? '#ef4444' : 'rgba(42,107,194,0.35)'}`,
+                      borderRadius:  '2px', cursor: 'pointer', transition: 'all 0.2s',
+                    }}>
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp,application/pdf"
+                        onChange={handleComprobanteChange}
+                        style={{ display: 'none' }}
+                      />
+                      {uploadingComp ? (
+                        <span style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.85rem', color: '#8a9ab5', letterSpacing: '1px' }}>
+                          Subiendo...
+                        </span>
+                      ) : comprobanteUrl ? (
+                        <>
+                          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="20 6 9 17 4 12"/>
+                          </svg>
+                          <span style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.85rem', color: '#22c55e', fontWeight: 700, letterSpacing: '1px' }}>
+                            {comprobante?.name ?? 'Comprobante subido'}
+                          </span>
+                          <span style={{ fontFamily: 'var(--font-barlow), sans-serif', fontSize: '0.75rem', color: '#8a9ab5' }}>
+                            Clic para cambiar
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8a9ab5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                          </svg>
+                          <span style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.85rem', color: '#8a9ab5', letterSpacing: '1px' }}>
+                            Subí la foto o PDF del comprobante
+                          </span>
+                          <span style={{ fontFamily: 'var(--font-barlow), sans-serif', fontSize: '0.72rem', color: '#4a5a70' }}>
+                            JPG, PNG o PDF · máx 8MB
+                          </span>
+                        </>
+                      )}
+                    </label>
+
+                    {comprobanteError && (
+                      <p style={{ fontFamily: 'var(--font-barlow), sans-serif', fontSize: '0.75rem', color: '#ef4444', marginTop: '6px' }}>
+                        {comprobanteError}
+                      </p>
+                    )}
+                  </div>
+
+                  {status === 'error' && (
+                    <div style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.35)', color: '#ef4444', padding: '12px 16px', fontSize: '0.875rem', marginBottom: '20px', borderRadius: '2px' }}>
+                      {errorMessage}
+                    </div>
+                  )}
+
                   <StepNav step={step} onNext={nextStep} onPrev={prevStep} submitting={status === 'submitting'} isLastStep />
                 </div>
               </div>
@@ -803,7 +964,7 @@ function SuccessScreen({ data, countdown }: { data: FormFields; countdown: Count
             {cdStr}
           </div>
           <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#8a9ab5', marginTop: '8px' }}>
-            30 DE MAYO · MALDONADO, URUGUAY
+            23 DE AGOSTO · MALDONADO, URUGUAY
           </div>
         </div>
 
@@ -832,7 +993,7 @@ function SuccessScreen({ data, countdown }: { data: FormFields; countdown: Count
 
 // ─── Progress bar ─────────────────────────────────────────────────────────────
 
-const STEP_LABELS = ['Datos', 'Academia', 'Categoría']
+const STEP_LABELS = ['Datos', 'Academia', 'Categoría', 'Pago']
 
 function ProgressBar({ step }: { step: number }) {
   return (

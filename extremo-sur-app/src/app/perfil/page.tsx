@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import type { Inscripcion } from '@/lib/types'
+import { AppHeader } from '@/components/AppHeader'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -89,8 +90,9 @@ export default function PerfilPage() {
       background: '#050810',
       color:      '#f0f4ff',
       fontFamily: 'var(--font-barlow), sans-serif',
-      padding:    '40px 24px 64px',
+      padding:    '104px 24px 64px',
     }}>
+      <AppHeader active="perfil" />
       <div style={{ maxWidth: '640px', margin: '0 auto' }}>
 
         {/* Back */}
