@@ -596,7 +596,7 @@ export default function InscripcionPage() {
             }}>
 
               {/* ─ STEP 1: Datos personales ─ */}
-              <div style={{ width: '33.333%', padding: '0' }}>
+              <div style={{ width: '25%', padding: '0' }}>
                 <div style={{ background: 'rgba(7,20,40,0.7)', border: '1px solid rgba(42,107,194,0.2)', padding: '36px 40px 28px' }}>
                   <StepHeader number="01" title="Datos Personales" subtitle="Información del competidor" />
                   <div style={GRID_2}>
@@ -634,7 +634,7 @@ export default function InscripcionPage() {
               </div>
 
               {/* ─ STEP 2: Academia ─ */}
-              <div style={{ width: '33.333%', padding: '0' }}>
+              <div style={{ width: '25%', padding: '0' }}>
                 <div style={{ background: 'rgba(7,20,40,0.7)', border: '1px solid rgba(42,107,194,0.2)', padding: '36px 40px 28px' }}>
                   <StepHeader number="02" title="Academia y Procedencia" subtitle="¿De dónde venís?" />
                   <div style={{ ...GRID_2 }}>
@@ -662,7 +662,7 @@ export default function InscripcionPage() {
               </div>
 
               {/* ─ STEP 3: Categoría ─ */}
-              <div style={{ width: '33.333%', padding: '0' }}>
+              <div style={{ width: '25%', padding: '0' }}>
                 <div style={{ background: 'rgba(7,20,40,0.7)', border: '1px solid rgba(42,107,194,0.2)', padding: '36px 40px 28px' }}>
                   <StepHeader number="03" title="Tu Categoría" subtitle="Dónde vas a competir" />
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(155px, 1fr))', gap: '20px', marginBottom: '24px' }}>
