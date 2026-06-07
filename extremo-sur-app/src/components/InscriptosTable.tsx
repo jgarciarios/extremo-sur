@@ -110,12 +110,26 @@ function exportCSV(rows: Inscripcion[]) {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
+type CompModal = {
+  id:        string
+  nombre:    string
+  academia:  string
+  faja:      string | null
+  categoria: string
+  peso_kg:   number
+  estado:    string
+  pagado:    boolean
+  url:       string
+}
+
 export function InscriptosTable({ inscripciones }: { inscripciones: Inscripcion[] }) {
   const router = useRouter()
   const [rows,          setRows]          = useState<Inscripcion[]>(inscripciones)
   const [toggling,      setToggling]      = useState<string | null>(null)
   const [changingState, setChangingState] = useState<string | null>(null)
   const [bracketStatus, setBracketStatus] = useState<'idle' | 'loading' | 'ok' | 'error'>('idle')
+  const [compModal,     setCompModal]     = useState<CompModal | null>(null)
+  const [confirming,    setConfirming]    = useState(false)
 
   // Filters
   const [search,          setSearch]          = useState('')
@@ -166,6 +180,23 @@ export function InscriptosTable({ inscripciones }: { inscripciones: Inscripcion[
       .from('inscripciones').update({ estado: nuevo_estado }).eq('id', id)
     if (error) setRows(prev => prev.map(r => r.id === id ? { ...r, estado: prev_estado as Inscripcion['estado'] } : r))
     setChangingState(null)
+  }
+
+  // ── Confirmar pago desde el modal ─────────────────────────────────────────
+  async function confirmarPago(id: string) {
+    setConfirming(true)
+    const supabase = createClient()
+    await supabase.from('inscripciones').update({ pagado: true, estado: 'confirmado' }).eq('id', id)
+    setRows(prev => prev.map(r => r.id === id ? { ...r, pagado: true, estado: 'confirmado' as Inscripcion['estado'] } : r))
+    setConfirming(false)
+    setCompModal(null)
+  }
+
+  async function rechazarPago(id: string) {
+    const supabase = createClient()
+    await supabase.from('inscripciones').update({ estado: 'pendiente' }).eq('id', id)
+    setRows(prev => prev.map(r => r.id === id ? { ...r, estado: 'pendiente' as Inscripcion['estado'] } : r))
+    setCompModal(null)
   }
 
   async function handleLogout() {
@@ -480,18 +511,36 @@ export function InscriptosTable({ inscripciones }: { inscripciones: Inscripcion[
                     {row.pagado ? '✓ Pagado' : 'Pendiente'}
                   </button>
                 </td>
-                <td style={TD_GRAY}>{formatDate(row.created_at)}</td>
                 <td style={{ ...TD, textAlign: 'center' }}>
                   {(row as any).comprobante_url ? (
-                    <a
-                      href={(row as any).comprobante_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <button
+                      onClick={() => setCompModal({
+                        id:        row.id,
+                        nombre:    row.nombre,
+                        academia:  row.academia,
+                        faja:      row.faja ?? null,
+                        categoria: row.categoria,
+                        peso_kg:   row.peso_kg,
+                        estado:    row.estado,
+                        pagado:    row.pagado,
+                        url:       (row as any).comprobante_url,
+                      })}
                       title="Ver comprobante"
-                      style={{ color: '#22c55e', fontSize: '1.1rem', textDecoration: 'none' }}
+                      style={{
+                        background: 'rgba(34,197,94,0.1)',
+                        border:     '1px solid rgba(34,197,94,0.4)',
+                        color:      '#22c55e',
+                        borderRadius: '2px',
+                        cursor:     'pointer',
+                        padding:    '4px 10px',
+                        fontSize:   '0.8rem',
+                        fontFamily: 'var(--font-barlow-condensed), sans-serif',
+                        fontWeight: 700,
+                        letterSpacing: '1px',
+                      }}
                     >
-                      📎
-                    </a>
+                      VER
+                    </button>
                   ) : (
                     <span style={{ color: '#4a5a70', fontSize: '0.75rem' }}>—</span>
                   )}
@@ -509,11 +558,123 @@ export function InscriptosTable({ inscripciones }: { inscripciones: Inscripcion[
                     </a>
                   ) : '—'}
                 </td>
+                <td style={TD_GRAY}>{formatDate(row.created_at)}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
+      {/* ── Modal comprobante ── */}
+      {compModal && (
+        <div
+          onClick={() => setCompModal(null)}
+          style={{
+            position:   'fixed',
+            inset:      0,
+            background: 'rgba(5,8,16,0.92)',
+            zIndex:     1000,
+            display:    'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding:    '24px',
+          }}
+        >
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              background:   '#071428',
+              border:       '1px solid rgba(42,107,194,0.3)',
+              borderRadius: '4px',
+              width:        '100%',
+              maxWidth:     '820px',
+              maxHeight:    '90vh',
+              overflow:     'auto',
+              display:      'flex',
+              flexDirection:'column',
+              gap:          0,
+            }}
+          >
+            {/* Header del modal */}
+            <div style={{ padding: '24px 28px 20px', borderBottom: '1px solid rgba(42,107,194,0.15)', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <div>
+                <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.65rem', letterSpacing: '4px', textTransform: 'uppercase', color: '#c9a227', marginBottom: '4px' }}>
+                  Comprobante de pago
+                </div>
+                <div style={{ fontFamily: 'var(--font-bebas-neue), sans-serif', fontSize: '1.6rem', letterSpacing: '2px', color: '#f0f4ff' }}>
+                  {compModal.nombre}
+                </div>
+                <div style={{ fontFamily: 'var(--font-barlow), sans-serif', fontSize: '0.85rem', color: '#8a9ab5', marginTop: '2px' }}>
+                  {compModal.academia} · {capitalize(compModal.faja)} · {capitalize(compModal.categoria)} · {compModal.peso_kg} kg
+                </div>
+              </div>
+              <button
+                onClick={() => setCompModal(null)}
+                style={{ background: 'transparent', border: 'none', color: '#8a9ab5', fontSize: '1.4rem', cursor: 'pointer', lineHeight: 1, padding: '4px 8px' }}
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Imagen del comprobante */}
+            <div style={{ padding: '20px 28px', flex: 1 }}>
+              {compModal.url.match(/\.(pdf)$/i) ? (
+                <iframe
+                  src={compModal.url}
+                  style={{ width: '100%', height: '500px', border: 'none', borderRadius: '2px' }}
+                  title="Comprobante PDF"
+                />
+              ) : (
+                <img
+                  src={compModal.url}
+                  alt="Comprobante de pago"
+                  style={{ width: '100%', maxHeight: '480px', objectFit: 'contain', borderRadius: '2px', background: '#0d2144' }}
+                />
+              )}
+            </div>
+
+            {/* Acciones */}
+            <div style={{ padding: '20px 28px', borderTop: '1px solid rgba(42,107,194,0.15)', display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+              {compModal.pagado ? (
+                <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.85rem', color: '#22c55e', letterSpacing: '1px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  ✓ Pago ya confirmado
+                </div>
+              ) : (
+                <>
+                  <button
+                    onClick={() => rechazarPago(compModal.id)}
+                    style={{
+                      ...BTN_BASE,
+                      borderColor: 'rgba(239,68,68,0.4)',
+                      color:       '#ef4444',
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.background = 'rgba(239,68,68,0.08)')}
+                    onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                  >
+                    ✕ Rechazar
+                  </button>
+                  <button
+                    onClick={() => confirmarPago(compModal.id)}
+                    disabled={confirming}
+                    style={{
+                      ...BTN_BASE,
+                      background:  confirming ? 'rgba(34,197,94,0.15)' : 'rgba(34,197,94,0.12)',
+                      border:      '1px solid rgba(34,197,94,0.6)',
+                      color:       '#22c55e',
+                      opacity:     confirming ? 0.7 : 1,
+                      cursor:      confirming ? 'wait' : 'pointer',
+                    }}
+                    onMouseEnter={e => { if (!confirming) e.currentTarget.style.background = 'rgba(34,197,94,0.2)' }}
+                    onMouseLeave={e => (e.currentTarget.style.background = 'rgba(34,197,94,0.12)')}
+                  >
+                    {confirming ? '⟳ CONFIRMANDO...' : '✓ CONFIRMAR PAGO'}
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   )

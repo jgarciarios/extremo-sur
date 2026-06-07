@@ -19,7 +19,7 @@ export default async function AdminPage() {
 
   const { data } = await supabase
     .from('inscripciones')
-    .select('id, nombre, documento, email, telefono, academia, ciudad, faja, genero, division, categoria, peso_kg, estado, pagado, created_at')
+    .select('id, nombre, documento, email, telefono, academia, ciudad, faja, genero, division, categoria, peso_kg, estado, pagado, comprobante_url, created_at')
     .order('created_at', { ascending: false })
 
   return <InscriptosTable inscripciones={(data ?? []) as Inscripcion[]} />
