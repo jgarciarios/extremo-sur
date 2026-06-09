@@ -159,14 +159,42 @@ export default function LandingPage() {
           <span /><span /><span />
         </button>
         <ul className={`nav-links${menuOpen ? ' open' : ''}`}>
-          <li><a href="#fechas"      onClick={closeMenu}>Fechas</a></li>
-          <li><a href="#historia"    onClick={closeMenu}>Historia</a></li>
-          <li><a href="#categorias"  onClick={closeMenu}>Categorías</a></li>
-          <li><a href="#galeria"     onClick={closeMenu}>Galería</a></li>
-          <li><a href="/inscriptos"  onClick={closeMenu}>Competidores</a></li>
-          <li><a href="/resultados" onClick={closeMenu}>Resultados</a></li>
+
+          {/* ── EL TORNEO ── */}
+          <li className="nav-group">
+            <span className="nav-group-label">El Torneo</span>
+            <ul className="nav-dropdown">
+              <li><a href="#historia" onClick={closeMenu}>Historia</a></li>
+              <li><a href="#fechas"   onClick={closeMenu}>Fechas</a></li>
+            </ul>
+          </li>
+
+          {/* ── COMPETIR ── */}
+          <li className="nav-group">
+            <span className="nav-group-label">Competir</span>
+            <ul className="nav-dropdown">
+              <li><a href="#categorias"  onClick={closeMenu}>Categorías</a></li>
+              <li><a href="/inscripcion" onClick={closeMenu}>Inscripción</a></li>
+            </ul>
+          </li>
+
+          {/* ── COMUNIDAD ── */}
+          <li className="nav-group">
+            <span className="nav-group-label">Comunidad</span>
+            <ul className="nav-dropdown">
+              <li><a href="#galeria"    onClick={closeMenu}>Galería</a></li>
+              <li><a href="/inscriptos" onClick={closeMenu}>Competidores</a></li>
+              <li><a href="/resultados" onClick={closeMenu}>Resultados</a></li>
+            </ul>
+          </li>
+
+          {/* ── Separador ── */}
+          <li className="nav-sep" aria-hidden="true" />
+
+          {/* ── Derecha ── */}
           <li><a href="/login"       onClick={closeMenu}>Mi cuenta</a></li>
-          <li><a href="#inscripcion" className="nav-cta" onClick={closeMenu}>Inscribite</a></li>
+          <li><a href="/inscripcion" className="nav-cta" onClick={closeMenu}>Inscribite</a></li>
+
         </ul>
       </nav>
 

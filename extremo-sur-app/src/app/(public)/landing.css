@@ -75,11 +75,55 @@ nav {
 }
 nav.scrolled { padding: 10px 48px; border-bottom-color: rgba(201,162,39,0.4); }
 .nav-logo { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: 3px; color: var(--gold); text-decoration: none; cursor: pointer; }
-.nav-links { display: flex; gap: 32px; list-style: none; }
-.nav-links a { font-family: var(--font-heading); font-weight: 600; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); text-decoration: none; transition: color 0.2s; }
-.nav-links a:hover { color: var(--gold); }
-.nav-cta { background: var(--gold) !important; color: var(--black) !important; padding: 8px 20px; border-radius: 2px; font-weight: 900 !important; }
+.nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+.nav-links > li > a { font-family: var(--font-heading); font-weight: 600; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); text-decoration: none; transition: color 0.2s; padding: 8px 14px; }
+.nav-links > li > a:hover { color: var(--gold); }
+.nav-cta { background: var(--gold) !important; color: var(--black) !important; padding: 8px 20px !important; border-radius: 2px; font-weight: 900 !important; }
 .nav-cta:hover { background: var(--gold-light) !important; }
+
+/* ── Separador vertical ── */
+.nav-sep { width: 1px; height: 18px; background: rgba(201,162,39,0.2); margin: 0 12px; flex-shrink: 0; }
+
+/* ── Dropdown groups ── */
+.nav-group { position: relative; }
+.nav-group-label {
+  font-family: var(--font-heading); font-weight: 600; font-size: 0.85rem;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--gray);
+  cursor: default; transition: color 0.2s;
+  display: flex; align-items: center; gap: 5px; padding: 8px 14px;
+  user-select: none;
+}
+.nav-group-label::after { content: '▾'; font-size: 0.65rem; opacity: 0.55; transition: transform 0.2s; }
+.nav-group:hover .nav-group-label { color: var(--gold); }
+.nav-group:hover .nav-group-label::after { transform: rotate(180deg); opacity: 1; }
+
+.nav-dropdown {
+  position: absolute; top: calc(100% + 10px); left: 50%;
+  transform: translateX(-50%) translateY(-6px);
+  background: rgba(5,8,16,0.98); backdrop-filter: blur(16px);
+  border: 1px solid rgba(201,162,39,0.2);
+  list-style: none; padding: 6px 0; min-width: 170px;
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.18s, transform 0.18s, visibility 0.18s;
+  z-index: 200;
+}
+.nav-dropdown::before {
+  content: ''; position: absolute; top: -5px; left: 50%; transform: translateX(-50%);
+  border-left: 5px solid transparent; border-right: 5px solid transparent;
+  border-bottom: 5px solid rgba(201,162,39,0.2);
+}
+.nav-group:hover .nav-dropdown {
+  opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0);
+}
+.nav-dropdown li a {
+  display: block; padding: 10px 20px;
+  font-family: var(--font-heading); font-size: 0.8rem; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--gray) !important; text-decoration: none;
+  transition: color 0.15s, background 0.15s;
+  white-space: nowrap;
+}
+.nav-dropdown li a:hover { color: var(--gold) !important; background: rgba(201,162,39,0.06); }
 
 .hamburger {
   display: none; flex-direction: column; justify-content: center;
@@ -439,12 +483,29 @@ footer { background: var(--black); border-top: 1px solid rgba(201,162,39,0.15); 
   .hamburger { display: flex; min-width: 44px; min-height: 44px; }
   .nav-links {
     display: flex; flex-direction: column; width: 100%;
-    max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
+    max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
     gap: 0; order: 3;
   }
-  .nav-links.open { max-height: 320px; }
-  .nav-links li { border-top: 1px solid rgba(201,162,39,0.15); }
-  .nav-links a  { display: block; padding: 14px 16px; font-size: 1rem; letter-spacing: 2px; }
+  .nav-links.open { max-height: 700px; }
+  .nav-links > li { border-top: 1px solid rgba(201,162,39,0.12); }
+  .nav-links > li > a { display: block; padding: 14px 20px; font-size: 0.95rem; letter-spacing: 2px; }
+
+  /* Grupos en mobile */
+  .nav-sep { display: none; }
+  .nav-group-label {
+    display: block; padding: 12px 20px;
+    font-size: 0.7rem; letter-spacing: 3px;
+    color: var(--gold) !important; opacity: 0.6;
+  }
+  .nav-group-label::after { display: none; }
+  .nav-dropdown {
+    position: static; opacity: 1; visibility: visible;
+    transform: none; background: transparent; border: none;
+    padding: 0 0 4px; min-width: auto; backdrop-filter: none;
+  }
+  .nav-dropdown::before { display: none; }
+  .nav-dropdown li { border-top: none; }
+  .nav-dropdown li a { padding: 10px 20px 10px 32px !important; font-size: 0.9rem !important; opacity: 0.85; }
 
   section { padding: 70px 20px; }
 
