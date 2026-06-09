@@ -25,7 +25,7 @@ const Countdown = memo(function Countdown() {
   const [cd, setCd] = useState({ days: '00', hours: '00', mins: '00', secs: '00', done: false })
 
   useEffect(() => {
-    const TARGET = new Date('2026-08-23T12:00:00Z').getTime()
+    const TARGET = new Date('2026-10-31T12:00:00Z').getTime()
     const tick = () => {
       const diff = TARGET - Date.now()
       if (diff <= 0) { setCd(p => ({ ...p, done: true })); return }
@@ -42,7 +42,7 @@ const Countdown = memo(function Countdown() {
     return () => clearInterval(id)
   }, [])
 
-  if (cd.done) return <div className="cd-done a5">¡AJP URUGUAY — HOY!</div>
+  if (cd.done) return <div className="cd-done a5">¡2° ETAPA EXTREMO SUR — HOY!</div>
 
   return (
     <div className="countdown a5">
@@ -140,7 +140,7 @@ export default function LandingPage() {
       <div className="promo-bar">
         <span>INSCRIPCIONES ABIERTAS</span>
         <span className="promo-bar-sep">·</span>
-        <span>AJP URUGUAY — 23 DE AGOSTO 2026</span>
+        <span>2° ETAPA EXTREMO SUR — 31 DE OCTUBRE 2026</span>
         <span className="promo-bar-sep">·</span>
         <a href="/inscripcion">INSCRIBITE →</a>
       </div>
@@ -185,15 +185,15 @@ export default function LandingPage() {
         <div className="hero-bg-pattern" />
         <div className="hero-glow" />
         <div className="hero-content">
-          <div className="hero-eyebrow a1">AJP Uruguay · 23 de Agosto · Maldonado</div>
+          <div className="hero-eyebrow a1">Circuito Extremo Sur · Maldonado, Uruguay</div>
           <div className="hero-title a2">EXTREMO</div>
           <div className="hero-title blue a2">SUR</div>
           <div className="hero-subtitle a3">CIRCUITO 2026</div>
           <div className="hero-divider a3" />
           <div className="hero-badges a4">
             <span className="badge done">✓ 30 MAYO — 1° ETAPA</span>
-            <span className="badge gold">23 AGO — AJP URUGUAY</span>
-            <span className="badge">31 OCT — 2° ETAPA</span>
+            <span className="badge">23 AGO — AJP URUGUAY</span>
+            <span className="badge gold">31 OCT — 2° ETAPA</span>
           </div>
           <Countdown />
           <div className="a5">
@@ -208,24 +208,24 @@ export default function LandingPage() {
         <div className="section-label reveal">Circuito 2026</div>
         <div className="section-title reveal reveal-delay-1">PRÓXIMAS FECHAS</div>
 
-        {/* Fecha destacada — AJP Uruguay */}
-        <a href="/etapa/ajp-uruguay" className="fecha-featured reveal reveal-delay-2" style={{ textDecoration: 'none' }}>
+        {/* Fecha destacada — 2° Etapa */}
+        <a href="/etapa/segunda-etapa" className="fecha-featured reveal reveal-delay-2" style={{ textDecoration: 'none' }}>
           <div className="fecha-featured-left">
             <div className="fecha-featured-tag">PRÓXIMA FECHA</div>
-            <div className="fecha-featured-title">AJP URUGUAY</div>
-            <div className="fecha-featured-sub">Evento Internacional Oficial · Maldonado, Uruguay</div>
+            <div className="fecha-featured-title">2° ETAPA</div>
+            <div className="fecha-featured-sub">Circuito Extremo Sur · Maldonado, Uruguay</div>
           </div>
           <div className="fecha-featured-right">
-            <div className="fecha-featured-num">23</div>
-            <div className="fecha-featured-mes">AGOSTO 2026</div>
-            <div className="fecha-featured-cta">VER DETALLE →</div>
+            <div className="fecha-featured-num">31</div>
+            <div className="fecha-featured-mes">OCTUBRE 2026</div>
+            <div className="fecha-featured-cta">INSCRIBITE →</div>
           </div>
         </a>
 
         {/* Fechas secundarias */}
         <div className="fechas-secondary-header reveal reveal-delay-3">
           <div className="fecha-col-label fecha-col-label-done">↩ COMPLETADO</div>
-          <div className="fecha-col-label fecha-col-label-next">PRÓXIMAMENTE ↓</div>
+          <div className="fecha-col-label fecha-col-label-next">TAMBIÉN EN 2026 ↓</div>
         </div>
         <div className="fechas-secondary reveal reveal-delay-3">
           <a href="/etapa/primera-etapa" className="fecha-card done" style={{ textDecoration: 'none' }}>
@@ -234,11 +234,12 @@ export default function LandingPage() {
             <div className="fecha-mes">Mayo</div>
             <div className="fecha-etapa">1° Etapa · Circuito Extremo Sur</div>
           </a>
-          <a href="/etapa/segunda-etapa" className="fecha-card upcoming" style={{ textDecoration: 'none' }}>
-            <div className="fecha-num">31</div>
-            <div className="fecha-mes">Octubre</div>
-            <div className="fecha-etapa">2° Etapa · Circuito Extremo Sur</div>
-          </a>
+          <div className="fecha-card done" style={{ cursor: 'default' }}>
+            <div className="fecha-done-badge" style={{ background: 'rgba(42,107,194,0.15)', borderColor: 'rgba(42,107,194,0.3)', color: '#2a6bc2' }}>EVENTO EXTERNO</div>
+            <div className="fecha-num">23</div>
+            <div className="fecha-mes">Agosto</div>
+            <div className="fecha-etapa">AJP Uruguay · Fecha Internacional</div>
+          </div>
         </div>
       </section>
 
@@ -250,13 +251,13 @@ export default function LandingPage() {
             <h2 className="reveal-left reveal-delay-1">AÑOS DE <em>COMPETENCIA REAL</em></h2>
             <p>Extremo Sur BJJ nació en 2019 en Maldonado con una visión clara: llevar la competencia de Brazilian Jiu Jitsu al más alto nivel en el sur del continente.</p>
             <p>Año tras año, el torneo crece en participantes, academias y nivel técnico, consolidándose como uno de los eventos de referencia en la región.</p>
-            <p>En 2026, el circuito incluye por primera vez una fecha oficial del AJP Uruguay, marcando un hito histórico para el BJJ regional.</p>
+            <p>En 2026, el circuito se consolida con dos etapas propias y la participación de atletas Extremo Sur en el circuito AJP Uruguay.</p>
           </div>
           <div className="stats-grid">
             <div className="stat-box"><div className="stat-number">2019</div><div className="stat-label">Primera edición</div></div>
             <div className="stat-box"><div className="stat-number">+400</div><div className="stat-label">Inscriptos 1ª etapa</div></div>
-            <div className="stat-box"><div className="stat-number">AJP</div><div className="stat-label">Fecha oficial Uruguay</div></div>
-            <div className="stat-box"><div className="stat-number">3</div><div className="stat-label">Fechas en 2026</div></div>
+            <div className="stat-box"><div className="stat-number">2</div><div className="stat-label">Etapas en 2026</div></div>
+            <div className="stat-box"><div className="stat-number">UY</div><div className="stat-label">Referente regional BJJ</div></div>
           </div>
         </div>
       </section>
@@ -321,7 +322,7 @@ export default function LandingPage() {
         <div className="inscripcion-content">
           <div className="section-label">Unite al circuito</div>
           <h2>INSCRIBITE<span>AHORA</span></h2>
-          <div className="precio-badge">PRÓXIMA FECHA: 23 DE AGOSTO 2026 — AJP URUGUAY</div>
+          <div className="precio-badge">PRÓXIMA FECHA: 31 DE OCTUBRE 2026 — 2° ETAPA</div>
           <p>Completá el formulario con tus datos, categoría y academia. Los cupos son limitados — no te quedés afuera.</p>
           {/* ⚠️  href="/inscripcion" — misma URL, sin target="_blank" */}
           <a href="/inscripcion" className="btn-primary">COMPLETAR INSCRIPCIÓN</a>
@@ -393,7 +394,7 @@ export default function LandingPage() {
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2a6bc2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
                 </svg>
-                <span>23 de Agosto, 2026 — AJP Uruguay</span>
+                <span>31 de Octubre, 2026 — 2° Etapa Extremo Sur</span>
               </div>
               <div className="venue-detail-row">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2a6bc2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
