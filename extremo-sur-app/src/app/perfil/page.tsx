@@ -38,7 +38,23 @@ interface UserInfo {
 }
 
 type InscripcionConEvento = Inscripcion & {
-  evento: { nombre: string; fecha: string } | null
+  evento:    { nombre: string; fecha: string } | null
+  resultado: 'oro' | 'plata' | 'bronce' | 'sin_podio' | null
+}
+
+interface Profile {
+  academia:         string | null
+  faixa:            string | null
+  pais:             string | null
+  fecha_nacimiento: string | null
+}
+
+const FAIXA_STYLE: Record<string, { bg: string; color: string; border?: string }> = {
+  blanca:  { bg: '#f0f4ff', color: '#050810' },
+  azul:    { bg: '#2a6bc2', color: '#f0f4ff' },
+  morada:  { bg: '#7c3aed', color: '#f0f4ff' },
+  marron:  { bg: '#92400e', color: '#f0f4ff' },
+  negra:   { bg: '#1a1a1a', color: '#f0f4ff', border: '#8a9ab5' },
 }
 
 // ─── Componente ───────────────────────────────────────────────────────────────
@@ -48,6 +64,7 @@ function PerfilContent() {
   const searchParams = useSearchParams()
   const bienvenido   = searchParams.get('bienvenido') === '1'
   const [user,          setUser]          = useState<UserInfo | null>(null)
+  const [profile,       setProfile]       = useState<Profile | null>(null)
   const [inscripciones, setInscripciones] = useState<InscripcionConEvento[]>([])
   const [loading,       setLoading]       = useState(true)
   const [showBanner,    setShowBanner]    = useState(bienvenido)
@@ -63,13 +80,21 @@ function PerfilContent() {
         nombre: user.user_metadata?.nombre ?? user.user_metadata?.full_name ?? null,
       })
 
-      const { data } = await supabase
-        .from('inscripciones')
-        .select('*, evento:eventos(nombre, fecha)')
-        .eq('email', user.email!)
-        .order('created_at', { ascending: false })
+      const [{ data: profileData }, { data: insData }] = await Promise.all([
+        supabase
+          .from('profiles')
+          .select('academia, faixa, pais, fecha_nacimiento')
+          .eq('id', user.id)
+          .single(),
+        supabase
+          .from('inscripciones')
+          .select('*, evento:eventos(nombre, fecha)')
+          .eq('email', user.email!)
+          .order('created_at', { ascending: false }),
+      ])
 
-      setInscripciones((data ?? []) as InscripcionConEvento[])
+      setProfile(profileData ?? null)
+      setInscripciones((insData ?? []) as InscripcionConEvento[])
       setLoading(false)
     }
     load()
@@ -193,6 +218,84 @@ function PerfilContent() {
           </div>
           <div style={{ fontSize: '1rem', color: '#f0f4ff' }}>{user?.email}</div>
         </div>
+
+        {/* ── Perfil del competidor ──────────────────────────────────────── */}
+        <div style={{
+          background:   'rgba(7,20,40,0.6)',
+          border:       '1px solid rgba(42,107,194,0.15)',
+          padding:      '24px 28px',
+          borderRadius: '2px',
+          marginBottom: '16px',
+        }}>
+          <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#c9a227', marginBottom: '16px' }}>
+            Competidor
+          </div>
+          <div style={{ display: 'flex', gap: '32px', flexWrap: 'wrap', alignItems: 'center' }}>
+            <div>
+              <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#8a9ab5', marginBottom: '4px' }}>Academia</div>
+              <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '1rem', fontWeight: 600, color: '#f0f4ff' }}>{profile?.academia ?? '—'}</div>
+            </div>
+            <div>
+              <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#8a9ab5', marginBottom: '6px' }}>Faixa</div>
+              {profile?.faixa ? (() => {
+                const s = FAIXA_STYLE[profile.faixa] ?? { bg: '#1a1a1a', color: '#f0f4ff' }
+                return (
+                  <span style={{
+                    fontFamily:    'var(--font-barlow-condensed), sans-serif',
+                    fontSize:      '0.72rem',
+                    fontWeight:    700,
+                    letterSpacing: '2px',
+                    textTransform: 'uppercase',
+                    background:    s.bg,
+                    color:         s.color,
+                    border:        s.border ? `1px solid ${s.border}` : 'none',
+                    padding:       '3px 12px',
+                    borderRadius:  '2px',
+                  }}>
+                    {profile.faixa}
+                  </span>
+                )
+              })() : <span style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '1rem', fontWeight: 600, color: '#f0f4ff' }}>—</span>}
+            </div>
+            <div>
+              <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#8a9ab5', marginBottom: '4px' }}>País</div>
+              <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '1rem', fontWeight: 600, color: '#f0f4ff' }}>{profile?.pais ?? '—'}</div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Stats ─────────────────────────────────────────────────────────── */}
+        {(() => {
+          const total   = inscripciones.length
+          const oros    = inscripciones.filter(i => i.resultado === 'oro').length
+          const platas  = inscripciones.filter(i => i.resultado === 'plata').length
+          const bronces = inscripciones.filter(i => i.resultado === 'bronce').length
+          return (
+            <div style={{
+              display:             'grid',
+              gridTemplateColumns: 'repeat(4, 1fr)',
+              gap:                 '2px',
+              marginBottom:        '32px',
+            }}>
+              {([
+                { label: 'Competencias', value: total,   color: '#f0f4ff' },
+                { label: 'Oros',         value: oros,    color: '#c9a227' },
+                { label: 'Platas',       value: platas,  color: '#8a9ab5' },
+                { label: 'Bronces',      value: bronces, color: '#cd7f32' },
+              ] as const).map(({ label, value, color }) => (
+                <div key={label} style={{
+                  background:   'rgba(7,20,40,0.6)',
+                  border:       '1px solid rgba(42,107,194,0.15)',
+                  padding:      '20px 0',
+                  textAlign:    'center',
+                }}>
+                  <div style={{ fontFamily: 'var(--font-bebas-neue), sans-serif', fontSize: '2.4rem', color, lineHeight: 1 }}>{value}</div>
+                  <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#8a9ab5', marginTop: '6px' }}>{label}</div>
+                </div>
+              ))}
+            </div>
+          )
+        })()}
 
         {/* Inscripciones */}
         <div style={{ marginBottom: '32px' }}>
