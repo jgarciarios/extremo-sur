@@ -192,7 +192,7 @@ export default function LandingPage() {
           <li className="nav-sep" aria-hidden="true" />
 
           {/* ── Derecha ── */}
-          <li><a href="/login"       onClick={closeMenu}>Mi cuenta</a></li>
+          <li><a href="/perfil"      onClick={closeMenu}>Mi cuenta</a></li>
           <li><a href="/inscripcion" className="nav-cta" onClick={closeMenu}>Inscribite</a></li>
 
         </ul>
