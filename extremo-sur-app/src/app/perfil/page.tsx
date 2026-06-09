@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import type { Inscripcion } from '@/lib/types'
 import { AppHeader } from '@/components/AppHeader'
@@ -44,10 +44,13 @@ type InscripcionConEvento = Inscripcion & {
 // ─── Componente ───────────────────────────────────────────────────────────────
 
 export default function PerfilPage() {
-  const router = useRouter()
+  const router       = useRouter()
+  const searchParams = useSearchParams()
+  const bienvenido   = searchParams.get('bienvenido') === '1'
   const [user,          setUser]          = useState<UserInfo | null>(null)
   const [inscripciones, setInscripciones] = useState<InscripcionConEvento[]>([])
   const [loading,       setLoading]       = useState(true)
+  const [showBanner,    setShowBanner]    = useState(bienvenido)
 
   useEffect(() => {
     async function load() {
@@ -93,6 +96,77 @@ export default function PerfilPage() {
       padding:    '104px 24px 64px',
     }}>
       <AppHeader active="perfil" />
+
+      {/* ── Banner bienvenida ─────────────────────────────────────────────── */}
+      {showBanner && (
+        <div style={{
+          position:     'fixed',
+          top:          '80px',
+          left:         '50%',
+          transform:    'translateX(-50%)',
+          zIndex:       200,
+          background:   'linear-gradient(135deg, rgba(13,33,68,0.98), rgba(7,20,40,0.98))',
+          border:       '1px solid rgba(201,162,39,0.4)',
+          borderTop:    '3px solid #c9a227',
+          padding:      '24px 32px',
+          maxWidth:     '480px',
+          width:        'calc(100% - 48px)',
+          textAlign:    'center',
+          backdropFilter: 'blur(16px)',
+        }}>
+          <div style={{ fontSize: '2rem', marginBottom: '8px' }}>🥋</div>
+          <div style={{
+            fontFamily:    'var(--font-bebas-neue), sans-serif',
+            fontSize:      '1.6rem',
+            letterSpacing: '4px',
+            color:         '#c9a227',
+            marginBottom:  '6px',
+          }}>
+            ¡CUENTA VERIFICADA!
+          </div>
+          <div style={{
+            fontFamily:    'var(--font-barlow-condensed), sans-serif',
+            fontSize:      '0.85rem',
+            letterSpacing: '1px',
+            color:         '#8a9ab5',
+            marginBottom:  '20px',
+          }}>
+            Bienvenido a Extremo Sur BJJ. Ya podés inscribirte en el circuito.
+          </div>
+          <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+            <a href="/inscripcion" style={{
+              fontFamily:    'var(--font-barlow-condensed), sans-serif',
+              fontSize:      '0.8rem',
+              fontWeight:    900,
+              letterSpacing: '3px',
+              textTransform: 'uppercase',
+              textDecoration:'none',
+              background:    '#c9a227',
+              color:         '#050810',
+              padding:       '10px 20px',
+              borderRadius:  '2px',
+            }}>
+              INSCRIBIRME →
+            </a>
+            <button onClick={() => setShowBanner(false)} style={{
+              fontFamily:    'var(--font-barlow-condensed), sans-serif',
+              fontSize:      '0.8rem',
+              fontWeight:    700,
+              letterSpacing: '2px',
+              textTransform: 'uppercase',
+              background:    'transparent',
+              border:        '1px solid rgba(42,107,194,0.3)',
+              color:         '#8a9ab5',
+              padding:       '10px 20px',
+              borderRadius:  '2px',
+              cursor:        'pointer',
+            }}>
+              CERRAR
+            </button>
+          </div>
+        </div>
+      )}
+
       <div style={{ maxWidth: '640px', margin: '0 auto' }}>
 
         {/* Back */}

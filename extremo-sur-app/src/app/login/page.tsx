@@ -118,7 +118,10 @@ export default function LoginPage() {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { nombre } },
+      options: {
+        data: { nombre },
+        emailRedirectTo: `${window.location.origin}/auth/callback?next=/perfil%3Fbienvenido%3D1`,
+      },
     })
     if (error) {
       setMessage(error.message === 'User already registered'

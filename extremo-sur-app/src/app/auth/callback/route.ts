@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
           return NextResponse.redirect(`${origin}/llamador`)
         }
       }
-      return NextResponse.redirect(`${origin}/perfil`)
+      return NextResponse.redirect(`${origin}/perfil?bienvenido=1`)
     }
   }
 
