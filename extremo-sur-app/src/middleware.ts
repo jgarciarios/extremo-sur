@@ -25,9 +25,7 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  // Refresca la sesión — no agregar lógica entre createServerClient y getUser
   await supabase.auth.getUser()
-
   return supabaseResponse
 }
 
