@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import type { Inscripcion } from '@/lib/types'
@@ -43,7 +43,7 @@ type InscripcionConEvento = Inscripcion & {
 
 // ─── Componente ───────────────────────────────────────────────────────────────
 
-export default function PerfilPage() {
+function PerfilContent() {
   const router       = useRouter()
   const searchParams = useSearchParams()
   const bienvenido   = searchParams.get('bienvenido') === '1'
@@ -354,5 +354,17 @@ export default function PerfilPage() {
 
       </div>
     </main>
+  )
+}
+
+export default function PerfilPage() {
+  return (
+    <Suspense fallback={
+      <main style={{ minHeight: '100vh', background: '#050810', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ color: '#8a9ab5', fontFamily: 'var(--font-barlow-condensed), sans-serif', letterSpacing: '2px' }}>Cargando...</div>
+      </main>
+    }>
+      <PerfilContent />
+    </Suspense>
   )
 }
