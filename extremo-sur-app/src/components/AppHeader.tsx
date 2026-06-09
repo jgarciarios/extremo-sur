@@ -38,23 +38,47 @@ export function AppHeader({ active }: Props) {
       height:       '64px',
     }}>
 
-      {/* Logo */}
-      <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', flexShrink: 0 }}>
-        <img
-          src="/assets/img/logo.jpeg"
-          alt="Extremo Sur BJJ"
-          style={{ height: 40, width: 'auto', objectFit: 'contain' }}
-        />
-        <span style={{
-          fontFamily:    'var(--font-bebas-neue), sans-serif',
-          fontSize:      '1.3rem',
-          letterSpacing: '3px',
-          color:         '#f0f4ff',
-          lineHeight:    1,
-        }}>
-          EXTREMO SUR
-        </span>
-      </a>
+      {/* Logo + Volver */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '20px', flexShrink: 0 }}>
+        <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
+          <img
+            src="/assets/img/logo.jpeg"
+            alt="Extremo Sur BJJ"
+            style={{ height: 40, width: 'auto', objectFit: 'contain' }}
+          />
+          <span style={{
+            fontFamily:    'var(--font-bebas-neue), sans-serif',
+            fontSize:      '1.3rem',
+            letterSpacing: '3px',
+            color:         '#f0f4ff',
+            lineHeight:    1,
+          }}>
+            EXTREMO SUR
+          </span>
+        </a>
+        <a
+          href="/"
+          style={{
+            fontFamily:    'var(--font-barlow-condensed), sans-serif',
+            fontSize:      '0.72rem',
+            fontWeight:    700,
+            letterSpacing: '2px',
+            textTransform: 'uppercase',
+            textDecoration:'none',
+            color:         '#8a9ab5',
+            display:       'flex',
+            alignItems:    'center',
+            gap:           '5px',
+            paddingLeft:   '20px',
+            borderLeft:    '1px solid rgba(42,107,194,0.2)',
+            transition:    'color 0.2s',
+          }}
+          onMouseEnter={e => (e.currentTarget.style.color = '#c9a227')}
+          onMouseLeave={e => (e.currentTarget.style.color = '#8a9ab5')}
+        >
+          ← Inicio
+        </a>
+      </div>
 
       {/* Desktop nav */}
       <nav style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
