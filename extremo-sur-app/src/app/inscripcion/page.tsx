@@ -267,7 +267,7 @@ const EMPTY: FormFields = {
   categoria_peso:  '',
 }
 
-const EVENT_DATE = '2026-08-23T09:00:00-03:00'
+const EVENT_DATE = '2026-10-31T09:00:00-03:00'
 
 // ─── Shared styles ────────────────────────────────────────────────────────────
 
@@ -561,7 +561,7 @@ export default function InscripcionPage() {
         <Divider />
         <StatPill>
           <span style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.82rem', fontWeight: 700, letterSpacing: '2px', color: '#f0f4ff', textTransform: 'uppercase' }}>
-            23 Agosto 2026 · AJP Uruguay
+            31 Octubre 2026 · 2° Etapa Extremo Sur
           </span>
           <span style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.62rem', fontWeight: 700, letterSpacing: '2px', color: '#8a9ab5', textTransform: 'uppercase' }}>
             Maldonado, Uruguay
@@ -574,7 +574,7 @@ export default function InscripcionPage() {
         {/* ── Header ── */}
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '6px', textTransform: 'uppercase', color: '#c9a227', marginBottom: '10px' }}>
-            Extremo Sur BJJ · AJP Uruguay 2026
+            Extremo Sur BJJ · 2° Etapa 2026
           </div>
           <h1 style={{ fontFamily: 'var(--font-bebas-neue), sans-serif', fontSize: 'clamp(3.2rem, 10vw, 6rem)', letterSpacing: '4px', lineHeight: 0.9, margin: 0 }}>
             INSCRIPCIÓN
