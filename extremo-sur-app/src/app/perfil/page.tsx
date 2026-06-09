@@ -169,21 +169,6 @@ function PerfilContent() {
 
       <div style={{ maxWidth: '640px', margin: '0 auto' }}>
 
-        {/* Back */}
-        <a href="/" style={{
-          display:       'inline-block',
-          fontFamily:    'var(--font-barlow-condensed), sans-serif',
-          fontSize:      '0.65rem',
-          fontWeight:    700,
-          letterSpacing: '4px',
-          textTransform: 'uppercase',
-          color:         '#8a9ab5',
-          textDecoration:'none',
-          marginBottom:  '40px',
-        }}>
-          ← Volver al inicio
-        </a>
-
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '6px', textTransform: 'uppercase', color: '#c9a227', marginBottom: '10px' }}>
