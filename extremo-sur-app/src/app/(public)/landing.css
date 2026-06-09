@@ -202,6 +202,7 @@ section { padding: 100px 48px; position: relative; }
 .fecha-card:hover::after { opacity: 1; transform: translateY(0); }
 .fecha-card.done { opacity: 0.55; }
 .fecha-card.done::after { content: 'VER RESULTADOS →'; background: rgba(138,154,181,0.8); }
+.fecha-card.ajp::after { content: 'MÁS INFORMACIÓN →'; background: rgba(42,107,194,0.9); }
 .fecha-done-badge { display: inline-block; font-family: var(--font-heading); font-size: 0.6rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #8a9ab5; border: 1px solid rgba(138,154,181,0.3); padding: 3px 10px; margin-bottom: 16px; }
 .fecha-card.upcoming .fecha-num { color: var(--steel-blue); }
 .fecha-num { font-family: var(--font-display); font-size: 4.5rem; line-height: 1; color: var(--steel-blue); }

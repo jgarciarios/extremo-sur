@@ -234,12 +234,12 @@ export default function LandingPage() {
             <div className="fecha-mes">Mayo</div>
             <div className="fecha-etapa">1° Etapa · Circuito Extremo Sur</div>
           </a>
-          <div className="fecha-card done" style={{ cursor: 'default' }}>
+          <a href="/etapa/ajp-uruguay" className="fecha-card ajp" style={{ textDecoration: 'none' }}>
             <div className="fecha-done-badge" style={{ background: 'rgba(42,107,194,0.15)', borderColor: 'rgba(42,107,194,0.3)', color: '#2a6bc2' }}>EVENTO EXTERNO</div>
             <div className="fecha-num">23</div>
             <div className="fecha-mes">Agosto</div>
             <div className="fecha-etapa">AJP Uruguay · Fecha Internacional</div>
-          </div>
+          </a>
         </div>
       </section>
 
