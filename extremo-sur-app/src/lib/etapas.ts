@@ -163,7 +163,7 @@ export const ETAPAS: Etapa[] = [
     ciudad:    'Maldonado, Uruguay',
     estado:    'proximo',
     esAJP:     true,
-    descripcion: 'Fecha oficial del AJP (Abu Dhabi Jiu-Jitsu Pro) en Uruguay. Evento internacional de alto nivel con competidores de toda la región.',
+    descripcion: 'El AJP Uruguay es un evento del circuito internacional Abu Dhabi Jiu-Jitsu Pro, organizado de forma independiente. Competidores de Extremo Sur participan en esta fecha como representantes de la región.',
     cronograma:  null,
     reglamento:  null,
     fotos:       [],

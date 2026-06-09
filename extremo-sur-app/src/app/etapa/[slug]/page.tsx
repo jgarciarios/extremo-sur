@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { getEtapa, ETAPAS } from '@/lib/etapas'
 import type { Metadata } from 'next'
 import './etapa.css'
@@ -33,9 +33,39 @@ const ESTADO_LABEL: Record<string, { label: string; color: string; bg: string }>
 export default async function EtapaPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const etapa = getEtapa(slug)
-  if (!etapa) notFound()
+  if (!etapa) redirect('/')
 
   const estado = ESTADO_LABEL[etapa.estado]
+
+  // ── AJP: página informativa simple, sin inscripción ni brackets ──────────────
+  if (etapa.esAJP) return (
+    <main style={{ minHeight: '100vh', background: '#050810', color: '#f0f4ff', fontFamily: 'var(--font-barlow), sans-serif', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '80px 24px', textAlign: 'center' }}>
+      <a href="/#fechas" style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#8a9ab5', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '48px', border: '1px solid rgba(138,154,181,0.2)', padding: '10px 20px', borderRadius: '2px' }}>
+        ← VOLVER AL INICIO
+      </a>
+      <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '5px', textTransform: 'uppercase', color: '#c9a227', marginBottom: '12px' }}>
+        Evento Internacional · 23 de Agosto 2026
+      </div>
+      <h1 style={{ fontFamily: 'var(--font-bebas-neue), sans-serif', fontSize: 'clamp(3rem, 10vw, 5.5rem)', letterSpacing: '6px', lineHeight: 0.9, margin: '0 0 24px' }}>
+        AJP URUGUAY
+      </h1>
+      <div style={{ width: '48px', height: '2px', background: '#c9a227', margin: '0 auto 32px' }} />
+      <p style={{ maxWidth: '520px', fontSize: '1.05rem', lineHeight: 1.7, color: '#8a9ab5', marginBottom: '16px' }}>
+        El AJP Uruguay es un evento del circuito internacional <strong style={{ color: '#f0f4ff' }}>Abu Dhabi Jiu-Jitsu Pro</strong>, organizado de forma independiente a Extremo Sur.
+      </p>
+      <p style={{ maxWidth: '520px', fontSize: '1.05rem', lineHeight: 1.7, color: '#8a9ab5', marginBottom: '48px' }}>
+        Atletas de la región participan en esta fecha como representantes de sus academias. Para inscripción y más información, visitá el sitio oficial del AJP.
+      </p>
+      <a
+        href="https://ajptour.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ display: 'inline-block', background: 'rgba(201,162,39,0.1)', border: '1px solid rgba(201,162,39,0.5)', color: '#c9a227', fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.85rem', fontWeight: 900, letterSpacing: '3px', textTransform: 'uppercase', textDecoration: 'none', padding: '14px 36px', borderRadius: '2px' }}
+      >
+        IR AL SITIO OFICIAL DEL AJP →
+      </a>
+    </main>
+  )
 
   return (
     <main style={{ minHeight: '100vh', background: '#050810', color: '#f0f4ff', fontFamily: 'var(--font-barlow), sans-serif' }}>
