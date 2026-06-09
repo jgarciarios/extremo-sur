@@ -120,7 +120,7 @@ export default function LoginPage() {
       password,
       options: {
         data: { nombre },
-        emailRedirectTo: `${window.location.origin}/auth/callback?next=/perfil%3Fbienvenido%3D1`,
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
       },
     })
     if (error) {
