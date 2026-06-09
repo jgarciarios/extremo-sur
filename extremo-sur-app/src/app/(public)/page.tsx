@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, memo } from 'react'
 import Script from 'next/script'
+import { createClient } from '@/lib/supabase/client'
 import './landing.css'
 
 // ─── Fotos ────────────────────────────────────────────────────────────────────
@@ -64,7 +65,18 @@ export default function LandingPage() {
   const [menuOpen,  setMenuOpen]  = useState(false)
   const [heroSlide, setHeroSlide] = useState(0)
   const [lb,        setLb]        = useState<{ open: boolean; idx: number }>({ open: false, idx: 0 })
+  const [userName,  setUserName]  = useState<string | null>(null)
   const swiperInited = useRef(false)
+
+  // Auth: mostrar primer nombre si está logueado
+  useEffect(() => {
+    createClient().auth.getUser().then(({ data: { user } }) => {
+      if (!user) return
+      const full: string = user.user_metadata?.nombre ?? user.user_metadata?.full_name ?? ''
+      const first = full.trim().split(/\s+/)[0] ?? ''
+      if (first) setUserName(first.toUpperCase())
+    })
+  }, [])
 
   // Nav scroll
   useEffect(() => {
@@ -192,7 +204,7 @@ export default function LandingPage() {
           <li className="nav-sep" aria-hidden="true" />
 
           {/* ── Derecha ── */}
-          <li><a href="/perfil"      onClick={closeMenu}>Mi cuenta</a></li>
+          <li><a href="/perfil"      onClick={closeMenu}>{userName ? `HOLA, ${userName}` : 'Mi cuenta'}</a></li>
           <li><a href="/inscripcion" className="nav-cta" onClick={closeMenu}>Inscribite</a></li>
 
         </ul>
