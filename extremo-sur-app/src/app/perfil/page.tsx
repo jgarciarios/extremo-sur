@@ -33,6 +33,7 @@ const DIVISION_LABEL: Record<string, string> = {
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
 interface UserInfo {
+  id:     string
   email:  string
   nombre: string | null
 }
@@ -68,6 +69,10 @@ function PerfilContent() {
   const [inscripciones, setInscripciones] = useState<InscripcionConEvento[]>([])
   const [loading,       setLoading]       = useState(true)
   const [showBanner,    setShowBanner]    = useState(bienvenido)
+  const [editMode,      setEditMode]      = useState<'idle' | 'editing' | 'saving'>('idle')
+  const [draftAcademia, setDraftAcademia] = useState('')
+  const [draftFaixa,    setDraftFaixa]    = useState('')
+  const [draftPais,     setDraftPais]     = useState('')
 
   useEffect(() => {
     async function load() {
@@ -76,6 +81,7 @@ function PerfilContent() {
       if (!user) { router.push('/login'); return }
 
       setUser({
+        id:     user.id,
         email:  user.email ?? '',
         nombre: user.user_metadata?.nombre ?? user.user_metadata?.full_name ?? null,
       })
@@ -99,6 +105,27 @@ function PerfilContent() {
     }
     load()
   }, [router])
+
+  function handleEdit() {
+    setDraftAcademia(profile?.academia ?? '')
+    setDraftFaixa(profile?.faixa ?? '')
+    setDraftPais(profile?.pais ?? 'Uruguay')
+    setEditMode('editing')
+  }
+
+  async function handleSave() {
+    if (!user) return
+    setEditMode('saving')
+    const supabase = createClient()
+    await supabase.from('profiles').upsert({
+      id:       user.id,
+      academia: draftAcademia || null,
+      faixa:    draftFaixa    || null,
+      pais:     draftPais     || null,
+    })
+    setProfile(p => ({ ...p!, academia: draftAcademia || null, faixa: draftFaixa || null, pais: draftPais || null }))
+    setEditMode('idle')
+  }
 
   async function handleLogout() {
     const supabase = createClient()
@@ -227,41 +254,152 @@ function PerfilContent() {
           borderRadius: '2px',
           marginBottom: '16px',
         }}>
-          <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#c9a227', marginBottom: '16px' }}>
-            Competidor
+          {/* Header con botón editar */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+            <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#c9a227' }}>
+              Competidor
+            </div>
+            {editMode === 'idle' && (
+              <button onClick={handleEdit} style={{
+                fontFamily:    'var(--font-barlow-condensed), sans-serif',
+                fontSize:      '0.62rem',
+                fontWeight:    700,
+                letterSpacing: '2px',
+                textTransform: 'uppercase',
+                background:    'transparent',
+                border:        '1px solid rgba(42,107,194,0.4)',
+                color:         '#8a9ab5',
+                padding:       '5px 12px',
+                borderRadius:  '2px',
+                cursor:        'pointer',
+              }}>
+                Editar perfil
+              </button>
+            )}
           </div>
-          <div style={{ display: 'flex', gap: '32px', flexWrap: 'wrap', alignItems: 'center' }}>
-            <div>
-              <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#8a9ab5', marginBottom: '4px' }}>Academia</div>
-              <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '1rem', fontWeight: 600, color: '#f0f4ff' }}>{profile?.academia ?? '—'}</div>
+
+          {editMode === 'idle' ? (
+            /* Vista de solo lectura */
+            <div style={{ display: 'flex', gap: '32px', flexWrap: 'wrap', alignItems: 'center' }}>
+              <div>
+                <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#8a9ab5', marginBottom: '4px' }}>Academia</div>
+                <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '1rem', fontWeight: 600, color: '#f0f4ff' }}>{profile?.academia ?? '—'}</div>
+              </div>
+              <div>
+                <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#8a9ab5', marginBottom: '6px' }}>Faixa</div>
+                {profile?.faixa ? (() => {
+                  const s = FAIXA_STYLE[profile.faixa] ?? { bg: '#1a1a1a', color: '#f0f4ff' }
+                  return (
+                    <span style={{
+                      fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.72rem', fontWeight: 700,
+                      letterSpacing: '2px', textTransform: 'uppercase', background: s.bg, color: s.color,
+                      border: s.border ? `1px solid ${s.border}` : 'none', padding: '3px 12px', borderRadius: '2px',
+                    }}>
+                      {profile.faixa}
+                    </span>
+                  )
+                })() : <span style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '1rem', fontWeight: 600, color: '#f0f4ff' }}>—</span>}
+              </div>
+              <div>
+                <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#8a9ab5', marginBottom: '4px' }}>País</div>
+                <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '1rem', fontWeight: 600, color: '#f0f4ff' }}>{profile?.pais ?? '—'}</div>
+              </div>
             </div>
-            <div>
-              <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#8a9ab5', marginBottom: '6px' }}>Faixa</div>
-              {profile?.faixa ? (() => {
-                const s = FAIXA_STYLE[profile.faixa] ?? { bg: '#1a1a1a', color: '#f0f4ff' }
-                return (
-                  <span style={{
-                    fontFamily:    'var(--font-barlow-condensed), sans-serif',
-                    fontSize:      '0.72rem',
-                    fontWeight:    700,
-                    letterSpacing: '2px',
-                    textTransform: 'uppercase',
-                    background:    s.bg,
-                    color:         s.color,
-                    border:        s.border ? `1px solid ${s.border}` : 'none',
-                    padding:       '3px 12px',
-                    borderRadius:  '2px',
-                  }}>
-                    {profile.faixa}
-                  </span>
-                )
-              })() : <span style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '1rem', fontWeight: 600, color: '#f0f4ff' }}>—</span>}
+          ) : (
+            /* Formulario de edición */
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              {/* Academia */}
+              <div>
+                <label style={{ display: 'block', fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#8a9ab5', marginBottom: '6px' }}>
+                  Academia
+                </label>
+                <input
+                  type="text"
+                  value={draftAcademia}
+                  onChange={e => setDraftAcademia(e.target.value)}
+                  placeholder="Nombre de tu academia"
+                  style={{
+                    width: '100%', boxSizing: 'border-box',
+                    background: 'rgba(13,33,68,0.8)', border: '1px solid rgba(42,107,194,0.3)',
+                    borderRadius: '2px', color: '#f0f4ff',
+                    fontFamily: 'var(--font-barlow), sans-serif', fontSize: '0.95rem',
+                    padding: '10px 14px', outline: 'none',
+                  }}
+                />
+              </div>
+              {/* Faixa */}
+              <div>
+                <label style={{ display: 'block', fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#8a9ab5', marginBottom: '6px' }}>
+                  Faixa
+                </label>
+                <select
+                  value={draftFaixa}
+                  onChange={e => setDraftFaixa(e.target.value)}
+                  style={{
+                    width: '100%', boxSizing: 'border-box',
+                    background: 'rgba(13,33,68,0.8)', border: '1px solid rgba(42,107,194,0.3)',
+                    borderRadius: '2px', color: draftFaixa ? '#f0f4ff' : '#8a9ab5',
+                    fontFamily: 'var(--font-barlow), sans-serif', fontSize: '0.95rem',
+                    padding: '10px 14px', outline: 'none', cursor: 'pointer',
+                  }}
+                >
+                  <option value="">— Sin especificar —</option>
+                  {(['blanca', 'azul', 'morada', 'marron', 'negra'] as const).map(f => (
+                    <option key={f} value={f}>{f.charAt(0).toUpperCase() + f.slice(1)}</option>
+                  ))}
+                </select>
+              </div>
+              {/* País */}
+              <div>
+                <label style={{ display: 'block', fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#8a9ab5', marginBottom: '6px' }}>
+                  País
+                </label>
+                <input
+                  type="text"
+                  value={draftPais}
+                  onChange={e => setDraftPais(e.target.value)}
+                  placeholder="Uruguay"
+                  style={{
+                    width: '100%', boxSizing: 'border-box',
+                    background: 'rgba(13,33,68,0.8)', border: '1px solid rgba(42,107,194,0.3)',
+                    borderRadius: '2px', color: '#f0f4ff',
+                    fontFamily: 'var(--font-barlow), sans-serif', fontSize: '0.95rem',
+                    padding: '10px 14px', outline: 'none',
+                  }}
+                />
+              </div>
+              {/* Botones */}
+              <div style={{ display: 'flex', gap: '10px', paddingTop: '4px' }}>
+                <button
+                  onClick={handleSave}
+                  disabled={editMode === 'saving'}
+                  style={{
+                    fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.8rem',
+                    fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase',
+                    background: editMode === 'saving' ? 'rgba(42,107,194,0.3)' : 'rgba(42,107,194,0.15)',
+                    border: '1px solid rgba(42,107,194,0.5)', color: '#f0f4ff',
+                    padding: '10px 20px', borderRadius: '2px',
+                    cursor: editMode === 'saving' ? 'not-allowed' : 'pointer',
+                  }}
+                >
+                  {editMode === 'saving' ? 'Guardando...' : 'Guardar'}
+                </button>
+                <button
+                  onClick={() => setEditMode('idle')}
+                  disabled={editMode === 'saving'}
+                  style={{
+                    fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.8rem',
+                    fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase',
+                    background: 'transparent', border: '1px solid rgba(42,107,194,0.3)',
+                    color: '#8a9ab5', padding: '10px 20px', borderRadius: '2px',
+                    cursor: editMode === 'saving' ? 'not-allowed' : 'pointer',
+                  }}
+                >
+                  Cancelar
+                </button>
+              </div>
             </div>
-            <div>
-              <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#8a9ab5', marginBottom: '4px' }}>País</div>
-              <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '1rem', fontWeight: 600, color: '#f0f4ff' }}>{profile?.pais ?? '—'}</div>
-            </div>
-          </div>
+          )}
         </div>
 
         {/* ── Stats ─────────────────────────────────────────────────────────── */}
