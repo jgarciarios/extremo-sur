@@ -355,7 +355,7 @@ export default function LandingPage() {
           <button className="swiper-btn swiper-btn-next" aria-label="Siguiente">&#x2192;</button>
         </div>
         <div className="center">
-          <a href="https://drive.google.com/drive/folders/1SVU5gwh9YCKDxCRFIjWpEMGMCojTQmDhF" target="_blank" className="btn-secondary">
+          <a href="/fotos" className="btn-secondary">
             VER TODAS LAS FOTOS
           </a>
         </div>
