@@ -225,7 +225,7 @@ export function AtletasClient({ inscriptos }: { inscriptos: Atleta[] }) {
             {[
               {
                 value: filterFaja, setter: setFilterFaja,
-                placeholder: 'Todas las fajas',
+                placeholder: 'Todas las faixas',
                 options: FAJA_ORDER.map(f => ({ value: f, label: cap(f) })),
               },
               {

@@ -58,7 +58,7 @@ export default async function CategoriasPage() {
           {/* Fajas */}
           <div className="adm-card">
             <div className="adm-card-header">
-              <span className="adm-card-title">Por Faja</span>
+              <span className="adm-card-title">Por Faixa</span>
             </div>
             <div className="adm-card-body">
               {fajas.map(([name, n]) => (

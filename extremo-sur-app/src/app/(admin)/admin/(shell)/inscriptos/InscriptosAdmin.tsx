@@ -75,7 +75,7 @@ export function InscriptosAdmin({ inscripciones }: Props) {
           {divisiones.map(d => <option key={d} value={d!}>{d}</option>)}
         </select>
         <select className="adm-input adm-select" value={filFaja} onChange={e => setFilFaja(e.target.value)}>
-          <option value="">Todas las fajas</option>
+          <option value="">Todas las faixas</option>
           {fajas.map(f => <option key={f} value={f!} style={{ textTransform: 'capitalize' }}>{f}</option>)}
         </select>
         <select className="adm-input adm-select" value={filPagado} onChange={e => setFilPagado(e.target.value)}>
@@ -104,7 +104,7 @@ export function InscriptosAdmin({ inscripciones }: Props) {
                 <th>Documento</th>
                 <th>Academia</th>
                 <th>División</th>
-                <th>Faja</th>
+                <th>Faixa</th>
                 <th>Peso</th>
                 <th>Género</th>
                 <th>Estado</th>
@@ -174,7 +174,7 @@ export function InscriptosAdmin({ inscripciones }: Props) {
               <Row label="Ciudad"     value={selected.ciudad ?? '—'} />
               <Row label="División"   value={selected.division ?? '—'} />
               <Row label="Categoría"  value={selected.categoria ?? '—'} />
-              <Row label="Faja"       value={selected.faja ?? '—'} />
+              <Row label="Faixa"       value={selected.faja ?? '—'} />
               <Row label="Peso"       value={selected.peso_kg ? `${selected.peso_kg} kg` : '—'} />
               <Row label="Género"     value={selected.genero ?? '—'} />
               <Row label="Estado"     value={selected.estado ?? 'pendiente'} />
@@ -199,7 +199,7 @@ function Row({ label, value }: { label: string; value: string }) {
   return (
     <div style={{ display: 'flex', gap: 12, marginBottom: 10, fontSize: '0.82rem' }}>
       <span style={{ width: 110, flexShrink: 0, color: 'var(--adm-muted)', fontWeight: 600, fontSize: '0.72rem', letterSpacing: 1, textTransform: 'uppercase' }}>{label}</span>
-      <span style={{ textTransform: label === 'Faja' || label === 'Género' ? 'capitalize' : 'none' }}>{value}</span>
+      <span style={{ textTransform: label === 'Faixa' || label === 'Género' ? 'capitalize' : 'none' }}>{value}</span>
     </div>
   )
 }

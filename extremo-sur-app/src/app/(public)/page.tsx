@@ -315,7 +315,7 @@ export default function LandingPage() {
         <div className="categorias-grid">
           <div className="cat-card"><span className="cat-icon">I</span><div className="cat-name">Kids</div><div className="cat-desc">Categorías infantiles por edad y peso</div></div>
           <div className="cat-card"><span className="cat-icon">II</span><div className="cat-name">Juvenil</div><div className="cat-desc">División para competidores jóvenes</div></div>
-          <div className="cat-card"><span className="cat-icon">III</span><div className="cat-name">Adulto</div><div className="cat-desc">Gi y No-Gi · Todas las fajas</div></div>
+          <div className="cat-card"><span className="cat-icon">III</span><div className="cat-name">Adulto</div><div className="cat-desc">Gi y No-Gi · Todas las faixas</div></div>
           <div className="cat-card"><span className="cat-icon">IV</span><div className="cat-name">Master</div><div className="cat-desc">Competidores +30 años</div></div>
           <div className="cat-card"><span className="cat-icon">V</span><div className="cat-name">Absoluto</div><div className="cat-desc">Sin límite de peso</div></div>
         </div>

@@ -75,7 +75,7 @@ export default async function AcademiasPage() {
                   <th>Total</th>
                   <th>Pagados</th>
                   <th>Divisiones</th>
-                  <th>Fajas</th>
+                  <th>Faixas</th>
                 </tr>
               </thead>
               <tbody>

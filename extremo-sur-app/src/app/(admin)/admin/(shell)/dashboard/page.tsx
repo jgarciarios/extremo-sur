@@ -140,7 +140,7 @@ export default async function DashboardPage() {
           <div className="adm-card">
             <div className="adm-card-header">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c9a227" strokeWidth="2" strokeLinecap="round"><rect x="18" y="3" width="4" height="18"/><rect x="10" y="8" width="4" height="13"/><rect x="2" y="13" width="4" height="8"/></svg>
-              <span className="adm-card-title">Por Faja</span>
+              <span className="adm-card-title">Por Faixa</span>
             </div>
             <div className="adm-card-body">
               {fajaSorted.length === 0 ? (
@@ -175,7 +175,7 @@ export default async function DashboardPage() {
                   <th>Nombre</th>
                   <th>Academia</th>
                   <th>División</th>
-                  <th>Faja</th>
+                  <th>Faixa</th>
                   <th>Estado</th>
                   <th>Pago</th>
                 </tr>
