@@ -7,15 +7,21 @@ import './landing.css'
 
 // ─── Fotos ────────────────────────────────────────────────────────────────────
 
+const SUPABASE_FOTOS = 'https://qzturywsyskmnfsgazus.supabase.co/storage/v1/object/public/FOTOS'
+
 const FOTOS = [
-  '/assets/img/foto1.jpeg',
-  '/assets/img/foto2.jpeg',
-  '/assets/img/foto3.jpeg',
-  '/assets/img/foto4.jpeg',
-  '/assets/img/foto5.jpeg',
-  '/assets/img/foto6.jpeg',
-  '/assets/img/foto7.jpeg',
-  '/assets/img/foto8.jpeg',
+  `${SUPABASE_FOTOS}/IMG_8769.JPG`,
+  `${SUPABASE_FOTOS}/IMG_9113.jpg`,
+  `${SUPABASE_FOTOS}/IMG_9164.jpg`,
+  `${SUPABASE_FOTOS}/IMG_9174.jpg`,
+  `${SUPABASE_FOTOS}/IMG_9234.jpg`,
+  `${SUPABASE_FOTOS}/IMG_9471.jpg`,
+  `${SUPABASE_FOTOS}/IMG_9479.jpg`,
+  `${SUPABASE_FOTOS}/IMG_9488.jpg`,
+  `${SUPABASE_FOTOS}/IMG_9490.jpg`,
+  `${SUPABASE_FOTOS}/IMG_9503.jpg`,
+  `${SUPABASE_FOTOS}/IMG_9530.jpg`,
+  `${SUPABASE_FOTOS}/IMG_9588.jpg`,
 ]
 
 function pad(n: number) { return String(n).padStart(2, '0') }
