@@ -191,7 +191,7 @@ export default function LandingPage() {
           <li className="nav-group">
             <span className="nav-group-label">Competir</span>
             <ul className="nav-dropdown">
-              <li><a href="#categorias"  onClick={closeMenu}>Categorías</a></li>
+              <li><a href="/categorias"  onClick={closeMenu}>Categorías</a></li>
               <li><a href="/inscripcion" onClick={closeMenu}>Inscripción</a></li>
             </ul>
           </li>
@@ -322,7 +322,7 @@ export default function LandingPage() {
           <div className="cat-card"><span className="cat-icon">V</span><div className="cat-name">Absoluto</div><div className="cat-desc">Sin límite de peso</div></div>
         </div>
         <div className="center">
-          <a href="https://drive.google.com/file/d/1Dar7N5pRzIpuMYfRL1xHp_8uHe794LUJ/view" target="_blank" className="btn-secondary">
+          <a href="/categorias" className="btn-secondary">
             VER LISTA COMPLETA DE CATEGORÍAS
           </a>
         </div>
@@ -480,7 +480,7 @@ export default function LandingPage() {
           <li><a href="#fechas">Fechas</a></li>
           <li><a href="#venue">Venue</a></li>
           <li><a href="#historia">Historia</a></li>
-          <li><a href="#categorias">Categorías</a></li>
+          <li><a href="/categorias">Categorías</a></li>
           <li><a href="#galeria">Galería</a></li>
           <li><a href="#sponsors">Sponsors</a></li>
           <li><a href="https://www.instagram.com/extremosurbjj/" target="_blank">Instagram</a></li>

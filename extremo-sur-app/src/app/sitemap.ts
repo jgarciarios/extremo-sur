@@ -25,6 +25,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority:        0.95,   // High-intent page — registration CTA
     },
     {
+      url:             `${BASE}/categorias`,
+      lastModified:    new Date(),
+      changeFrequency: 'monthly' as const,
+      priority:        0.90,   // High keyword gap — athletes search before registering
+    },
+    {
       url:             `${BASE}/inscriptos`,
       lastModified:    new Date(),
       changeFrequency: 'daily' as const,
