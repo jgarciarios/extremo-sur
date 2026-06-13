@@ -232,8 +232,10 @@ export default function LandingPage() {
         <div className="hero-glow" />
         <div className="hero-content">
           <div className="hero-eyebrow a1">Circuito Extremo Sur · Maldonado, Uruguay</div>
-          <div className="hero-title a2">EXTREMO</div>
-          <div className="hero-title blue a2">SUR</div>
+          <h1 className="hero-title-h1">
+            <span className="hero-title a2">EXTREMO</span>
+            <span className="hero-title blue a2">SUR</span>
+          </h1>
           <div className="hero-subtitle a3">CIRCUITO 2026</div>
           <div className="hero-divider a3" />
           <div className="hero-badges a4">

@@ -10,13 +10,37 @@ export function generateStaticParams() {
   return ETAPAS.map(e => ({ slug: e.slug }))
 }
 
+const BASE_URL = 'https://extremo-sur.vercel.app'
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const etapa = getEtapa(slug)
   if (!etapa) return {}
+
+  const title = `${etapa.titulo} — Extremo Sur BJJ 2026 | ${etapa.fecha}`
+  const description = etapa.esAJP
+    ? `AJP Uruguay 2026 — Evento internacional de Brazilian Jiu Jitsu en ${etapa.ciudad}. ${etapa.fecha}.`
+    : `${etapa.descripcion} ${etapa.fecha} en ${etapa.ciudad}. Inscribite al torneo de BJJ.`
+
   return {
-    title:       `${etapa.titulo} — Extremo Sur BJJ 2026`,
-    description: etapa.descripcion,
+    title,
+    description,
+    alternates: { canonical: `${BASE_URL}/etapa/${slug}` },
+    openGraph: {
+      title,
+      description,
+      url:      `${BASE_URL}/etapa/${slug}`,
+      siteName: 'Extremo Sur BJJ',
+      images: [{ url: '/og-image.jpg', width: 1440, height: 960, alt: `${etapa.titulo} — Extremo Sur BJJ 2026` }],
+      locale: 'es_UY',
+      type:   'website',
+    },
+    twitter: {
+      card:        'summary_large_image',
+      title,
+      description,
+      images:      ['/og-image.jpg'],
+    },
   }
 }
 
@@ -35,11 +59,50 @@ export default async function EtapaPage({ params }: { params: Promise<{ slug: st
   const etapa = getEtapa(slug)
   if (!etapa) redirect('/')
 
+  // ── JSON-LD por etapa ────────────────────────────────────────────────────────
+  const eventJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SportsEvent",
+    "name": `Extremo Sur BJJ — ${etapa.titulo} 2026`,
+    "description": etapa.descripcion,
+    "sport": "Brazilian Jiu Jitsu",
+    "startDate": `${etapa.fechaISO}T08:30:00-03:00`,
+    "url": `${BASE_URL}/etapa/${etapa.slug}`,
+    "image": `${BASE_URL}/og-image.jpg`,
+    "organizer": {
+      "@type": "Organization",
+      "name": "Extremo Sur BJJ",
+      "url": BASE_URL,
+    },
+    "location": {
+      "@type": "Place",
+      "name": etapa.venue !== 'Por confirmar' ? etapa.venue : "Campus de Maldonado",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Maldonado",
+        "addressCountry": "UY",
+      },
+    },
+    ...(etapa.estado === 'proximo' ? {
+      "offers": {
+        "@type": "Offer",
+        "url": `${BASE_URL}/inscripcion`,
+        "availability": "https://schema.org/InStock",
+      },
+      "eventStatus": "https://schema.org/EventScheduled",
+    } : {
+      "eventStatus": "https://schema.org/EventScheduled",
+    }),
+    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+    "inLanguage": "es",
+  }
+
   const estado = ESTADO_LABEL[etapa.estado]
 
   // ── AJP: página informativa simple, sin inscripción ni brackets ──────────────
   if (etapa.esAJP) return (
     <main style={{ minHeight: '100vh', background: '#050810', color: '#f0f4ff', fontFamily: 'var(--font-barlow), sans-serif', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '80px 24px', textAlign: 'center' }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(eventJsonLd) }} />
       <a href="/#fechas" style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#8a9ab5', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '48px', border: '1px solid rgba(138,154,181,0.2)', padding: '10px 20px', borderRadius: '2px' }}>
         ← VOLVER AL INICIO
       </a>
@@ -69,6 +132,7 @@ export default async function EtapaPage({ params }: { params: Promise<{ slug: st
 
   return (
     <main style={{ minHeight: '100vh', background: '#050810', color: '#f0f4ff', fontFamily: 'var(--font-barlow), sans-serif' }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(eventJsonLd) }} />
 
       {/* ── Header ── */}
       <div style={{
