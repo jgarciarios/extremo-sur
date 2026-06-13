@@ -5,6 +5,7 @@ import Script from 'next/script'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
 import './landing.css'
+import 'swiper/css/bundle'
 
 // ─── Fotos ────────────────────────────────────────────────────────────────────
 
@@ -147,8 +148,7 @@ export default function LandingPage() {
 
   return (
     <>
-      {/* Swiper CSS + JS desde CDN */}
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+      {/* Swiper JS desde CDN — CSS bundleado via npm */}
       <Script
         src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"
         strategy="afterInteractive"
