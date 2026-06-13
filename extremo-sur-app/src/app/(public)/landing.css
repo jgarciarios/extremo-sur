@@ -145,8 +145,8 @@ nav.scrolled { padding: 10px 48px; border-bottom-color: rgba(201,162,39,0.4); }
 .hero-slideshow { position: absolute; inset: 0; z-index: 0; }
 .hero-slide-bg {
   position: absolute; inset: 0;
-  background-size: cover; background-position: center;
   opacity: 0; transition: opacity 1.4s ease-in-out;
+  overflow: hidden;
 }
 .hero-slide-bg.active { opacity: 1; }
 .hero-overlay {

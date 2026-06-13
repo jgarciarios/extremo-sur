@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, memo } from 'react'
 import Script from 'next/script'
+import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
 import './landing.css'
 
@@ -166,7 +167,7 @@ export default function LandingPage() {
       {/* ── NAV ─────────────────────────────────────────────────────────── */}
       <nav className={scrolled ? 'scrolled' : ''}>
         <a href="/" className="nav-logo">
-          <img src="/assets/img/logo.jpeg" alt="Extremo Sur BJJ" style={{ height: 48, width: 'auto', objectFit: 'contain' }} />
+          <Image src="/assets/img/logo.jpeg" alt="Extremo Sur BJJ" width={48} height={48} priority style={{ width: 'auto', height: 48, objectFit: 'contain' }} />
         </a>
         <button
           className={`hamburger${menuOpen ? ' open' : ''}`}
@@ -223,8 +224,17 @@ export default function LandingPage() {
             <div
               key={src}
               className={`hero-slide-bg${heroSlide === i ? ' active' : ''}`}
-              style={{ backgroundImage: `url('${src}')` }}
-            />
+            >
+              <Image
+                src={src}
+                alt="Extremo Sur BJJ — Torneo de Jiu Jitsu en Maldonado, Uruguay"
+                fill
+                sizes="100vw"
+                style={{ objectFit: 'cover', objectPosition: 'center' }}
+                priority={i === 0}
+                loading={i === 0 ? undefined : 'lazy'}
+              />
+            </div>
           ))}
         </div>
         <div className="hero-overlay" />
@@ -389,14 +399,14 @@ export default function LandingPage() {
         <div className="section-title reveal reveal-delay-1">NOS ACOMPAÑAN</div>
         <div className="sponsors-featured">
           <div className="sponsor-card-featured">
-            <img className="sp-logo" src="/assets/sponsors/ega.png" alt="EGA" />
+            <Image className="sp-logo" src="/assets/sponsors/ega.png" alt="Logo EGA — Sponsor Extremo Sur BJJ" width={240} height={80} style={{ objectFit: 'contain' }} />
             <div className="sponsor-badge">CONVENIO ATLETAS</div>
             <div className="sp-name">EGA</div>
             <div className="sp-desc">Empresa de transporte. Descuento especial para competidores de Extremo Sur.</div>
             <a href="https://ega.com.uy/" target="_blank" rel="noopener" className="btn-secondary">VER MÁS</a>
           </div>
           <div className="sponsor-card-featured">
-            <img className="sp-logo" src="/assets/sponsors/delbarcito.png" alt="Del Barcito Hostel" />
+            <Image className="sp-logo" src="/assets/sponsors/delbarcito.png" alt="Logo Del Barcito Hostel — Sponsor Extremo Sur BJJ" width={240} height={80} style={{ objectFit: 'contain' }} />
             <div className="sponsor-badge">CONVENIO ATLETAS</div>
             <div className="sp-name">Del Barcito Hostel</div>
             <div className="sp-desc">Hostel en Maldonado. Convenio de alojamiento para atletas que vienen de otras ciudades o países.</div>
@@ -404,19 +414,19 @@ export default function LandingPage() {
         </div>
         <div className="sponsors-simple">
           <div className="sponsor-card-simple">
-            <img className="sp-logo" src="/assets/sponsors/sal-pimienta.png" alt="Sal e Pimienta" />
+            <Image className="sp-logo" src="/assets/sponsors/sal-pimienta.png" alt="Logo Sal e Pimienta — Sponsor Extremo Sur BJJ" width={160} height={48} style={{ objectFit: 'contain' }} />
             <div className="sp-name">Sal e Pimienta</div>
           </div>
           <div className="sponsor-card-simple">
-            <img className="sp-logo" src="/assets/sponsors/ubk.png" alt="UBK" />
+            <Image className="sp-logo" src="/assets/sponsors/ubk.png" alt="Logo UBK — Sponsor Extremo Sur BJJ" width={160} height={48} style={{ objectFit: 'contain' }} />
             <div className="sp-name">UBK</div>
           </div>
           <div className="sponsor-card-simple">
-            <img className="sp-logo" src="/assets/sponsors/bc-servicios.jpg" alt="BC Servicios" />
+            <Image className="sp-logo" src="/assets/sponsors/bc-servicios.jpg" alt="Logo BC Servicios — Sponsor Extremo Sur BJJ" width={160} height={48} style={{ objectFit: 'contain' }} />
             <div className="sp-name">BC Servicios</div>
           </div>
           <div className="sponsor-card-simple">
-            <img className="sp-logo" src="/assets/sponsors/mirador-fueguino.jpg" alt="El Mirador Fueguino" />
+            <Image className="sp-logo" src="/assets/sponsors/mirador-fueguino.jpg" alt="Logo El Mirador Fueguino — Sponsor Extremo Sur BJJ" width={160} height={48} style={{ objectFit: 'contain' }} />
             <div className="sp-name">El Mirador Fueguino</div>
           </div>
         </div>
