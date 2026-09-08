@@ -13,10 +13,10 @@ export interface Podio {
   categoria: string
   division:  string
   primero:   string
-  segundo:   string
+  segundo?:  string
   tercero?:  string
   academia1: string
-  academia2: string
+  academia2?: string
   academia3?: string
 }
 
@@ -161,7 +161,7 @@ export const ETAPAS: Etapa[] = [
     fechaISO:  '2026-08-23',
     venue:     'Por confirmar',
     ciudad:    'Maldonado, Uruguay',
-    estado:    'proximo',
+    estado:    'finalizado',
     esAJP:     true,
     descripcion: 'El AJP Uruguay es un evento del circuito internacional Abu Dhabi Jiu-Jitsu Pro, organizado de forma independiente. Competidores de Extremo Sur participan en esta fecha como representantes de la región.',
     cronograma:  null,

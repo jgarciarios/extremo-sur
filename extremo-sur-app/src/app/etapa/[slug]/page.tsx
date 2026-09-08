@@ -3,6 +3,7 @@ import { getEtapa, ETAPAS } from '@/lib/etapas'
 import type { Metadata } from 'next'
 import './etapa.css'
 import { BracketsSection } from '@/components/BracketsSection'
+import { AJP_URUGUAY_PODIOS } from '@/lib/ajp-uruguay-resultados'
 
 // ─── Static params ────────────────────────────────────────────────────────────
 
@@ -127,6 +128,75 @@ export default async function EtapaPage({ params }: { params: Promise<{ slug: st
       >
         IR AL SITIO OFICIAL DEL AJP →
       </a>
+
+      {/* ── Resultados ── */}
+      <section style={{ width: '100%', maxWidth: '900px', margin: '64px auto 0', textAlign: 'left' }}>
+        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+          <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '5px', textTransform: 'uppercase', color: '#c9a227', marginBottom: '8px' }}>
+            {AJP_URUGUAY_PODIOS.length} categorías
+          </div>
+          <h2 style={{ fontFamily: 'var(--font-bebas-neue), sans-serif', fontSize: 'clamp(2rem, 6vw, 3rem)', letterSpacing: '3px', margin: 0 }}>
+            RESULTADOS
+          </h2>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+          {AJP_URUGUAY_PODIOS.map((p, i) => {
+            const places = [
+              { nombre: p.primero, academia: p.academia1, medal: 0 },
+              ...(p.segundo ? [{ nombre: p.segundo, academia: p.academia2 ?? '', medal: 1 }] : []),
+              ...(p.tercero ? [{ nombre: p.tercero, academia: p.academia3 ?? '', medal: 2 }] : []),
+            ]
+            const MEDAL_COLOR = ['#c9a227', '#8a9ab5', '#b45309']
+
+            return (
+              <div key={i} style={{ background: 'rgba(7,20,40,0.6)', border: '1px solid rgba(42,107,194,0.12)', overflow: 'hidden' }}>
+                <div style={{ padding: '10px 20px', background: 'rgba(5,8,16,0.5)', borderBottom: '1px solid rgba(42,107,194,0.1)' }}>
+                  <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.72rem', fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase', color: '#c9a227' }}>
+                    {p.categoria}
+                  </div>
+                </div>
+                <div>
+                  {places.map(({ nombre, academia, medal }) => (
+                    <div key={medal} style={{
+                      display:      'grid',
+                      gridTemplateColumns: '48px 1fr',
+                      alignItems:   'center',
+                      padding:      '10px 20px',
+                      borderBottom: medal < places.length - 1 ? '1px solid rgba(42,107,194,0.08)' : 'none',
+                      background:   medal === 0 ? 'rgba(201,162,39,0.05)' : 'transparent',
+                    }}>
+                      <div style={{
+                        width: '28px', height: '28px', borderRadius: '50%',
+                        background:  `${MEDAL_COLOR[medal]}20`,
+                        border:      `2px solid ${MEDAL_COLOR[medal]}`,
+                        display:     'flex', alignItems: 'center', justifyContent: 'center',
+                        fontFamily:  'var(--font-bebas-neue), sans-serif',
+                        fontSize:    '0.8rem', color: MEDAL_COLOR[medal],
+                      }}>
+                        {medal + 1}
+                      </div>
+                      <div>
+                        <div style={{ fontFamily: 'var(--font-barlow), sans-serif', fontWeight: medal === 0 ? 700 : 500, fontSize: '0.9rem', color: medal === 0 ? '#e8c14a' : '#f0f4ff' }}>
+                          {nombre}
+                        </div>
+                        <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.68rem', color: '#8a9ab5', letterSpacing: '0.5px', marginTop: '2px' }}>
+                          {academia}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+
+        <div style={{ textAlign: 'center', marginTop: '32px', fontFamily: 'var(--font-barlow), sans-serif', fontSize: '0.8rem', color: '#8a9ab5' }}>
+          Resultados oficiales del AJP Tour — consultá el detalle completo en{' '}
+          <a href="https://ajptour.com" target="_blank" rel="noopener noreferrer" style={{ color: '#c9a227' }}>ajptour.com</a>.
+        </div>
+      </section>
     </main>
   )
 
