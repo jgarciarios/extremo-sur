@@ -107,6 +107,14 @@ export default async function EtapaPage({ params }: { params: Promise<{ slug: st
       <a href="/#fechas" style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#8a9ab5', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '48px', border: '1px solid rgba(138,154,181,0.2)', padding: '10px 20px', borderRadius: '2px' }}>
         ← VOLVER AL INICIO
       </a>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '16px', flexWrap: 'wrap' }}>
+        <span style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: estado.color, background: estado.bg, border: `1px solid ${estado.color}40`, padding: '4px 12px', borderRadius: '2px' }}>
+          {estado.label}
+        </span>
+        <span style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#c9a227', background: 'rgba(201,162,39,0.1)', border: '1px solid rgba(201,162,39,0.4)', padding: '4px 12px', borderRadius: '2px' }}>
+          AJP OFFICIAL
+        </span>
+      </div>
       <div style={{ fontFamily: 'var(--font-barlow-condensed), sans-serif', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '5px', textTransform: 'uppercase', color: '#c9a227', marginBottom: '12px' }}>
         Evento Internacional · 23 de Agosto 2026
       </div>
