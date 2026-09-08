@@ -250,7 +250,7 @@ export default function LandingPage() {
           <div className="hero-divider a3" />
           <div className="hero-badges a4">
             <span className="badge done">✓ 30 MAYO — 1° ETAPA</span>
-            <span className="badge">23 AGO — AJP URUGUAY</span>
+            <span className="badge done">✓ 23 AGO — AJP URUGUAY</span>
             <span className="badge gold">31 OCT — 2° ETAPA</span>
           </div>
           <Countdown />
